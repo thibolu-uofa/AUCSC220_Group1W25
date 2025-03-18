@@ -1,3 +1,5 @@
+// Note: Still in rough stages, next team meeting will integrate this rough code with other classes
+
 import java.util.*;
 
 public class RolloGame {
