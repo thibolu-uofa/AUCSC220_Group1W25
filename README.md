@@ -3,3 +3,5 @@
 ## Team Members
 1. **Timi Aina**
 2. **Miron Nekhoroshkov**
+3. **Brett Siemens**
+4. **Jesse Maeko**
