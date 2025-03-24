@@ -1,23 +1,72 @@
 package com.rollo;
 
+import android.content.Intent;
 import android.os.Bundle;
-
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.animation.ValueAnimator;
+import android.os.Bundle;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class GameField extends AppCompatActivity {
+
+    private ImageView imageView1, imageView2;
+    private int screenWidth;
+    private int imageWidth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.game_field);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        imageView1 = findViewById(R.id.imageView1);
+        imageView2 = findViewById(R.id.imageView2);
+
+        imageView1.post(() -> {
+            screenWidth = getResources().getDisplayMetrics().widthPixels;
+            imageWidth = imageView1.getWidth();
+
+            // Ensure both images are positioned correctly at the start
+            imageView1.setX(0);
+            imageView2.setX(imageWidth);
+
+            startScrolling();
         });
+    }
+
+    private void startScrolling() {
+        ValueAnimator animator = ValueAnimator.ofFloat(0, -imageWidth);
+        animator.setDuration(15000); // Adjust speed
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setInterpolator(new LinearInterpolator());
+
+        animator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+
+            // Move both images
+            imageView1.setX(value);
+            imageView2.setX(value + imageWidth);
+
+            // When imageView1 moves completely off-screen, reposition it after imageView2
+            if (value <= -imageWidth) {
+                imageView1.setX(imageView2.getX() + imageWidth);
+                // Swap references so imageView2 is now moving off-screen
+                ImageView temp = imageView1;
+                imageView1 = imageView2;
+                imageView2 = temp;
+            }
+        });
+
+        animator.start();
     }
 }
