@@ -45,13 +45,98 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3" />
 
+
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="150dp"
-        android:layout_height="fill_parent"
+        android:layout_width="198dp"
+        android:layout_height="408dp"
         android:background="@drawable/box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/PauseBar1"
+        android:layout_width="9dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/box"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.114"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/PauseBar2"
+        android:layout_width="9dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/box"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.226"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/PauseMenu"
+        android:layout_width="43dp"
+        android:layout_height="38dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.018" />
+
+    <TextView
+        android:id="@+id/ScoreSurround"
+        android:layout_width="133dp"
+        android:layout_height="66dp"
+        android:background="@drawable/box"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
+        app:layout_constraintTop_toBottomOf="@+id/PauseBar1"
+        app:layout_constraintVertical_bias="0.344" />
+
+    <TextView
+        android:id="@+id/ScoringText"
+        android:layout_width="75dp"
+        android:layout_height="43dp"
+        android:background="@drawable/box"
+        android:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/ScoreSurround"
+        app:layout_constraintEnd_toEndOf="@+id/ScoreSurround"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/ScoreSurround"
+        app:layout_constraintTop_toTopOf="@+id/ScoreSurround"
+        app:layout_constraintVertical_bias="0.541" />
+
+    <TextView
+        android:id="@+id/Turn"
+        android:layout_width="69dp"
+        android:layout_height="43dp"
+        android:background="@drawable/box"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
+        app:layout_constraintTop_toBottomOf="@+id/ScoreSurround"
+        app:layout_constraintVertical_bias="0.493" />
+
+    <TextView
+        android:id="@+id/Reroll"
+        android:layout_width="65dp"
+        android:layout_height="42dp"
+        android:background="@drawable/box"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.879"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ScoreSurround"
+        app:layout_constraintVertical_bias="0.49" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

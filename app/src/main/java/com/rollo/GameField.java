@@ -1,22 +1,11 @@
 package com.rollo;
 
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import android.animation.ValueAnimator;
-import android.os.Bundle;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class GameField extends AppCompatActivity {
 
