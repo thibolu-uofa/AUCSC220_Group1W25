@@ -1,3 +1,7 @@
+import com.rollo.Dice;
+import com.rollo.Player;
+import com.rollo.Shop;
+
 import java.util.*;
 
 public class RolloGame {
@@ -6,9 +10,7 @@ public class RolloGame {
     private int currentRound;
     private static final int MAX_ROUNDS = 24;
     private static final List<Integer> BOSS_ROUNDS = Arrays.asList(3, 6, 9, 12, 15, 18, 21, 24);
-    private static final List<Boss> bosses = Arrays.asList(
-        // LIST OF POSSIBLE BOSSES TO GO HERE
-    );
+    private static final List<Boss> bosses = Arrays.asList();
     
     public RolloGame() {
         this.player = new Player();
@@ -105,7 +107,7 @@ public class RolloGame {
     private void endGame(boolean victory) {
         if (victory) {
             // Show victory screen
-        }s
+        }
         else {
             // Show game over screen
         }

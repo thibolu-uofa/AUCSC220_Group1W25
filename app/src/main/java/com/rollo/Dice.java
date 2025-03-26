@@ -8,7 +8,7 @@ package com.rollo;
 
 import java.util.Random;
 
-class Dice {
+public class Dice {
     private String diceType;
     private String pipColour;
     private int[] possibleSides;
