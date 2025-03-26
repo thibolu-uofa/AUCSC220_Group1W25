@@ -10,7 +10,7 @@ public class RolloGame {
     private int currentRound;
     private static final int MAX_ROUNDS = 24;
     private static final List<Integer> BOSS_ROUNDS = Arrays.asList(3, 6, 9, 12, 15, 18, 21, 24);
-    private static final List<Boss> bosses = Arrays.asList();
+    private static final List<Boss> bosses;
     
     public RolloGame() {
         this.player = new Player();
