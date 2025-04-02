@@ -27,6 +27,13 @@ public class Dice {
         this.currentSide = getRandomSide();
     }//Dice
 
+    public Dice() {
+        diceType = "";
+        pipColour = "";
+        possibleSides = new int[]{1,2,3,4,5,6};
+        currentSide = getRandomSide();
+    }
+
     /**
     * Returns the type of the die.
     */
