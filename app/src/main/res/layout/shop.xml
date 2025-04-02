@@ -5,16 +5,107 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:screenOrientation="landscape">
+    android:background="#FCF5FD"
+    android:backgroundTint="#B99903"
+    android:screenOrientation="landscape"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="2082dp"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/converted_image" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="636dp"
+        android:layout_height="243dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="239dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="246dp"
+        android:layout_marginTop="229dp"
+        android:layout_marginEnd="246dp"
+        android:layout_marginBottom="142dp"
+        android:background="@color/gold"
+        android:text="Combo's"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="239dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="246dp"
+        android:layout_marginTop="284dp"
+        android:layout_marginEnd="246dp"
+        android:layout_marginBottom="87dp"
+        android:background="@color/gold"
+        android:text="Painting's"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="239dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="246dp"
+        android:layout_marginTop="339dp"
+        android:layout_marginEnd="246dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/gold"
+        android:text="Voucher's"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="239dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="246dp"
+        android:layout_marginTop="176dp"
+        android:layout_marginEnd="246dp"
+        android:layout_marginBottom="195dp"
+        android:background="@color/gold"
+        android:backgroundTint="#010103"
+        android:text="Upgrade Dice"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="411dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="270dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
