@@ -6,124 +6,201 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:screenOrientation="landscape">
+    android:background="@color/black"
+    android:screenOrientation="landscape" >
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/Background"
+        app:layout_constraintWidth_percent="3"
+        app:layout_constraintHeight_percent="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:rotation="45"
+        app:srcCompat="@drawable/background" />
 
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="1324dp"
-        android:layout_height="1470dp"
-        android:rotationY="-360"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/Logo"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/converted_image" />
-
-    <ImageView
-        android:id="@+id/imageView14"
-        android:layout_width="509dp"
-        android:layout_height="178dp"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="111dp"
-        android:layout_marginBottom="217dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/design_header" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.6"
+        app:srcCompat="@drawable/logo" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="339dp"
-        android:layout_marginTop="290dp"
-        android:layout_marginEnd="340dp"
-        android:layout_marginBottom="55dp"
-        android:backgroundTint="#040304"
-        android:text="Continue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/loadGameButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHeight_percent="0.101"
+        android:layout_marginTop="-5dp"
+        android:backgroundTint="@color/transparent"
+        android:text="@string/LoadGameString"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/golden_white"
+        android:fontFamily="@font/catchy_mager"
+        android:shadowColor="@color/gold"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Continue" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="531dp"
-        android:layout_marginTop="290dp"
-        android:layout_marginEnd="153dp"
-        android:layout_marginBottom="55dp"
-        android:backgroundTint="#040404"
-        android:text="Settings"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/newGameButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHeight_percent="0.101"
+        android:layout_marginTop="-5dp"
+        android:backgroundTint="@color/transparent"
+        android:text="@string/NewGameString"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/golden_white"
+        android:fontFamily="@font/catchy_mager"
+        android:shadowColor="@color/gold"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        app:layout_constraintTop_toBottomOf="@id/loadGameButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#A87934"
-        tools:text="Settings" />
-
-    <FrameLayout
-        android:layout_width="110dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="146dp"
-        android:layout_marginTop="276dp"
-        android:layout_marginEnd="529dp"
-        android:layout_marginBottom="47dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="157dp"
-        android:layout_marginTop="290dp"
-        android:layout_marginEnd="540dp"
-        android:layout_marginBottom="55dp"
-        android:backgroundTint="#080604"
-        android:text="Play"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/tutorialButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.35"
+        app:layout_constraintHeight_percent="0.101"
+        android:layout_marginTop="-5dp"
+        android:backgroundTint="@color/transparent"
+        android:text="@string/TutorialString"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/golden_white"
+        android:fontFamily="@font/catchy_mager"
+        android:shadowColor="@color/gold"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        app:layout_constraintTop_toBottomOf="@id/newGameButton"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/creditsButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.225"
+        app:layout_constraintHeight_percent="0.101"
+        android:layout_marginTop="-5dp"
+        android:backgroundTint="@color/transparent"
+        android:text="@string/CreditsString"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/golden_white"
+        android:fontFamily="@font/catchy_mager"
+        android:shadowColor="@color/gold"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        app:layout_constraintTop_toBottomOf="@id/tutorialButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/inspirationText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHeight_percent="0.05"
+        android:backgroundTint="#00000000"
+        android:text="@string/InspirationString"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/golden_white"
+        android:fontFamily="@font/catchy_mager"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Play" />
-
-    <FrameLayout
-        android:layout_width="117dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="334dp"
-        android:layout_marginTop="268dp"
-        android:layout_marginEnd="334dp"
-        android:layout_marginBottom="47dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
 
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="114dp"
-        android:layout_height="81dp"
-        android:layout_marginStart="522dp"
-        android:layout_marginTop="274dp"
-        android:layout_marginEnd="149dp"
-        android:layout_marginBottom="38dp"
+    <TextView
+        android:id="@+id/appVerText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintHeight_percent="0.1"
+        android:backgroundTint="#00000000"
+        android:text="@string/AppVerString"
+        android:textAlignment="textEnd"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="@color/golden_white"
+        android:fontFamily="@font/catchy_mager"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintVertical_bias="1" />
 
-    </FrameLayout>
+    <View
+        android:id="@+id/creditsBackground"
+        android:visibility="gone"
+        android:layout_width="500dp"
+        android:layout_height="300dp"
+        android:background="@drawable/credits"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/creditsBackButton"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="#00000000"
+        app:layout_constraintWidth_percent="0.66"
+        app:layout_constraintHeight_percent="0.084"
+        app:layout_constraintVertical_bias="0.98"
+        app:layout_constraintTop_toTopOf="@id/creditsBackground"
+        app:layout_constraintBottom_toBottomOf="@id/creditsBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/tutorialBackground"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/tutorial"
+        app:layout_constraintWidth_percent="0.75"
+        app:layout_constraintHeight_percent="0.75"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
