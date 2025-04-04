@@ -1,7 +1,9 @@
 package com.rollo;
 
-
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +13,15 @@ import android.widget.TextView;
 
 public class GameField extends AppCompatActivity {
     private ImageView imageView1, imageView2;
+    private boolean clickedStart = false;
     private int imageWidth;
 
     private Dice[] sixDie;
     private TextView[] sixTextDie;
+
+    private int[] sixValues = new int[]{0,0,0,0,0,0};
+    private boolean[] selectedTextDie = new boolean[]{false, false, false,
+            false, false, false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +37,13 @@ public class GameField extends AppCompatActivity {
         });
 
         sixDie = new Dice[]{new Dice(), new Dice(), new Dice(),
-                            new Dice(), new Dice(), new Dice()};
+                new Dice(), new Dice(), new Dice()};
 
         sixTextDie = getAllTheDice();
+
+        for (int i = 0; i < sixTextDie.length; i++) {
+            sixTextDie[i].setBackgroundResource(R.drawable.dice_1);
+        }
     }
 
     private void startScrolling() {
@@ -54,28 +65,102 @@ public class GameField extends AppCompatActivity {
         animator.start();
     }
 
-    /**
-     * This is for a dice click
-     * @param myView
-     */
-    public void rerollDice(View myView){
-        int newSide;
-        int whichDie;
-        int resourceId;
-        String id;
-        TextView clicked = (TextView) myView;
-        id = getResources().getResourceEntryName(myView.getId());
-        whichDie = Integer.parseInt(id.replaceAll("\\D+", ""));
-        newSide = sixDie[whichDie - 1].getRandomSide();
-        resourceId = getResources().getIdentifier("dice_" + newSide, "drawable", getPackageName());
-        clicked.setBackgroundResource(resourceId);
+    public void rerollDice(View view) {
+        TextView clicked = (TextView) view;
+        if (clicked == null) return;
+
+        try {
+            String id = getResources().getResourceEntryName(clicked.getId());
+            int whichDie = Integer.parseInt(id.replaceAll("\\D+", "")) - 1;
+            int newSide = sixDie[whichDie].getRandomSide();
+
+            sixValues[whichDie] = newSide;
+
+            // Update both tag and background
+            clicked.setTag(newSide);
+
+            // Use the correct background based on selection state
+            int resId = selectedTextDie[whichDie]
+                    ? getResources().getIdentifier("selected_dice_" + newSide, "drawable", getPackageName())
+                    : getResources().getIdentifier("dice_" + newSide, "drawable", getPackageName());
+
+            clicked.setBackgroundResource(resId);
+        } catch (Exception e) {
+            Log.e("Dice", "Reroll error", e);
+            clicked.setTag(1);
+            clicked.setBackgroundResource(R.drawable.dice_1);
+        }
     }
 
-    private TextView[] getAllTheDice(){
+    public void start(View view) {
+        if (!clickedStart) {
+            if (sixTextDie == null) {
+                sixTextDie = getAllTheDice();
+            }
+
+            for (int i = 0; i < sixTextDie.length; i++) {
+                if (sixTextDie[i] != null) {
+                    rerollDice(sixTextDie[i]);
+                }
+            }
+            clickedStart = true;
+        }
+    }
+
+    public void selectDice(View view) {
+        if(clickedStart) {
+            TextView clicked = (TextView) view;
+            if (clicked == null) return;
+
+            try {
+
+                int whichDie = getDiceIndex(clicked);
+
+                if (selectedTextDie[whichDie]) {
+                    // Switch to regular dice
+                    clicked.setBackgroundResource(
+                            getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
+                    selectedTextDie[whichDie] = false;
+                } else {
+                    // Switch to selected dice
+                    clicked.setBackgroundResource(
+                            getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
+                    selectedTextDie[whichDie] = true;
+                }
+            } catch (Exception e) {
+                Log.e("Dice", "Selection error", e);
+                clicked.setBackgroundResource(R.drawable.dice_1);
+            }
+        }
+    }
+
+
+    private int getDiceIndex(TextView diceView) {
+        try {
+            String id = getResources().getResourceEntryName(diceView.getId());
+            return Integer.parseInt(id.replaceAll("\\D+", "")) - 1;
+        } catch (Exception e) {
+            return 0; // Default to first die
+        }
+    }
+
+    public void rerollAllDice(View myView){
+        if(clickedStart){
+            for (int i = 0; i < sixTextDie.length; i++) {
+                if (selectedTextDie[i]){
+                    rerollDice(sixTextDie[i]);
+                    sixTextDie[i].setBackgroundResource(
+                            getResources().getIdentifier("dice_" + sixValues[i], "drawable", getPackageName()));
+                    selectedTextDie[i] = false;
+                }
+            }
+        }
+    }
+
+    private TextView[] getAllTheDice() {
         TextView[] allTheDice = new TextView[6];
-        int id;
         for (int i = 0; i < 6; i++) {
-            id = getResources().getIdentifier("Dice" + i , "id", getPackageName());
+            int id = getResources().getIdentifier("dice" + (i + 1), "id", getPackageName());
             allTheDice[i] = findViewById(id);
         }
         return allTheDice;
