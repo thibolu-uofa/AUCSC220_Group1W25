@@ -11,10 +11,15 @@ import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+
 public class GameField extends AppCompatActivity {
     private ImageView imageView1, imageView2;
     private boolean clickedStart = false;
     private int imageWidth;
+    private TextView diceArray;
 
     private Dice[] sixDie;
     private TextView[] sixTextDie;
@@ -27,6 +32,7 @@ public class GameField extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_field);
+        diceArray = findViewById(R.id.diceArray);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
         imageView1.post(() -> {
@@ -108,12 +114,11 @@ public class GameField extends AppCompatActivity {
     }
 
     public void selectDice(View view) {
-        if(clickedStart) {
+        if (clickedStart) {
             TextView clicked = (TextView) view;
             if (clicked == null) return;
 
             try {
-
                 int whichDie = getDiceIndex(clicked);
 
                 if (selectedTextDie[whichDie]) {
@@ -121,17 +126,20 @@ public class GameField extends AppCompatActivity {
                     clicked.setBackgroundResource(
                             getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
                     selectedTextDie[whichDie] = false;
-                } else {
+                }
+                else {
                     // Switch to selected dice
                     clicked.setBackgroundResource(
                             getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
                     selectedTextDie[whichDie] = true;
                 }
-            } catch (Exception e) {
-                Log.e("Dice", "Selection error", e);
+            }
+            catch (Exception e) {
+                System.out.println("Selection error: " + e.getMessage());
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
         }
+        updateDiceArrayText();
     }
 
 
@@ -164,5 +172,16 @@ public class GameField extends AppCompatActivity {
             allTheDice[i] = findViewById(id);
         }
         return allTheDice;
+    }
+
+    private void updateDiceArrayText() {
+        ArrayList<Integer> selectedValues = new ArrayList<>();
+        for (int i = 0; i < selectedTextDie.length; i++) {
+            if (selectedTextDie[i]) {
+                selectedValues.add(sixValues[i]);
+            }
+        }
+        Collections.sort(selectedValues); // Sort in ascending order
+        diceArray.setText(selectedValues.toString());
     }
 }
