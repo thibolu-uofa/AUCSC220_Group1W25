@@ -9,20 +9,28 @@
     android:background="@color/black"
     android:screenOrientation="landscape" >
 
+    <View
+        android:id="@+id/blackoutView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black" />
+
     <ImageView
         android:id="@+id/background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/Background"
-        app:layout_constraintWidth_percent="3"
-        app:layout_constraintHeight_percent="3"
+        android:rotation="45"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="3"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:rotation="45"
+        app:layout_constraintVertical_bias="0.643"
+        app:layout_constraintWidth_percent="3"
         app:srcCompat="@drawable/background" />
-
 
     <ImageView
         android:id="@+id/logo"
@@ -32,17 +40,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintHeight_percent="0.6"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintHeight_percent="0.5"
+        app:srcCompat="@drawable/logo"
+        app:layout_constraintVertical_bias="0.025"/>
 
-    <Button
+    <com.rollo.TouchColorButton
         android:id="@+id/loadGameButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintHeight_percent="0.101"
-        android:layout_marginTop="-5dp"
+        app:layout_constraintHeight_percent="0.12"
         android:backgroundTint="@color/transparent"
         android:text="@string/LoadGameString"
         android:textSize="28sp"
@@ -57,15 +66,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.57" />
 
-    <Button
+    <com.rollo.TouchColorButton
         android:id="@+id/newGameButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintHeight_percent="0.101"
-        android:layout_marginTop="-5dp"
+        app:layout_constraintHeight_percent="0.12"
+        android:layout_marginTop="-6dp"
         android:backgroundTint="@color/transparent"
         android:text="@string/NewGameString"
         android:textSize="28sp"
@@ -80,13 +89,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <com.rollo.TouchColorButton
         android:id="@+id/tutorialButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.35"
-        app:layout_constraintHeight_percent="0.101"
-        android:layout_marginTop="-5dp"
+        app:layout_constraintHeight_percent="0.12"
+        android:layout_marginTop="-6dp"
         android:backgroundTint="@color/transparent"
         android:text="@string/TutorialString"
         android:textSize="28sp"
@@ -101,13 +110,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <com.rollo.TouchColorButton
         android:id="@+id/creditsButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.225"
-        app:layout_constraintHeight_percent="0.101"
-        android:layout_marginTop="-5dp"
+        app:layout_constraintHeight_percent="0.12"
+        android:layout_marginTop="-6dp"
         android:backgroundTint="@color/transparent"
         android:text="@string/CreditsString"
         android:textSize="28sp"
@@ -131,7 +140,7 @@
         android:backgroundTint="#00000000"
         android:text="@string/InspirationString"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/golden_white"
         android:fontFamily="@font/catchy_mager"
@@ -139,7 +148,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
+        app:layout_constraintVertical_bias="0.985" />
 
     <TextView
         android:id="@+id/appVerText"
@@ -162,45 +171,66 @@
         app:layout_constraintVertical_bias="1" />
 
     <View
-        android:id="@+id/creditsBackground"
+        android:id="@+id/dimOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/creditsView"
         android:visibility="gone"
         android:layout_width="500dp"
         android:layout_height="300dp"
         android:background="@drawable/credits"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.6"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/creditsBackButton"
-        android:visibility="gone"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:backgroundTint="#00000000"
-        app:layout_constraintWidth_percent="0.66"
-        app:layout_constraintHeight_percent="0.084"
-        app:layout_constraintVertical_bias="0.98"
-        app:layout_constraintTop_toTopOf="@id/creditsBackground"
-        app:layout_constraintBottom_toBottomOf="@id/creditsBackground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <View
-        android:id="@+id/tutorialBackground"
-        android:visibility="gone"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/tutorial"
-        app:layout_constraintWidth_percent="0.75"
-        app:layout_constraintHeight_percent="0.75"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintVertical_bias="0.5"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.rollo.TouchColorButton
+        android:id="@+id/creditsBackButton"
+        android:visibility="gone"
+        android:layout_width="465dp"
+        android:layout_height="40dp"
+        android:backgroundTint="#00000000"
+        app:layout_constraintVertical_bias="0.975"
+        app:layout_constraintTop_toTopOf="@id/creditsView"
+        app:layout_constraintBottom_toBottomOf="@id/creditsView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.rollo.TouchColorButton
+        android:id="@+id/tutorialBackButton"
+        android:visibility="gone"
+        android:layout_width="465dp"
+        android:layout_height="40dp"
+        android:backgroundTint="#00000000"
+        app:layout_constraintVertical_bias="0.975"
+        app:layout_constraintTop_toTopOf="@id/tutorialView"
+        app:layout_constraintBottom_toBottomOf="@id/tutorialView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/tutorialView"
+        android:visibility="gone"
+        android:layout_width="500dp"
+        android:layout_height="300dp"
+        android:background="@drawable/tutorial"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- <ImageView
+        android:id="@+id/diceView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dice_1" /> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
