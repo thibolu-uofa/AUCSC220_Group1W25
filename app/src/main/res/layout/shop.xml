@@ -8,7 +8,7 @@
     android:background="#FCF5FD"
     android:backgroundTint="#B99903"
     android:screenOrientation="landscape"
-    tools:context=".MainActivity">
+    tools:context=".ShopPage">
 
     <ImageView
         android:id="@+id/imageView"
@@ -32,72 +32,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="239dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="246dp"
-        android:layout_marginTop="229dp"
-        android:layout_marginEnd="246dp"
-        android:layout_marginBottom="142dp"
-        android:background="@color/gold"
-        android:text="Combo's"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Combo's" />
-
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="239dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="246dp"
-        android:layout_marginTop="284dp"
-        android:layout_marginEnd="246dp"
-        android:layout_marginBottom="87dp"
-        android:background="@color/gold"
-        android:text="Painting's"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Painting's" />
-
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="239dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="246dp"
-        android:layout_marginTop="339dp"
-        android:layout_marginEnd="246dp"
-        android:layout_marginBottom="32dp"
-        android:background="@color/gold"
-        android:text="Voucher's"
-        android:textColorLink="#AC8F02"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Voucher's" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="239dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="246dp"
-        android:layout_marginTop="176dp"
-        android:layout_marginEnd="246dp"
-        android:layout_marginBottom="195dp"
-        android:background="@color/gold"
-        android:backgroundTint="#010103"
-        android:text="Upgrade Dice"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Upgrade Dice" />
-
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="411dp"
@@ -111,6 +45,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="399dp"
+        android:layout_height="136dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="137dp"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="138dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/upgrade_dice_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onUpgradeClick"/>
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="400dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="89dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/combos_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onCombosClick"/>
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="402dp"
+        android:layout_height="138dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="245dp"
+        android:layout_marginEnd="169dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/painting_s_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onPaintingClick"/>
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="401dp"
+        android:layout_height="138dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="170dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/vouchers_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onVouchersClick"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

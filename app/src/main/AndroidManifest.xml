@@ -24,6 +24,12 @@
         <activity
             android:name=".GameField">
         </activity>
+        <activity android:name=".Shop">
+
+        </activity>
+        <activity android:name=".ShopPage">
+
+        </activity>
     </application>
 
 </manifest>
