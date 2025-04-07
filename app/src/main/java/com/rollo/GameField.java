@@ -18,23 +18,21 @@ public class GameField extends AppCompatActivity {
     private ImageView imageView1, imageView2;
     private boolean clickedStart = false;
     private int imageWidth;
-    private TextView diceArray;
+    private TextView result;
 
     private Dice[] sixDie;
     private TextView[] sixTextDie;
 
-    private int amountSelected;
+    private int amountSelected = 0;
     private int[] sixValues = new int[]{0,0,0,0,0,0};
     private boolean[] selectedTextDie = new boolean[]{false, false, false,
             false, false, false};
-
-    private ArrayList<Integer> sortedArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_field);
-        diceArray = findViewById(R.id.diceArray);
+        result = findViewById(R.id.result);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
         imageView1.post(() -> {
@@ -85,17 +83,14 @@ public class GameField extends AppCompatActivity {
             sixValues[whichDie] = newSide;
 
             // Update both tag and background
-            clicked.setTag(newSide);
+            
 
             // Use the correct background based on selection state
-            int resId = selectedTextDie[whichDie]
-                    ? getResources().getIdentifier("selected_dice_" + newSide, "drawable", getPackageName())
-                    : getResources().getIdentifier("dice_" + newSide, "drawable", getPackageName());
+            int resId = getResources().getIdentifier("dice_" + newSide, "drawable", getPackageName());
 
             clicked.setBackgroundResource(resId);
         } catch (Exception e) {
             Log.e("Dice", "Reroll error", e);
-            clicked.setTag(1);
             clicked.setBackgroundResource(R.drawable.dice_1);
         }
     }
@@ -117,9 +112,8 @@ public class GameField extends AppCompatActivity {
             clicked.setText("Play");
             clicked.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View myView) {
-                    play(myView); // Call different method
-                }
+                public void onClick(View myView) {play(myView);}
+
             });
         }
     }
@@ -127,17 +121,30 @@ public class GameField extends AppCompatActivity {
     public void play(View myView){
         if (amountSelected <= 5){
             HashMap<Integer, Integer> scoring = new HashMap<Integer, Integer>();
-            for (int i = 0; i < 6; i++) {
-                if (i == sortedArray.get(i)){
-                    if(sortedArray.contains(i)){
-                        scoring.replace(i, scoring.get(i) + 1);
-                    }
-                    else{
-                        scoring.put(i, 0);
-                    }
+            scoring.put(1,0);
+            scoring.put(2,0);
+            scoring.put(3,0);
+            scoring.put(4,0);
+            scoring.put(5,0);
+            scoring.put(6,0);
+            ArrayList<Integer> sortedArray = updateDiceArray();
+            for (int i = 0; i < sortedArray.size(); i++) {
+                if(scoring.containsKey(sortedArray.get(i))){
+                    Log.d("Gay", "Got Here");
+                    scoring.replace(sortedArray.get(i), scoring.get(sortedArray.get(i)) + 1);
                 }
             }
+            resetSelectedDice();
         }
+    }
+
+    public void resetSelectedDice(){
+        for (int i = 0; i < sixTextDie.length; i++) {
+            if (selectedTextDie[i]){
+                rerollDice(sixTextDie[i]);
+            }
+        }
+        amountSelected = 0;
     }
 
     public void selectDice(View view) {
@@ -159,7 +166,7 @@ public class GameField extends AppCompatActivity {
                     clicked.setBackgroundResource(
                             getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
                     selectedTextDie[whichDie] = true;
-                    updateDiceArrayText();
+                    amountSelected += 1;
                 }
             }
             catch (Exception e) {
@@ -187,6 +194,7 @@ public class GameField extends AppCompatActivity {
                     sixTextDie[i].setBackgroundResource(
                             getResources().getIdentifier("dice_" + sixValues[i], "drawable", getPackageName()));
                     selectedTextDie[i] = false;
+                    amountSelected = 0;
                 }
             }
         }
@@ -201,7 +209,7 @@ public class GameField extends AppCompatActivity {
         return allTheDice;
     }
 
-    private void updateDiceArrayText() {
+    private ArrayList<Integer> updateDiceArray() {
         ArrayList<Integer> selectedValues = new ArrayList<>();
         for (int i = 0; i < selectedTextDie.length; i++) {
             if (selectedTextDie[i]) {
@@ -209,9 +217,7 @@ public class GameField extends AppCompatActivity {
             }
         }
         Collections.sort(selectedValues); // Sort in ascending order
-        diceArray.setText(selectedValues.toString());
 
-        sortedArray = selectedValues;
-
+        return selectedValues;
     }
 }
