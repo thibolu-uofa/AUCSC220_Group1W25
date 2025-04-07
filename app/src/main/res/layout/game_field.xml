@@ -260,7 +260,7 @@
         android:layout_marginTop="228dp"
         android:ems="10"
         android:inputType="text"
-        android:text="[]"
+        android:text=""
         android:textAlignment="center"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/textView3"

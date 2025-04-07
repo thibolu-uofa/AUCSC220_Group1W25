@@ -23,6 +23,8 @@ public class GameField extends AppCompatActivity {
     private Dice[] sixDie;
     private TextView[] sixTextDie;
 
+    private HandTypeManager hands;
+
     private int amountSelected = 0;
     private int[] sixValues = new int[]{0,0,0,0,0,0};
     private boolean[] selectedTextDie = new boolean[]{false, false, false,
@@ -33,6 +35,7 @@ public class GameField extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_field);
         result = findViewById(R.id.result);
+        hands = new HandTypeManager();
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
         imageView1.post(() -> {
@@ -82,10 +85,6 @@ public class GameField extends AppCompatActivity {
 
             sixValues[whichDie] = newSide;
 
-            // Update both tag and background
-            
-
-            // Use the correct background based on selection state
             int resId = getResources().getIdentifier("dice_" + newSide, "drawable", getPackageName());
 
             clicked.setBackgroundResource(resId);
@@ -93,6 +92,7 @@ public class GameField extends AppCompatActivity {
             Log.e("Dice", "Reroll error", e);
             clicked.setBackgroundResource(R.drawable.dice_1);
         }
+        result.setText("");
     }
 
     public void start(View view) {
@@ -118,31 +118,54 @@ public class GameField extends AppCompatActivity {
         }
     }
 
-    public void play(View myView){
-        if (amountSelected <= 5){
-            HashMap<Integer, Integer> scoring = new HashMap<Integer, Integer>();
-            scoring.put(1,0);
-            scoring.put(2,0);
-            scoring.put(3,0);
-            scoring.put(4,0);
-            scoring.put(5,0);
-            scoring.put(6,0);
-            ArrayList<Integer> sortedArray = updateDiceArray();
-            for (int i = 0; i < sortedArray.size(); i++) {
-                if(scoring.containsKey(sortedArray.get(i))){
-                    Log.d("Gay", "Got Here");
-                    scoring.replace(sortedArray.get(i), scoring.get(sortedArray.get(i)) + 1);
-                }
-            }
-            resetSelectedDice();
+    public void play(View myView) {
+        resetSelectedDice();
+        result.setText("");
+    }
+
+    private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {
+        ArrayList<Integer> frequencies = new ArrayList<>(scoring.values());
+        Collections.sort(frequencies, Collections.reverseOrder());
+
+        System.out.println("Selected values: " + selectedValues);
+        System.out.println("Frequencies: " + frequencies);
+
+        if (frequencies.get(0) == 5) {
+            return hands.getHandByName("Yahtzee");
+        }
+
+        else if (frequencies.get(0) == 4) {
+            return hands.getHandByName("Four of a Kind");
+        }
+
+        else if (frequencies.get(0) == 3 && frequencies.get(1) == 2) {
+            return hands.getHandByName("Full House");
+        }
+
+        else if (frequencies.get(0) == 3) {
+            return hands.getHandByName("Three of a Kind");
+        }
+
+        else if (frequencies.get(0) == 2 && frequencies.get(1) == 2) {
+            return hands.getHandByName("Two Pair");
+        }
+
+        else if (frequencies.get(0) == 2) {
+            return hands.getHandByName("Pair");
+        }
+
+        else {
+            return hands.getHandByName("High Die");
         }
     }
+
 
     public void resetSelectedDice(){
         for (int i = 0; i < sixTextDie.length; i++) {
             if (selectedTextDie[i]){
                 rerollDice(sixTextDie[i]);
             }
+            selectedTextDie[i] = false;
         }
         amountSelected = 0;
     }
@@ -160,22 +183,35 @@ public class GameField extends AppCompatActivity {
                     clicked.setBackgroundResource(
                             getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
                     selectedTextDie[whichDie] = false;
+                    amountSelected -= 1;  // Decrease selected count
                 }
                 else {
                     // Switch to selected dice
                     clicked.setBackgroundResource(
                             getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
                     selectedTextDie[whichDie] = true;
-                    amountSelected += 1;
+                    amountSelected += 1;  // Increase selected count
                 }
+
             }
             catch (Exception e) {
                 System.out.println("Selection error: " + e.getMessage());
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
+
+            HashMap<Integer, Integer> scoring = new HashMap<>();
+            ArrayList<Integer> selectedValues = updateDiceArray();
+            for (int i = 1; i <= 6; i++) scoring.put(i, 0);
+            for (int i = 0; i < selectedValues.size(); i++) {
+                if (scoring.containsKey(selectedValues.get(i))) {
+                    scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
+                }
+            }
+            HandType hand = determineHandType(selectedValues, scoring);
+            result.setText(hand.getName());
+            Log.d("Gay","Selected Dice Values: " + selectedValues);
         }
     }
-
 
     private int getDiceIndex(TextView diceView) {
         try {
