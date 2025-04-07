@@ -1,7 +1,5 @@
 package com.rollo;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+import java.util.HashMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,9 +23,12 @@ public class GameField extends AppCompatActivity {
     private Dice[] sixDie;
     private TextView[] sixTextDie;
 
+    private int amountSelected;
     private int[] sixValues = new int[]{0,0,0,0,0,0};
     private boolean[] selectedTextDie = new boolean[]{false, false, false,
             false, false, false};
+
+    private ArrayList<Integer> sortedArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,7 @@ public class GameField extends AppCompatActivity {
     }
 
     public void start(View view) {
+        TextView clicked = (TextView) view;
         if (!clickedStart) {
             if (sixTextDie == null) {
                 sixTextDie = getAllTheDice();
@@ -110,6 +113,30 @@ public class GameField extends AppCompatActivity {
                 }
             }
             clickedStart = true;
+
+            clicked.setText("Play");
+            clicked.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View myView) {
+                    play(myView); // Call different method
+                }
+            });
+        }
+    }
+
+    public void play(View myView){
+        if (amountSelected <= 5){
+            HashMap<Integer, Integer> scoring = new HashMap<Integer, Integer>();
+            for (int i = 0; i < 6; i++) {
+                if (i == sortedArray.get(i)){
+                    if(sortedArray.contains(i)){
+                        scoring.replace(i, scoring.get(i) + 1);
+                    }
+                    else{
+                        scoring.put(i, 0);
+                    }
+                }
+            }
         }
     }
 
@@ -132,6 +159,7 @@ public class GameField extends AppCompatActivity {
                     clicked.setBackgroundResource(
                             getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
                     selectedTextDie[whichDie] = true;
+                    updateDiceArrayText();
                 }
             }
             catch (Exception e) {
@@ -139,7 +167,6 @@ public class GameField extends AppCompatActivity {
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
         }
-        updateDiceArrayText();
     }
 
 
@@ -183,5 +210,8 @@ public class GameField extends AppCompatActivity {
         }
         Collections.sort(selectedValues); // Sort in ascending order
         diceArray.setText(selectedValues.toString());
+
+        sortedArray = selectedValues;
+
     }
 }
