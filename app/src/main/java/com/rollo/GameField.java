@@ -5,11 +5,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class GameField extends AppCompatActivity {
     private ImageView imageView1, imageView2;
