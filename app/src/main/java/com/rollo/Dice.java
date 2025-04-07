@@ -8,7 +8,7 @@ package com.rollo;
 
 import java.util.Random;
 
-class Dice {
+public class Dice {
     private String diceType;
     private String pipColour;
     private int[] possibleSides;
@@ -26,6 +26,13 @@ class Dice {
         this.possibleSides = possibleSides;
         this.currentSide = getRandomSide();
     }//Dice
+
+    public Dice() {
+        diceType = "";
+        pipColour = "";
+        possibleSides = new int[]{1,2,3,4,5,6};
+        currentSide = getRandomSide();
+    }
 
     /**
     * Returns the type of the die.
