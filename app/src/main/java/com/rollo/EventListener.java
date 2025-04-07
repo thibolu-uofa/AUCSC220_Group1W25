@@ -11,7 +11,9 @@ import java.util.List;
 
 public class EventListener {
     private final MainActivity mainActivity;
-    private List<Button> mainButtons;
+    private List<Button> menuButtons;
+
+    private List<Button> gameButtons;
 
     private View dimOverlay;
 
@@ -24,6 +26,7 @@ public class EventListener {
 
     private TouchColorButton loadGameButton, newGameButton, tutorialButton, creditsButton;
     private TouchColorButton tutorialBackButton, creditsBackButton;
+
     private View tutorialView, creditsView;
 
     public EventListener(MainActivity mainActivity) {
@@ -31,7 +34,8 @@ public class EventListener {
         this.animPlayer = new AnimationPlayer(mainActivity);
 
         initViews();
-        setUpButtons();
+        setUpMenuButtons();
+        setUpGameButtons();
         setUpListeners();
     }//EventListener
 
@@ -52,9 +56,13 @@ public class EventListener {
     }//initViews
 
     // Store all core buttons in a list for easy disabling/enabling
-    private void setUpButtons(){
-        mainButtons = Arrays.asList(loadGameButton, newGameButton, tutorialButton, creditsButton);
-    }//setUpButtons
+    private void setUpMenuButtons(){
+        menuButtons = Arrays.asList(loadGameButton, newGameButton, tutorialButton, creditsButton);
+    }//setUpMenuButtons
+
+    private void setUpGameButtons(){
+        //gameButtons = Arrays.asList();
+    }//setUpGameButtons
 
     private void setUpListeners(){
         loadGameButton.setOnClickListener(v -> playGameTransition(animPlayer.radialBlackout(),
@@ -71,8 +79,8 @@ public class EventListener {
                 animPlayer.slideDown()));
     }//setUpListeners
 
-    private void enableButtons(boolean enabled) {
-        for (Button button : mainButtons) {
+    private void enableMenuButtons(boolean enabled) {
+        for (Button button : menuButtons) {
             button.setEnabled(enabled);
         }//for-loop
     }//enableButtons
@@ -87,7 +95,7 @@ public class EventListener {
         dimOverlay.setVisibility(View.VISIBLE);
         dimOverlay.startAnimation(animPlayer.fadeIn());
 
-        enableButtons(false);
+        enableMenuButtons(false);
     }//showOverlay
 
     private void hideOverlay(View overlayView, Button backButton, Animation slideDown) {
@@ -102,7 +110,7 @@ public class EventListener {
         handler.postDelayed(() -> dimOverlay.setVisibility(View.GONE),
                 animPlayer.fadeOutAnim.getDuration());
 
-        enableButtons(true);
+        enableMenuButtons(true);
     }//hideOverlay
 
 
