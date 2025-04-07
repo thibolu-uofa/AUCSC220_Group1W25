@@ -1,11 +1,11 @@
 package com.rollo;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -23,22 +23,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Gets the background From image view
-        ImageView marbleBackground = findViewById(R.id.imageView4);
+        ImageView gameBackground = findViewById(R.id.background);
 
-        Animation waveAnimation = AnimationUtils.loadAnimation(this, R.anim.wave_animation);
+        Animation waveAnimation = AnimationUtils.loadAnimation(this, R.anim.wave);
 
-        marbleBackground.startAnimation(waveAnimation);
+        gameBackground.startAnimation(waveAnimation);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
+        new EventListener(this);
     }
-    public void goToActivity2 (View view){
-        Intent intent = new Intent (this, GameField.class);
-        startActivity(intent);
-    }
+
+    protected static void moveToGame(Context context) {
+        Intent intent = new Intent(context, GameField.class);
+        context.startActivity(intent);
+
+        if (context instanceof Activity) {
+            ((Activity) context).finish(); // Close current activity
+        }//if statement
+    }//moveToGame
 }
