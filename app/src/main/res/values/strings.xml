@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Rollo</string>
+    <string name="Background">Background</string>
+    <string name="Logo">Logo</string>
+    <string name="LoadGameString">LOAD GAME</string>
+    <string name="NewGameString">NEW GAME</string>
+    <string name="TutorialString">HOW TO PLAY</string>
+    <string name="CreditsString">CREDITS</string>
+    <string name="InspirationString">Inspired by Balatro and Yahtzee</string>
+    <string name="AppVerString">IN-PROGRESS \n APP VERSION 1.00.2 \n UI VERSION 1.00.7</string>
 </resources>
