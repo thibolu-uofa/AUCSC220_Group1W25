@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         mp = MediaPlayer.create(this, R.raw.hopeful);
         mp.start();
+        mp.setLooping(true);
 
         //Gets the background From image view
         ImageView gameBackground = findViewById(R.id.background);
