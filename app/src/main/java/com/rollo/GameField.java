@@ -19,12 +19,9 @@ public class GameField extends AppCompatActivity {
     private boolean clickedStart = false;
     private int imageWidth;
     private TextView result;
-
     private Dice[] sixDie;
     private TextView[] sixTextDie;
-
     private HandTypeManager hands;
-
     private int amountSelected = 0;
     private int[] sixValues = new int[]{0,0,0,0,0,0};
     private boolean[] selectedTextDie = new boolean[]{false, false, false,
@@ -130,6 +127,27 @@ public class GameField extends AppCompatActivity {
         System.out.println("Selected values: " + selectedValues);
         System.out.println("Frequencies: " + frequencies);
 
+        ArrayList<Integer> uniqueValues = new ArrayList<>();
+        for (int i = 0; i < selectedValues.size(); i++) {
+            if (i == 0 || !selectedValues.get(i).equals(selectedValues.get(i - 1))) {
+                uniqueValues.add(selectedValues.get(i));
+            }
+        }
+
+        if (uniqueValues.size() == 5 &&
+                ((uniqueValues.get(0) == 1 && uniqueValues.get(1) == 2 &&
+                        uniqueValues.get(2) == 3 && uniqueValues.get(3) == 4 &&
+                        uniqueValues.get(4) == 5) ||
+                        (uniqueValues.get(0) == 2 && uniqueValues.get(1) == 3 &&
+                                uniqueValues.get(2) == 4 && uniqueValues.get(3) == 5 &&
+                                uniqueValues.get(4) == 6))) {
+            return hands.getHandByName("Large Straight");
+        }
+
+        if (hasSmallStraight(uniqueValues)) {
+            return hands.getHandByName("Small Straight");
+        }
+
         if (frequencies.get(0) == 5) {
             return hands.getHandByName("Yahtzee");
         }
@@ -159,6 +177,20 @@ public class GameField extends AppCompatActivity {
         }
     }
 
+    private boolean hasSmallStraight(ArrayList<Integer> values) {
+        for (int i = 0; i <= values.size() - 4; i++) {
+            int count = 1;
+            for (int j = i + 1; j < values.size(); j++) {
+                if (values.get(j) == values.get(j - 1) + 1) {
+                    count++;
+                    if (count == 4) return true;
+                } else if (values.get(j) != values.get(j - 1)) {
+                    break; // sequence broken
+                }
+            }
+        }
+        return false;
+    }
 
     public void resetSelectedDice(){
         for (int i = 0; i < sixTextDie.length; i++) {
