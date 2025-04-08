@@ -130,20 +130,22 @@ public class GameField extends AppCompatActivity {
     }
 
     public void play(View myView) {
-        HashMap<Integer, Integer> scoring = new HashMap<>();
         ArrayList<Integer> selectedValues = updateDiceArray();
-        for (int i = 1; i <= 6; i++) scoring.put(i, 0);
-        for (int i = 0; i < selectedValues.size(); i++) {
-            if (scoring.containsKey(selectedValues.get(i))) {
-                scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
+        if (selectedValues.size() >= 1 && selectedValues.size() <= 5) {
+            HashMap<Integer, Integer> scoring = new HashMap<>();
+            for (int i = 1; i <= 6; i++) scoring.put(i, 0);
+            for (int i = 0; i < selectedValues.size(); i++) {
+                if (scoring.containsKey(selectedValues.get(i))) {
+                    scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
+                }
             }
+            HandType hand = determineHandType(selectedValues, scoring);
+            resetSelectedDice();
+            result.setText("");
+            playScore = hand.getPips() * hand.getMult();
+            roundScore += playScore;
+            scoreDisplay.setText(String.valueOf(roundScore));
         }
-        HandType hand = determineHandType(selectedValues, scoring);
-        resetSelectedDice();
-        result.setText("");
-        playScore = hand.getPips() * hand.getMult();
-        roundScore += playScore;
-        scoreDisplay.setText(String.valueOf(roundScore));
     }
 
     private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {
