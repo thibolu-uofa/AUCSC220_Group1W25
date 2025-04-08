@@ -138,13 +138,7 @@ public class GameField extends AppCompatActivity {
             }
         }
 
-        if (uniqueValues.size() == 5 &&
-                ((uniqueValues.get(0) == 1 && uniqueValues.get(1) == 2 &&
-                        uniqueValues.get(2) == 3 && uniqueValues.get(3) == 4 &&
-                        uniqueValues.get(4) == 5) ||
-                        (uniqueValues.get(0) == 2 && uniqueValues.get(1) == 3 &&
-                                uniqueValues.get(2) == 4 && uniqueValues.get(3) == 5 &&
-                                uniqueValues.get(4) == 6))) {
+        if (hasLargeStraight(uniqueValues)) {
             return hands.getHandByName("Large Straight");
         }
 
@@ -179,6 +173,21 @@ public class GameField extends AppCompatActivity {
         else {
             return hands.getHandByName("High Die");
         }
+    }
+
+    private boolean hasLargeStraight(ArrayList<Integer> values) {
+        for (int i = 0; i <= values.size() - 5; i++) {
+            int count = 1;
+            for (int j = i + 1; j < values.size(); j++) {
+                if (values.get(j) == values.get(j - 1) + 1) {
+                    count++;
+                    if (count == 5) return true;
+                } else if (values.get(j) != values.get(j - 1)) {
+                    break; // sequence broken
+                }
+            }
+        }
+        return false;
     }
 
     private boolean hasSmallStraight(ArrayList<Integer> values) {
