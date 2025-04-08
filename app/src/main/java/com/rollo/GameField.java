@@ -22,9 +22,12 @@ public class GameField extends AppCompatActivity {
     private ImageView imageView1, imageView2;
     private boolean clickedStart = false;
     private int imageWidth;
+    private int playScore;
+    private int roundScore = 0;
     private TextView result;
     private TextView pipCount;
     private TextView multCount;
+    private TextView scoreDisplay;
     private Dice[] sixDie;
     private TextView[] sixTextDie;
     private HandTypeManager hands;
@@ -40,6 +43,7 @@ public class GameField extends AppCompatActivity {
         result = findViewById(R.id.result);
         pipCount = findViewById(R.id.pipsText);
         multCount = findViewById(R.id.multText);
+        scoreDisplay = findViewById(R.id.roundScore);
         hands = new HandTypeManager();
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
@@ -126,8 +130,20 @@ public class GameField extends AppCompatActivity {
     }
 
     public void play(View myView) {
+        HashMap<Integer, Integer> scoring = new HashMap<>();
+        ArrayList<Integer> selectedValues = updateDiceArray();
+        for (int i = 1; i <= 6; i++) scoring.put(i, 0);
+        for (int i = 0; i < selectedValues.size(); i++) {
+            if (scoring.containsKey(selectedValues.get(i))) {
+                scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
+            }
+        }
+        HandType hand = determineHandType(selectedValues, scoring);
         resetSelectedDice();
         result.setText("");
+        playScore = hand.getPips() * hand.getMult();
+        roundScore += playScore;
+        scoreDisplay.setText(String.valueOf(roundScore));
     }
 
     private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {

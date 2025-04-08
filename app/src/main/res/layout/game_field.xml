@@ -8,7 +8,6 @@
     android:screenOrientation="landscape"
     tools:context=".GameField">
 
-
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
@@ -53,7 +52,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/PauseBar1"
@@ -96,20 +95,20 @@
         android:background="@drawable/box"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toBottomOf="@+id/PauseBar1"
-        app:layout_constraintVertical_bias="0.344" />
+        app:layout_constraintVertical_bias="0.418" />
 
     <TextView
         android:id="@+id/pipsText"
         android:layout_width="67dp"
         android:layout_height="37dp"
         android:background="@drawable/box"
-        android:gravity="center"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"
+        android:gravity="center"
         android:text="0"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/ScoreSurround"
         app:layout_constraintStart_toStartOf="@+id/ScoreSurround"
         app:layout_constraintTop_toTopOf="@+id/ScoreSurround" />
@@ -119,13 +118,28 @@
         android:layout_width="67dp"
         android:layout_height="37dp"
         android:background="@drawable/box"
-        android:gravity="center"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"
+        android:gravity="center"
         android:text="0"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/ScoreSurround"
         app:layout_constraintEnd_toEndOf="@+id/ScoreSurround"
         app:layout_constraintTop_toTopOf="@+id/ScoreSurround" />
+
+    <TextView
+        android:id="@+id/roundScore"
+        android:layout_width="130dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/box"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/StartOfRound"
