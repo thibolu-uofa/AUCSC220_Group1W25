@@ -245,7 +245,7 @@ public class GameField extends AppCompatActivity {
             }
             HandType hand = determineHandType(selectedValues, scoring);
             result.setText(hand.getName());
-            Log.d("Gay","Selected Dice Values: " + selectedValues);
+            Log.d("Test","Selected Dice Values: " + selectedValues);
         }
     }
 
