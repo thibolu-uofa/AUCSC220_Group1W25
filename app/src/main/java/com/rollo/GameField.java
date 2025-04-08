@@ -284,6 +284,8 @@ public class GameField extends AppCompatActivity {
             }
             HandType hand = determineHandType(selectedValues, scoring);
             result.setText(hand.getName());
+            pipCount.setText(String.valueOf(hand.getPips()));
+            multCount.setText(String.valueOf(hand.getMult()));
         }
     }
 
