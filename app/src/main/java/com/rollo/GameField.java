@@ -35,8 +35,6 @@ public class GameField extends AppCompatActivity {
     private final boolean[] selectedTextDie = new boolean[]{false, false, false,
             false, false, false};
 
-    private HandTypeManager hands;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
