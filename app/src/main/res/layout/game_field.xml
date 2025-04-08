@@ -5,10 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameField"
-    android:screenOrientation="landscape">
-
-
+    android:screenOrientation="landscape"
+    tools:context=".GameField">
 
     <ImageView
         android:id="@+id/imageView1"
@@ -21,9 +19,9 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:rotationY="180"
         android:scaleType="fitXY"
-        android:src="@drawable/background"
-        android:rotationY="180" />
+        android:src="@drawable/background" />
 
 
     <TextView
@@ -92,39 +90,67 @@
 
     <TextView
         android:id="@+id/ScoreSurround"
-        android:layout_width="133dp"
-        android:layout_height="66dp"
+        android:layout_width="158dp"
+        android:layout_height="64dp"
         android:background="@drawable/box"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toBottomOf="@+id/PauseBar1"
-        app:layout_constraintVertical_bias="0.344" />
+        app:layout_constraintVertical_bias="0.418" />
 
     <TextView
-        android:id="@+id/ScoringText"
-        android:layout_width="75dp"
-        android:layout_height="43dp"
+        android:id="@+id/pipsText"
+        android:layout_width="67dp"
+        android:layout_height="37dp"
         android:background="@drawable/box"
         android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/ScoreSurround"
+        app:layout_constraintStart_toStartOf="@+id/ScoreSurround"
+        app:layout_constraintTop_toTopOf="@+id/ScoreSurround" />
+
+    <TextView
+        android:id="@+id/multText"
+        android:layout_width="67dp"
+        android:layout_height="37dp"
+        android:background="@drawable/box"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/ScoreSurround"
         app:layout_constraintEnd_toEndOf="@+id/ScoreSurround"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/ScoreSurround"
-        app:layout_constraintTop_toTopOf="@+id/ScoreSurround"
-        app:layout_constraintVertical_bias="0.541" />
+        app:layout_constraintTop_toTopOf="@+id/ScoreSurround" />
+
+    <TextView
+        android:id="@+id/roundScore"
+        android:layout_width="130dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/box"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/StartOfRound"
         android:layout_width="69dp"
         android:layout_height="43dp"
         android:background="@drawable/box"
+        android:gravity="center"
+        android:onClick="start"
         android:text="@string/StartString"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:gravity="center"
-        android:onClick="start"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintHorizontal_bias="0.186"
@@ -137,11 +163,11 @@
         android:layout_width="65dp"
         android:layout_height="42dp"
         android:background="@drawable/box"
+        android:gravity="center"
+        android:onClick="rerollAllDice"
         android:text="@string/RerollString"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:gravity="center"
-        android:onClick="rerollAllDice"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintHorizontal_bias="0.879"
@@ -169,8 +195,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:onClick="selectDice"
         android:background="@drawable/dice_frame"
+        android:onClick="selectDice"
         app:layout_constraintBottom_toBottomOf="@id/textView2"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintHorizontal_bias="0.082"
@@ -184,8 +210,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:onClick="selectDice"
         android:background="@drawable/dice_frame"
+        android:onClick="selectDice"
         app:layout_constraintBottom_toBottomOf="@id/textView2"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintHorizontal_bias="1.0"
@@ -199,8 +225,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:onClick="selectDice"
         android:background="@drawable/dice_frame"
+        android:onClick="selectDice"
         app:layout_constraintBottom_toBottomOf="@id/textView2"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintHorizontal_bias="0.542"
@@ -214,8 +240,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:onClick="selectDice"
         android:background="@drawable/dice_frame"
+        android:onClick="selectDice"
         app:layout_constraintBottom_toBottomOf="@id/textView2"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintHorizontal_bias="0.079"
@@ -229,8 +255,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:onClick="selectDice"
         android:background="@drawable/dice_frame"
+        android:onClick="selectDice"
         app:layout_constraintBottom_toBottomOf="@id/textView2"
         app:layout_constraintEnd_toEndOf="@+id/textView2"
         app:layout_constraintHorizontal_bias="1.0"
