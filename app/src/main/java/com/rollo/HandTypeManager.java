@@ -1,7 +1,5 @@
 package com.rollo;
 
-import com.rollo.HandType;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +18,19 @@ public class HandTypeManager {
         handTypes.add(new HandType("Yahtzee", 50, 5, 1));
     }
 
+    public HandTypeManager(List<HandType> handTypes){
+        this.handTypes = handTypes;
+    }
+
     public HandType getHandByName(String name) {
         return handTypes.stream()
                 .filter(h -> h.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void setHandTypes(List<HandType> handTypes) {
+        this.handTypes = handTypes;
     }
 
     public List<HandType> getAllHands() {

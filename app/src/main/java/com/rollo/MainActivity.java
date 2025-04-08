@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -14,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +47,11 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         new EventListener(this);
+
+        Continue obj = new Continue(this);
+
     }
+
 
     protected static void moveToGame(Context context) {
         Intent intent = new Intent(context, GameField.class);

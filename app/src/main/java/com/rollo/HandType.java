@@ -1,7 +1,7 @@
 package com.rollo;
 
 public class HandType {
-    private String name;
+    private final String name;
     private int pips;
     private int mult;
     private int level;

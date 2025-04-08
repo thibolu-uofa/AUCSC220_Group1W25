@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 import java.util.Arrays;
@@ -22,13 +23,20 @@ public class GameField extends AppCompatActivity {
     private ImageView imageView1, imageView2;
     private boolean clickedStart = false;
     private int imageWidth;
+    private int playScore;
+    private int roundScore = 0;
     private TextView result;
+    private TextView pipCount;
+    private TextView multCount;
+    private TextView scoreDisplay;
     private Dice[] sixDie;
     private TextView[] sixTextDie;
+
     private HandTypeManager hands;
+
     private int amountSelected = 0;
-    private int[] sixValues = new int[]{0,0,0,0,0,0};
-    private boolean[] selectedTextDie = new boolean[]{false, false, false,
+    private final int[] sixValues = new int[]{0,0,0,0,0,0};
+    private final boolean[] selectedTextDie = new boolean[]{false, false, false,
             false, false, false};
 
     @Override
@@ -36,7 +44,13 @@ public class GameField extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_field);
         result = findViewById(R.id.result);
+        pipCount = findViewById(R.id.pipsText);
+        multCount = findViewById(R.id.multText);
+        scoreDisplay = findViewById(R.id.roundScore);
         hands = new HandTypeManager();
+        Continue continueReader = new Continue(this);
+        List<HandType> handTypes = continueReader.readHandTypes();
+        hands = new HandTypeManager(handTypes);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
         imageView1.post(() -> {
@@ -94,6 +108,8 @@ public class GameField extends AppCompatActivity {
             clicked.setBackgroundResource(R.drawable.dice_1);
         }
         result.setText("");
+        pipCount.setText("0");
+        multCount.setText("0");
     }
 
     public void start(View view) {
@@ -120,8 +136,22 @@ public class GameField extends AppCompatActivity {
     }
 
     public void play(View myView) {
-        resetSelectedDice();
-        result.setText("");
+        if (amountSelected >= 1 && amountSelected <= 5) {
+            ArrayList<Integer> selectedValues = updateDiceArray();
+            HashMap<Integer, Integer> scoring = new HashMap<>();
+            for (int i = 1; i <= 6; i++) scoring.put(i, 0);
+            for (int i = 0; i < selectedValues.size(); i++) {
+                if (scoring.containsKey(selectedValues.get(i))) {
+                    scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
+                }
+            }
+            HandType hand = determineHandType(selectedValues, scoring);
+            resetSelectedDice();
+            result.setText("");
+            playScore = hand.getPips() * hand.getMult();
+            roundScore += playScore;
+            scoreDisplay.setText(String.valueOf(roundScore));
+        }
     }
 
     private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {
@@ -138,13 +168,7 @@ public class GameField extends AppCompatActivity {
             }
         }
 
-        if (uniqueValues.size() == 5 &&
-                ((uniqueValues.get(0) == 1 && uniqueValues.get(1) == 2 &&
-                        uniqueValues.get(2) == 3 && uniqueValues.get(3) == 4 &&
-                        uniqueValues.get(4) == 5) ||
-                        (uniqueValues.get(0) == 2 && uniqueValues.get(1) == 3 &&
-                                uniqueValues.get(2) == 4 && uniqueValues.get(3) == 5 &&
-                                uniqueValues.get(4) == 6))) {
+        if (hasLargeStraight(uniqueValues)) {
             return hands.getHandByName("Large Straight");
         }
 
@@ -179,6 +203,21 @@ public class GameField extends AppCompatActivity {
         else {
             return hands.getHandByName("High Die");
         }
+    }
+
+    private boolean hasLargeStraight(ArrayList<Integer> values) {
+        for (int i = 0; i <= values.size() - 5; i++) {
+            int count = 1;
+            for (int j = i + 1; j < values.size(); j++) {
+                if (values.get(j) == values.get(j - 1) + 1) {
+                    count++;
+                    if (count == 5) return true;
+                } else if (values.get(j) != values.get(j - 1)) {
+                    break; // sequence broken
+                }
+            }
+        }
+        return false;
     }
 
     private boolean hasSmallStraight(ArrayList<Integer> values) {
@@ -231,7 +270,7 @@ public class GameField extends AppCompatActivity {
 
             }
             catch (Exception e) {
-                System.out.println("Selection error: " + e.getMessage());
+                Log.d("Failure","Failure in selecting dice");
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
 
@@ -245,7 +284,6 @@ public class GameField extends AppCompatActivity {
             }
             HandType hand = determineHandType(selectedValues, scoring);
             result.setText(hand.getName());
-            Log.d("Test","Selected Dice Values: " + selectedValues);
         }
     }
 
