@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+
+import java.io.IOException;
 import java.util.HashMap;
 
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class GameField extends AppCompatActivity {
         scoreDisplay = findViewById(R.id.roundScore);
         hands = new HandTypeManager();
         Continue continueReader = new Continue(this);
-        List<HandType> handTypes = continueReader.readHandTypes();
+        List<HandType> handTypes = continueReader.getHandTypes();
         hands = new HandTypeManager(handTypes);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
