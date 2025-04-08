@@ -3,6 +3,7 @@ package com.rollo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ValueAnimator;
@@ -15,6 +16,9 @@ import java.util.Collections;
 import java.util.List;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 public class GameField extends AppCompatActivity {
     private ImageView imageView1, imageView2;
     private boolean clickedStart = false;
@@ -23,6 +27,8 @@ public class GameField extends AppCompatActivity {
 
     private Dice[] sixDie;
     private TextView[] sixTextDie;
+
+    private HandTypeManager hands;
 
     private int amountSelected = 0;
     private final int[] sixValues = new int[]{0,0,0,0,0,0};
@@ -36,6 +42,7 @@ public class GameField extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_field);
         result = findViewById(R.id.result);
+        hands = new HandTypeManager();
         Continue continueReader = new Continue(this);
         List<HandType> handTypes = continueReader.readHandTypes();
         hands = new HandTypeManager(handTypes);
@@ -89,7 +96,7 @@ public class GameField extends AppCompatActivity {
             sixValues[whichDie] = newSide;
 
             // Update both tag and background
-
+            
 
             // Use the correct background based on selection state
             int resId = getResources().getIdentifier("dice_" + newSide, "drawable", getPackageName());
@@ -133,33 +140,45 @@ public class GameField extends AppCompatActivity {
         ArrayList<Integer> frequencies = new ArrayList<>(scoring.values());
         Collections.sort(frequencies, Collections.reverseOrder());
 
+        System.out.println("Selected values: " + selectedValues);
+        System.out.println("Frequencies: " + frequencies);
+
         if (frequencies.get(0) == 5) {
             return hands.getHandByName("Yahtzee");
         }
+
         else if (frequencies.get(0) == 4) {
             return hands.getHandByName("Four of a Kind");
         }
+
         else if (frequencies.get(0) == 3 && frequencies.get(1) == 2) {
-            return hands.getHandByName("Full House");}
+            return hands.getHandByName("Full House");
+        }
+
         else if (frequencies.get(0) == 3) {
             return hands.getHandByName("Three of a Kind");
         }
+
         else if (frequencies.get(0) == 2 && frequencies.get(1) == 2) {
             return hands.getHandByName("Two Pair");
         }
+
         else if (frequencies.get(0) == 2) {
             return hands.getHandByName("Pair");
         }
+
         else {
             return hands.getHandByName("High Die");
         }
     }
+
 
     public void resetSelectedDice(){
         for (int i = 0; i < sixTextDie.length; i++) {
             if (selectedTextDie[i]){
                 rerollDice(sixTextDie[i]);
             }
+            selectedTextDie[i] = false;
         }
         amountSelected = 0;
     }
@@ -177,6 +196,7 @@ public class GameField extends AppCompatActivity {
                     clicked.setBackgroundResource(
                             getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
                     selectedTextDie[whichDie] = false;
+                    amountSelected -= 1;  // Decrease selected count
                 }
                 else {
                     // Switch to selected dice
@@ -185,6 +205,7 @@ public class GameField extends AppCompatActivity {
                     selectedTextDie[whichDie] = true;
                     amountSelected += 1;
                 }
+
             }
             catch (Exception e) {
                 System.out.println("Selection error: " + e.getMessage());
@@ -201,9 +222,9 @@ public class GameField extends AppCompatActivity {
             }
             HandType hand = determineHandType(selectedValues, scoring);
             result.setText(hand.getName());
+            Log.d("Gay","Selected Dice Values: " + selectedValues);
         }
     }
-
 
     private int getDiceIndex(TextView diceView) {
         try {

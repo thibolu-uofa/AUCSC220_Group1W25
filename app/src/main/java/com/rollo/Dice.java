@@ -15,6 +15,16 @@ public class Dice {
     private int currentSide;
 
     /**
+     * Default constructor to initialize the Dice object.
+     */
+    public Dice() {
+        diceType = "";
+        pipColour = "";
+        possibleSides = new int[]{1,2,3,4,5,6};
+        currentSide = getRandomSide();
+    }
+
+    /**
      * Constructor to initialize the Dice object.
      * @param diceType The type of the die.
      * @param pipColour The colour of the pips.
@@ -26,13 +36,6 @@ public class Dice {
         this.possibleSides = possibleSides;
         this.currentSide = getRandomSide();
     }//Dice
-
-    public Dice() {
-        diceType = "";
-        pipColour = "";
-        possibleSides = new int[]{1,2,3,4,5,6};
-        currentSide = getRandomSide();
-    }
 
     /**
     * Returns the type of the die.
