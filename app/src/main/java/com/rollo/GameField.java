@@ -23,6 +23,8 @@ public class GameField extends AppCompatActivity {
     private boolean clickedStart = false;
     private int imageWidth;
     private TextView result;
+    private TextView pipCount;
+    private TextView multCount;
     private Dice[] sixDie;
     private TextView[] sixTextDie;
     private HandTypeManager hands;
@@ -36,6 +38,8 @@ public class GameField extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_field);
         result = findViewById(R.id.result);
+        pipCount = findViewById(R.id.pipsText);
+        multCount = findViewById(R.id.multText);
         hands = new HandTypeManager();
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
@@ -94,6 +98,8 @@ public class GameField extends AppCompatActivity {
             clicked.setBackgroundResource(R.drawable.dice_1);
         }
         result.setText("");
+        pipCount.setText("0");
+        multCount.setText("0");
     }
 
     public void start(View view) {
@@ -254,7 +260,8 @@ public class GameField extends AppCompatActivity {
             }
             HandType hand = determineHandType(selectedValues, scoring);
             result.setText(hand.getName());
-            Log.d("Test","Selected Dice Values: " + selectedValues);
+            pipCount.setText(String.valueOf(hand.getPips()));
+            multCount.setText(String.valueOf(hand.getMult()));
         }
     }
 
