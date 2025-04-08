@@ -5,16 +5,112 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:screenOrientation="landscape">
+    android:background="#FCF5FD"
+    android:backgroundTint="#B99903"
+    android:screenOrientation="landscape"
+    tools:context=".ShopPage">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="2082dp"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/converted_image" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="636dp"
+        android:layout_height="243dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="411dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginBottom="270dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="399dp"
+        android:layout_height="136dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="137dp"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="138dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/upgrade_dice_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onUpgradeClick"/>
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="400dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="159dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="89dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/combos_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onCombosClick"/>
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="402dp"
+        android:layout_height="138dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="245dp"
+        android:layout_marginEnd="169dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/painting_s_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onPaintingClick"/>
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="401dp"
+        android:layout_height="138dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="170dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/vouchers_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onVouchersClick"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
