@@ -130,8 +130,8 @@ public class GameField extends AppCompatActivity {
     }
 
     public void play(View myView) {
-        ArrayList<Integer> selectedValues = updateDiceArray();
-        if (selectedValues.size() >= 1 && selectedValues.size() <= 5) {
+        if (amountSelected >= 1 && amountSelected <= 5) {
+            ArrayList<Integer> selectedValues = updateDiceArray();
             HashMap<Integer, Integer> scoring = new HashMap<>();
             for (int i = 1; i <= 6; i++) scoring.put(i, 0);
             for (int i = 0; i < selectedValues.size(); i++) {
