@@ -270,7 +270,7 @@ public class GameField extends AppCompatActivity {
 
             }
             catch (Exception e) {
-                System.out.println("Selection error: " + e.getMessage());
+                Log.d("Failure","Failure in selecting dice");
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
 
@@ -284,7 +284,6 @@ public class GameField extends AppCompatActivity {
             }
             HandType hand = determineHandType(selectedValues, scoring);
             result.setText(hand.getName());
-            Log.d("Gay","Selected Dice Values: " + selectedValues);
         }
     }
 
