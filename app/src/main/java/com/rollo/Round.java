@@ -5,7 +5,12 @@
 
 package com.rollo;
 
+import android.content.Context;
+import android.content.Intent;
+
 public class Round {
+
+    private Context context;
 
     // Constants
     private static final int DEFAULT_HANDS = 5;
@@ -29,7 +34,8 @@ public class Round {
     /*
      Constructor
      */
-    public Round() {
+    public Round(Context context) {
+        this.context = context;
         this.score = 0;
         this.numOfHands = DEFAULT_HANDS;
         this.numOfRerolls = DEFAULT_REROLLS;
@@ -60,10 +66,16 @@ public class Round {
             // Trigger shop, animations, etc.
             //GameField.enableButtons(true);
             setNextRound();
+            openShopPage();//Call to open the shop Page after threshold reached
             return true;
         }
         return false;
     }//chec
+
+    private void openShopPage(){
+        Intent intent = new Intent(context, ShopPage.class);
+        context.startActivity(intent);
+    }
 
     /*
      Checks whether the game is finished
