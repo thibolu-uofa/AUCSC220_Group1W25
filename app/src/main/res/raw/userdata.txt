@@ -1,0 +1,17 @@
+High Die: 5, 1, 1
+Pair    : 10, 2, 1
+Two Pair: 20, 2, 1
+TOAK    : 20, 3, 1
+SS      : 30, 3, 1
+LS      : 40, 4, 1
+FH      : 25, 3, 1
+FOAK    : 30, 4, 1
+VOAK    : 40, 5, 1
+Yahtzee : 50, 5, 1
+
+Round   : 0
+PL      : ""
+HS      : 0
+Money   : 0
+Rerolls : 3
+Plays   : 3
