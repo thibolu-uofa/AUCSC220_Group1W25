@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public class GameField extends AppCompatActivity {
@@ -24,15 +25,20 @@ public class GameField extends AppCompatActivity {
     private TextView[] sixTextDie;
 
     private int amountSelected = 0;
-    private int[] sixValues = new int[]{0,0,0,0,0,0};
-    private boolean[] selectedTextDie = new boolean[]{false, false, false,
+    private final int[] sixValues = new int[]{0,0,0,0,0,0};
+    private final boolean[] selectedTextDie = new boolean[]{false, false, false,
             false, false, false};
+
+    private HandTypeManager hands;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_field);
         result = findViewById(R.id.result);
+        Continue continueReader = new Continue(this);
+        List<HandType> handTypes = continueReader.readHandTypes();
+        hands = new HandTypeManager(handTypes);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
         imageView1.post(() -> {
@@ -83,7 +89,7 @@ public class GameField extends AppCompatActivity {
             sixValues[whichDie] = newSide;
 
             // Update both tag and background
-            
+
 
             // Use the correct background based on selection state
             int resId = getResources().getIdentifier("dice_" + newSide, "drawable", getPackageName());
@@ -118,23 +124,34 @@ public class GameField extends AppCompatActivity {
         }
     }
 
-    public void play(View myView){
-        if (amountSelected <= 5){
-            HashMap<Integer, Integer> scoring = new HashMap<Integer, Integer>();
-            scoring.put(1,0);
-            scoring.put(2,0);
-            scoring.put(3,0);
-            scoring.put(4,0);
-            scoring.put(5,0);
-            scoring.put(6,0);
-            ArrayList<Integer> sortedArray = updateDiceArray();
-            for (int i = 0; i < sortedArray.size(); i++) {
-                if(scoring.containsKey(sortedArray.get(i))){
-                    Log.d("Gay", "Got Here");
-                    scoring.replace(sortedArray.get(i), scoring.get(sortedArray.get(i)) + 1);
-                }
-            }
-            resetSelectedDice();
+    public void play(View myView) {
+        resetSelectedDice();
+        result.setText("");
+    }
+
+    private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {
+        ArrayList<Integer> frequencies = new ArrayList<>(scoring.values());
+        Collections.sort(frequencies, Collections.reverseOrder());
+
+        if (frequencies.get(0) == 5) {
+            return hands.getHandByName("Yahtzee");
+        }
+        else if (frequencies.get(0) == 4) {
+            return hands.getHandByName("Four of a Kind");
+        }
+        else if (frequencies.get(0) == 3 && frequencies.get(1) == 2) {
+            return hands.getHandByName("Full House");}
+        else if (frequencies.get(0) == 3) {
+            return hands.getHandByName("Three of a Kind");
+        }
+        else if (frequencies.get(0) == 2 && frequencies.get(1) == 2) {
+            return hands.getHandByName("Two Pair");
+        }
+        else if (frequencies.get(0) == 2) {
+            return hands.getHandByName("Pair");
+        }
+        else {
+            return hands.getHandByName("High Die");
         }
     }
 
@@ -173,6 +190,17 @@ public class GameField extends AppCompatActivity {
                 System.out.println("Selection error: " + e.getMessage());
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
+
+            HashMap<Integer, Integer> scoring = new HashMap<>();
+            ArrayList<Integer> selectedValues = updateDiceArray();
+            for (int i = 1; i <= 6; i++) scoring.put(i, 0);
+            for (int i = 0; i < selectedValues.size(); i++) {
+                if (scoring.containsKey(selectedValues.get(i))) {
+                    scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
+                }
+            }
+            HandType hand = determineHandType(selectedValues, scoring);
+            result.setText(hand.getName());
         }
     }
 
