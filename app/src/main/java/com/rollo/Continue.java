@@ -4,16 +4,20 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Continue {
-    private Context context;
+    private final Context context;
+    private final BufferedReader reader;
 
     public Continue(Context context) {
         this.context = context;
+        InputStream inputStream = context.getResources().openRawResource(R.raw.userdata);
+        reader = new BufferedReader(new InputStreamReader(inputStream));
     }
 
     public String readingUserData() {
@@ -41,8 +45,6 @@ public class Continue {
         List<HandType> handTypes = new ArrayList<>();
 
         try {
-            InputStream inputStream = context.getResources().openRawResource(R.raw.userdata);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
 
             while ((line = reader.readLine()) != null) {
@@ -66,12 +68,16 @@ public class Continue {
                 HandType handType = new HandType(name, pips, mult, level);
                 handTypes.add(handType);
             }
-
-            reader.close();
         } catch (Exception e) {
             Log.e("Continue", "Failed to read hand types", e);
         }
 
         return handTypes;
     }
+
+    public void close() throws IOException {
+        reader.close();
+    }
+
+
 }
