@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+
+import java.io.IOException;
 import java.util.HashMap;
 
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class GameField extends AppCompatActivity {
         hands = new HandTypeManager();
         round = new Round();//Initilize round
         Continue continueReader = new Continue(this);
-        List<HandType> handTypes = continueReader.readHandTypes();
+        List<HandType> handTypes = continueReader.getHandTypesFromJson();
         hands = new HandTypeManager(handTypes);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
@@ -66,8 +68,7 @@ public class GameField extends AppCompatActivity {
             startScrolling();
         });
 
-        sixDie = new Dice[]{new Dice(), new Dice(), new Dice(),
-                new Dice(), new Dice(), new Dice()};
+        sixDie = continueReader.getDiceFromJson();
 
         sixTextDie = getAllTheDice();
 
@@ -137,7 +138,6 @@ public class GameField extends AppCompatActivity {
             clicked.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View myView) {play(myView);}
-
             });
         }
     }
@@ -220,35 +220,27 @@ public class GameField extends AppCompatActivity {
         if (hasLargeStraight(uniqueValues)) {
             return hands.getHandByName("Large Straight");
         }
-
         if (hasSmallStraight(uniqueValues)) {
             return hands.getHandByName("Small Straight");
         }
-
         if (frequencies.get(0) == 5) {
             return hands.getHandByName("Yahtzee");
         }
-
         else if (frequencies.get(0) == 4) {
             return hands.getHandByName("Four of a Kind");
         }
-
         else if (frequencies.get(0) == 3 && frequencies.get(1) == 2) {
             return hands.getHandByName("Full House");
         }
-
         else if (frequencies.get(0) == 3) {
             return hands.getHandByName("Three of a Kind");
         }
-
         else if (frequencies.get(0) == 2 && frequencies.get(1) == 2) {
             return hands.getHandByName("Two Pair");
         }
-
         else if (frequencies.get(0) == 2) {
             return hands.getHandByName("Pair");
         }
-
         else {
             return hands.getHandByName("High Die");
         }
@@ -323,6 +315,7 @@ public class GameField extends AppCompatActivity {
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
 
+            //Should be its own method
             HashMap<Integer, Integer> scoring = new HashMap<>();
             ArrayList<Integer> selectedValues = updateDiceArray();
             for (int i = 1; i <= 6; i++) scoring.put(i, 0);
@@ -331,6 +324,7 @@ public class GameField extends AppCompatActivity {
                     scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
                 }
             }
+            //should be its own method
             HandType hand = determineHandType(selectedValues, scoring);
             result.setText(hand.getName());
             pipCount.setText(String.valueOf(hand.getPips()));
