@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ShopPage extends AppCompatActivity {
 
-    private Round round;
+    private Continue continueReader;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -24,6 +24,8 @@ public class ShopPage extends AppCompatActivity {
         animator.setRepeatMode(ObjectAnimator.RESTART);
         animator.start();
 
+        continueReader = new Continue(this);
+        continueReader.copyJsonToInternalStorageIfNeeded(this);
     }
 
     public void onUpgradeClick(View view){
@@ -49,7 +51,7 @@ public class ShopPage extends AppCompatActivity {
     }
 
     public void onNextRoundClick(View view) {
-        round.setNextRound();
+        continueReader.setCurrentScore(this, 0);
         nextRound(this);
     }
 

@@ -25,7 +25,7 @@ public class GameField extends AppCompatActivity {
     private int playScore;
     private int rerollsLeft;
     private int playsLeft;
-    private int roundScore = 0;
+    private int roundScore;
     private TextView result;
     private TextView pipCount;
     private TextView multCount;
@@ -55,6 +55,9 @@ public class GameField extends AppCompatActivity {
         hands = new HandTypeManager();
         continueReader = new Continue(this);
         List<HandType> handTypes = continueReader.getHandTypesFromJson();
+        continueReader.copyJsonToInternalStorageIfNeeded(this);
+        roundScore = continueReader.getCurrentScoreFromJson();
+        scoreDisplay.setText(String.valueOf(roundScore));
         rerollsLeft = continueReader.getRerollFromJson();
         playsLeft = continueReader.getHandsFromJson();
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
@@ -169,7 +172,7 @@ public class GameField extends AppCompatActivity {
             result.setText("");
             playScore = hand.getPips() * hand.getMult();
             roundScore += playScore;
-            continueReader.setCurrentScore(this, playScore);
+            continueReader.setCurrentScore(this, roundScore);
             scoreDisplay.setText(String.valueOf(roundScore));
 
             playsLeft--;
@@ -177,6 +180,7 @@ public class GameField extends AppCompatActivity {
             handLimitText.setText(String.valueOf(playsLeft));
 
             if (continueReader.getScoreToBeatFromJson() < roundScore){
+                continueReader.setHighScore(this);
                 openShop(this);
             }
 
