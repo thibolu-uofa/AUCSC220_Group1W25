@@ -1,5 +1,7 @@
 package com.rollo;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -174,17 +176,18 @@ public class GameField extends AppCompatActivity {
             TextView handLimitText = findViewById(R.id.handLimitText);
             handLimitText.setText(String.valueOf(playsLeft));
 
-            if (continueReader.getScoreToBeatFromJson() > roundScore){
-                openShop();
+            if (continueReader.getScoreToBeatFromJson() < roundScore){
+                openShop(this);
             }
 
         }
 
     }
 
-    private void openShop() {
-        Intent intent = new Intent(this, ShopPage.class);
-        startActivityForResult(intent, 1);
+    private void openShop(Context context) {
+        Intent intent = new Intent(context, ShopPage.class);
+        context.startActivity(intent);
+        finish();
     }
 
 

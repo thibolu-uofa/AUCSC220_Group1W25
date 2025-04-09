@@ -154,6 +154,34 @@ public class Continue {
         }
     }
 
+    public void setCurrentRound(Context context, int amount) {
+        try {
+            File file = new File(context.getFilesDir(), "userdata.json");
+            Gson gson = new Gson();
+
+            // Read the current userdata
+            UserData data;
+            try (FileReader reader = new FileReader(file)) {
+                data = gson.fromJson(reader, UserData.class);
+            }
+
+            // Update the score
+            if (data != null && data.getGameState() != null) {
+                int currentround = data.getGameState().getCurrentScore();
+                data.getGameState().setCurrentScore(currentround + amount);
+
+                // Write it back
+                try (FileWriter writer = new FileWriter(file)) {
+                    gson.toJson(data, writer);
+                    Log.d("CONTINUE", "Rerolls upgraded to: " + data.getGameState().getCurrentScore());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("CONTINUE", "Failed to update rerolls", e);
+        }
+    }
+
     public void resetToDefaults(Context context) {
         File file = new File(context.getFilesDir(), "userdata.json");
 
