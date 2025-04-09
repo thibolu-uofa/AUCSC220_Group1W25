@@ -1,6 +1,7 @@
 package com.rollo;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -49,7 +50,13 @@ public class ShopPage extends AppCompatActivity {
 
     public void onNextRoundClick(View view) {
         round.setNextRound();
-        finish();
+        nextRound(this);
     }
 
+    public void nextRound(Context context) {
+        Intent intent = new Intent(context, GameField.class);
+        context.startActivity(intent);
+
+        finish();
+    }
 }
