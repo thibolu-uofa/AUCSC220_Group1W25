@@ -19,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer mp;
-    private Continue obj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +44,15 @@ public class MainActivity extends AppCompatActivity {
         });
         new EventListener(this);
 
-        obj = new Continue(this);
-        obj.copyJsonToInternalStorageIfNeeded(this);
+
     }
 
-    public void newGame(Context context){
-        obj.resetToDefaults(this);
+    public static void newGame(Context context){
+        Continue obj = new Continue(context);
+        obj.copyJsonToInternalStorageIfNeeded(context);
+
+        obj.resetToDefaults(context);
+        moveToGame(context);
     }
 
     protected static void moveToGame(Context context) {

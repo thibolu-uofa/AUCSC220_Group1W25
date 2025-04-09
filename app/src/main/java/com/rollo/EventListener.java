@@ -67,7 +67,7 @@ public class EventListener {
     private void setUpListeners(){
         loadGameButton.setOnClickListener(v -> playGameTransition(animPlayer.radialBlackout(),
                 animPlayer.diceRotate()));
-        newGameButton.setOnClickListener(v -> playGameTransition(animPlayer.radialBlackout(),
+        newGameButton.setOnClickListener(v -> newGameTransition(animPlayer.radialBlackout(),
                 animPlayer.diceRotate()));
         tutorialButton.setOnClickListener(v -> showOverlay(tutorialView, tutorialBackButton,
                 animPlayer.slideUp()));
@@ -125,6 +125,19 @@ public class EventListener {
             long animDuration = Math.max(blackoutDuration, rotateDuration);
 
             handler.postDelayed(() -> MainActivity.moveToGame(mainActivity), animDuration);
+    }//playGameTransition
+
+    private void newGameTransition(Animation radialBlackout, Animation diceRotate) {
+        blackoutView.startAnimation(radialBlackout);
+
+        //diceView.setVisibility(View.VISIBLE);
+        //diceView.startAnimation(diceRotationAnim);
+
+        long blackoutDuration = radialBlackout.getDuration();
+        long rotateDuration = diceRotate.getDuration();
+        long animDuration = Math.max(blackoutDuration, rotateDuration);
+
+        handler.postDelayed(() -> MainActivity.newGame(mainActivity), animDuration);
     }//playGameTransition
 
 }//EventListener
