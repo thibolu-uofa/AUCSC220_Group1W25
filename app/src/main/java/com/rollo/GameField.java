@@ -32,9 +32,9 @@ public class GameField extends AppCompatActivity {
     private Dice[] sixDie;
     private TextView[] sixTextDie;
 
-    private HandTypeManager hands;
+    private Continue continueReader;
 
-    private Round round;
+    private HandTypeManager hands;
 
     private int amountSelected = 0;
     private final int[] sixValues = new int[]{0,0,0,0,0,0};
@@ -51,12 +51,12 @@ public class GameField extends AppCompatActivity {
         scoreDisplay = findViewById(R.id.roundScore);
         threshold = findViewById(R.id.threshold);
         hands = new HandTypeManager();
-        round = new Round();//Initilize round
-        Continue continueReader = new Continue(this);
+        continueReader = new Continue(this);
         List<HandType> handTypes = continueReader.getHandTypesFromJson();
         rerollsLeft = continueReader.getRerollFromJson();
         playsLeft = continueReader.getHandsFromJson();
-        threshold.setText("Score to beat: " + (int) Math.round(round.threshold));
+        String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
+        threshold.setText("Score to beat: " + ScoreToBeat);
 
         hands = new HandTypeManager(handTypes);
         imageView1 = findViewById(R.id.imageView1);
@@ -141,8 +141,9 @@ public class GameField extends AppCompatActivity {
                 public void onClick(View myView) {play(myView);}
             });
         }
-        playsLeft = round.getNumOfHands();
-        rerollsLeft = round.getNumOfRerolls();
+
+        playsLeft = continueReader.getPlaysFromJson();
+        rerollsLeft = continueReader.getRerollFromJson();
 
         TextView rerollCounter = findViewById(R.id.rerollCounter);
         rerollCounter.setText(String.valueOf(rerollsLeft));
@@ -166,14 +167,14 @@ public class GameField extends AppCompatActivity {
             result.setText("");
             playScore = hand.getPips() * hand.getMult();
             roundScore += playScore;
-            round.addScore(playScore);
+            continueReader.setCurrentScore(this, playScore);
             scoreDisplay.setText(String.valueOf(roundScore));
 
             playsLeft--;
             TextView handLimitText = findViewById(R.id.handLimitText);
             handLimitText.setText(String.valueOf(playsLeft));
 
-            if (round.isThresholdReached()){
+            if (continueReader.getScoreToBeatFromJson() > roundScore){
                 openShop();
             }
 
@@ -183,24 +184,9 @@ public class GameField extends AppCompatActivity {
 
     private void openShop() {
         Intent intent = new Intent(this, ShopPage.class);
-        intent.putExtra("currentRound", round.getRoundNum());
-        intent.putExtra("playerMoney", round.score);
         startActivityForResult(intent, 1);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK){
-
-            clickedStart = false;
-            round.setNextRound();
-            resetAllDice();
-            scoreDisplay.setText("0");
-            result.setText("Next Round! ");
-
-        }
-    }
 
     public void resetAllDice(){
 
