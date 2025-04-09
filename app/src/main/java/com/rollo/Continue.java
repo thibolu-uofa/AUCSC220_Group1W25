@@ -21,9 +21,7 @@ public class Continue {
 
     public Continue(Context context) {
         this.context = context;
-        InputStream inputStream = context.getResources().openRawResource(R.raw.userdata);
     }
-
 
     public List<HandType> getHandTypesFromJson() {
         try {
@@ -83,13 +81,40 @@ public class Continue {
 
             // Update the rerolls
             if (data != null && data.getGameState() != null) {
-                int currentRerolls = data.getGameState().rerolls;
-                data.getGameState().rerolls = currentRerolls + 1;
+                int currentRerolls = data.getGameState().getRerolls();
+                data.getGameState().setRerolls(currentRerolls + 1);
 
                 // Write it back
                 try (FileWriter writer = new FileWriter(file)) {
                     gson.toJson(data, writer);
-                    Log.d("CONTINUE", "Rerolls upgraded to: " + data.getGameState().rerolls);
+                    Log.d("CONTINUE", "Rerolls upgraded to: " + data.getGameState().getRerolls());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("CONTINUE", "Failed to update rerolls", e);
+        }
+    }
+    public void setNewMoney(Context context, int gainedWealth) {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+
+            // Read the current userdata
+            UserData data;
+            try (FileReader reader = new FileReader(file)) {
+                data = gson.fromJson(reader, UserData.class);
+            }
+
+            // Update the money
+            if (data != null && data.getGameState() != null) {
+                int currentmoney = data.getGameState().getMoney();
+                data.getGameState().setMoney(currentmoney + gainedWealth);
+
+                // Write it back
+                try (FileWriter writer = new FileWriter(file)) {
+                    gson.toJson(data, writer);
+                    Log.d("CONTINUE", "Money added: " + data.getGameState().getMoney());
                 }
             }
 
@@ -109,15 +134,15 @@ public class Continue {
                 data = gson.fromJson(reader, UserData.class);
             }
 
-            // Update the rerolls
+            // Update the plays
             if (data != null && data.getGameState() != null) {
-                int currentRerolls = data.getGameState().plays;
-                data.getGameState().plays = currentRerolls + 1;
+                int currentPlays = data.getGameState().getPlays();
+                data.getGameState().setPlays(currentPlays + 1);
 
                 // Write it back
                 try (FileWriter writer = new FileWriter(file)) {
                     gson.toJson(data, writer);
-                    Log.d("CONTINUE", "Rerolls upgraded to: " + data.getGameState().rerolls);
+                    Log.d("CONTINUE", "Plays upgraded to: " + data.getGameState().getPlays());
                 }
             }
 

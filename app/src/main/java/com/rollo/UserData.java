@@ -18,11 +18,11 @@ public class UserData {
     }
 }
 class GameState {
-    protected int round;
-    protected int highScore;
-    protected int money;
-    protected int rerolls;
-    protected int plays;
+    private int round;
+    private int highScore;
+    private int money;
+    private int rerolls;
+    private int plays;
 
     public GameState(){
         this.round = 0;
