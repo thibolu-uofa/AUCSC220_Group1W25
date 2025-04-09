@@ -11,11 +11,14 @@
         {"name": "Yahtzee", "pips": 50, "mult": 5, "level": 1}
     ],
     "gameState": {
-        "round": 0,
+        "round": 1,
         "highScore": 0,
         "money": 0,
-        "rerolls": 3,
-        "plays": 3
+        "rerolls": 4,
+        "plays": 5,
+        "currentScore": 0,
+        "scoreToBeat": 300,
+        "maxRound": 20
     },
     "dice": [
         {"diceType": "", "pipColour": "", "possibleSides": [1,2,3,4,5,6]},
