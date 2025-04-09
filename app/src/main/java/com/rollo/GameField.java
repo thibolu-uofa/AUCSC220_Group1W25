@@ -56,8 +56,7 @@ public class GameField extends AppCompatActivity {
         List<HandType> handTypes = continueReader.getHandTypesFromJson();
         rerollsLeft = continueReader.getRerollFromJson();
         playsLeft = continueReader.getHandsFromJson();
-        threshold.setText("Score to beat: " + String.valueOf(round.threshold));
-
+        threshold.setText("Score to beat: " + (int) Math.round(round.threshold));
 
         hands = new HandTypeManager(handTypes);
         imageView1 = findViewById(R.id.imageView1);
