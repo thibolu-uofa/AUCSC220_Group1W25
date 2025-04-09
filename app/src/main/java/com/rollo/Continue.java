@@ -65,4 +65,19 @@ public class Continue {
         }
     }
 
+    public int getHandsFromJson() {
+        try {
+            InputStream inputStream = context.getResources().openRawResource(R.raw.userdata);
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            Gson gson = new Gson();
+            UserData userData = gson.fromJson(reader, UserData.class);
+            reader.close();
+
+            return userData.gameState.getPlays();
+        } catch (Exception e) {
+            Log.e("Continue", "Error reading JSON", e);
+            return 0;
+        }
+    }
+
 }

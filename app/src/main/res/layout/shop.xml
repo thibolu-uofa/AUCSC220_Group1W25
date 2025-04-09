@@ -112,20 +112,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/vouchers_button" />
 
-    <Button
-        android:id="@+id/nextRoundButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="332dp"
-        android:layout_marginEnd="522dp"
-        android:layout_marginBottom="31dp"
-        android:text="Next Round"
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="324dp"
+        android:layout_height="201dp"
+        android:layout_marginStart="391dp"
+        android:layout_marginTop="172dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="38dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onNextRoundClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="onNextRoundClick"/>
+        app:srcCompat="@drawable/next_round_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

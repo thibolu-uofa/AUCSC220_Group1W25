@@ -51,6 +51,10 @@ public class Round {
         setThreshold(); // Might want to adjust in future
     }
 
+    public void addScore(int score){
+        this.score += score;
+    }
+
     /*
      Checks whether the score threshold has been reached.
      */
@@ -99,6 +103,8 @@ public class Round {
     public int getMaxRound() { return maxRound; }
 
     public int getNumOfHands() { return numOfHands; }
+
+
 
     public int getNumOfRerolls() { return numOfRerolls; }
 
