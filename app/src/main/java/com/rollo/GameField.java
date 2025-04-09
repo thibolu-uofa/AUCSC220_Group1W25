@@ -1,5 +1,6 @@
 package com.rollo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,8 @@ public class GameField extends AppCompatActivity {
     private boolean clickedStart = false;
     private int imageWidth;
     private int playScore;
+    private int rerollsLeft;
+    private int MAX_HAND_LIMIT;
     private int roundScore = 0;
     private TextView result;
     private TextView pipCount;
@@ -33,6 +36,8 @@ public class GameField extends AppCompatActivity {
     private TextView[] sixTextDie;
 
     private HandTypeManager hands;
+
+    private Round round;
 
     private int amountSelected = 0;
     private final int[] sixValues = new int[]{0,0,0,0,0,0};
@@ -48,6 +53,7 @@ public class GameField extends AppCompatActivity {
         multCount = findViewById(R.id.multText);
         scoreDisplay = findViewById(R.id.roundScore);
         hands = new HandTypeManager();
+        round = new Round();//Initilize round
         Continue continueReader = new Continue(this);
         List<HandType> handTypes = continueReader.readHandTypes();
         hands = new HandTypeManager(handTypes);
@@ -68,6 +74,7 @@ public class GameField extends AppCompatActivity {
         for (int i = 0; i < sixTextDie.length; i++) {
             sixTextDie[i].setBackgroundResource(R.drawable.dice_1);
         }
+
     }
 
     private void startScrolling() {
@@ -151,7 +158,49 @@ public class GameField extends AppCompatActivity {
             playScore = hand.getPips() * hand.getMult();
             roundScore += playScore;
             scoreDisplay.setText(String.valueOf(roundScore));
+
+            if (round.isThresholdReached()){
+                openShop();
+            }
         }
+    }
+
+    private void openShop() {
+        Intent intent = new Intent(this, ShopPage.class);
+        intent.putExtra("currentRound", round.getRoundNum());
+        intent.putExtra("playerMoney", round.score);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK){
+
+            clickedStart = false;
+            round.setNextRound();
+            resetAllDice();
+            scoreDisplay.setText("0");
+            result.setText("Next Round! ");
+
+            MAX_HAND_LIMIT = round.getNumOfHands();
+            rerollsLeft = round.getNumOfRerolls();
+
+            TextView rerollCounter = findViewById(R.id.rerollCounter);
+            rerollCounter.setText(rerollsLeft);
+
+            TextView handLimitText = findViewById(R.id.handLimitText);
+            handLimitText.setText(MAX_HAND_LIMIT);
+        }
+    }
+
+    public void resetAllDice(){
+
+        for (int i = 0; i < selectedTextDie.length; i++){
+            selectedTextDie[i] = true;
+        }
+        amountSelected = selectedTextDie.length;
+        resetSelectedDice();
     }
 
     private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {

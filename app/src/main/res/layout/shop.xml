@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/converted_image" />
+        app:srcCompat="@drawable/background" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -54,14 +54,14 @@
         android:layout_marginTop="137dp"
         android:layout_marginEnd="172dp"
         android:layout_marginBottom="138dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onUpgradeClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/upgrade_dice_button"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onUpgradeClick"/>
+        app:srcCompat="@drawable/upgrade_dice_button" />
 
     <ImageView
         android:id="@+id/imageView8"
@@ -71,14 +71,14 @@
         android:layout_marginTop="185dp"
         android:layout_marginEnd="172dp"
         android:layout_marginBottom="89dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onCombosClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/combos_button"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onCombosClick"/>
+        app:srcCompat="@drawable/combos_button" />
 
     <ImageView
         android:id="@+id/imageView9"
@@ -88,14 +88,14 @@
         android:layout_marginTop="245dp"
         android:layout_marginEnd="169dp"
         android:layout_marginBottom="28dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onPaintingClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/painting_s_button"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onPaintingClick"/>
+        app:srcCompat="@drawable/painting_s_button" />
 
     <ImageView
         android:id="@+id/imageView10"
@@ -104,13 +104,28 @@
         android:layout_marginStart="160dp"
         android:layout_marginTop="288dp"
         android:layout_marginEnd="170dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onVouchersClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/vouchers_button"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onVouchersClick"/>
+        app:srcCompat="@drawable/vouchers_button" />
+
+    <Button
+        android:id="@+id/nextRoundButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="119dp"
+        android:layout_marginTop="332dp"
+        android:layout_marginEnd="522dp"
+        android:layout_marginBottom="31dp"
+        android:text="Next Round"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="onNextRoundClick"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

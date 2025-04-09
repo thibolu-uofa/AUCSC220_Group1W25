@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ShopPage extends AppCompatActivity {
 
+    private Round round;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -44,6 +45,11 @@ public class ShopPage extends AppCompatActivity {
         Intent intent = new Intent(ShopPage.this, Shop.class);
         intent.putExtra("layoutName", layoutName);
         startActivity(intent);
+    }
+
+    public void onNextRoundClick(View view) {
+        round.setNextRound();
+        finish();
     }
 
 }
