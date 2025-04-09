@@ -12,16 +12,25 @@ public class UserData {
         return handTypes;
     }
 
+    public GameState getGameState() { return gameState; }
     public Dice[] getDice() {
         return dice;
     }
 }
 class GameState {
-    int round;
-    int highScore;
-    int money;
-    int rerolls;
-    int plays;
+    private int round;
+    private int highScore;
+    private int money;
+    private int rerolls;
+    private int plays;
+
+    public GameState(){
+        this.round = 0;
+        this.highScore = 0;
+        this.money = 0;
+        this.rerolls = 0;
+        this.plays = 3;
+    }
 
     public int getHighScore() {return highScore;}
     public int getMoney() {return money;}
