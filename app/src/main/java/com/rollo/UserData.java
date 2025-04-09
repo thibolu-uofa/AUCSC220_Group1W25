@@ -1,0 +1,38 @@
+package com.rollo;
+
+import java.util.List;
+
+public class UserData {
+    List<HandType> handTypes;
+    GameState gameState;
+    Dice[] dice;
+
+
+    public List<HandType> getHandTypes() {
+        return handTypes;
+    }
+
+    public Dice[] getDice() {
+        return dice;
+    }
+}
+class GameState {
+    int round;
+    int highScore;
+    int money;
+    int rerolls;
+    int plays;
+
+    public int getHighScore() {return highScore;}
+    public int getMoney() {return money;}
+    public int getPlays() {return plays;}
+    public int getRerolls() {return rerolls;}
+    public int getRound() {return round;}
+
+    public void setHighScore(int highScore) {this.highScore = highScore;}
+    public void setMoney(int money) {this.money = money;}
+    public void setPlays(int plays) {this.plays = plays;}
+
+    public void setRerolls(int rerolls) {this.rerolls = rerolls;}
+    public void setRound(int round) {this.round = round;}
+}
