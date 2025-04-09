@@ -52,6 +52,8 @@ public class ShopPage extends AppCompatActivity {
 
     public void onNextRoundClick(View view) {
         continueReader.setCurrentScore(this, 0);
+        continueReader.setRerolls(this, 4);
+        continueReader.setPlays(this, 5);
         nextRound(this);
     }
 
