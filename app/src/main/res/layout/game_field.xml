@@ -15,14 +15,16 @@
         android:scaleType="fitXY"
         android:src="@drawable/background" />
 
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:rotationY="180"
         android:scaleType="fitXY"
-        android:src="@drawable/background" />
-
+        android:src="@drawable/background"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-14dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -156,16 +158,39 @@
 
     <TextView
         android:id="@+id/roundScore"
-        android:layout_width="130dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="84dp"
+        android:layout_width="159dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="132dp"
         android:background="@drawable/dice_frame"
         android:gravity="center"
         android:text="0"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/threshold"
+        android:layout_width="141dp"
+        android:layout_height="23dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/currentScore"
+        android:layout_width="141dp"
+        android:layout_height="23dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="104dp"
+        android:text="Current Score:"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <TextView

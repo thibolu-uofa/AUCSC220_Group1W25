@@ -27,6 +27,7 @@ public class GameField extends AppCompatActivity {
     private TextView result;
     private TextView pipCount;
     private TextView multCount;
+    private TextView threshold;
     private TextView scoreDisplay;
     private Dice[] sixDie;
     private TextView[] sixTextDie;
@@ -48,12 +49,14 @@ public class GameField extends AppCompatActivity {
         pipCount = findViewById(R.id.pipsText);
         multCount = findViewById(R.id.multText);
         scoreDisplay = findViewById(R.id.roundScore);
+        threshold = findViewById(R.id.threshold);
         hands = new HandTypeManager();
         round = new Round();//Initilize round
         Continue continueReader = new Continue(this);
         List<HandType> handTypes = continueReader.getHandTypesFromJson();
         rerollsLeft = continueReader.getRerollFromJson();
         playsLeft = continueReader.getHandsFromJson();
+        threshold.setText("Score to beat: " + String.valueOf(round.threshold));
 
 
         hands = new HandTypeManager(handTypes);
