@@ -4,22 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
-
-import java.util.Arrays;
 import java.util.List;
 
 public class GameField extends AppCompatActivity {
@@ -28,7 +22,7 @@ public class GameField extends AppCompatActivity {
     private int imageWidth;
     private int playScore;
     private int rerollsLeft;
-    private int MAX_HAND_LIMIT;
+    private int playsLeft;
     private int roundScore = 0;
     private TextView result;
     private TextView pipCount;
@@ -58,6 +52,9 @@ public class GameField extends AppCompatActivity {
         round = new Round();//Initilize round
         Continue continueReader = new Continue(this);
         List<HandType> handTypes = continueReader.getHandTypesFromJson();
+        rerollsLeft = continueReader.getRerollFromJson();
+
+
         hands = new HandTypeManager(handTypes);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
@@ -183,14 +180,14 @@ public class GameField extends AppCompatActivity {
             scoreDisplay.setText("0");
             result.setText("Next Round! ");
 
-            MAX_HAND_LIMIT = round.getNumOfHands();
-            rerollsLeft = round.getNumOfRerolls();
+            playsLeft = round.getNumOfHands(); //Edit to try and do with json
+            rerollsLeft = round.getNumOfRerolls();//Edit to do with json
 
             TextView rerollCounter = findViewById(R.id.rerollCounter);
             rerollCounter.setText(rerollsLeft);
 
             TextView handLimitText = findViewById(R.id.handLimitText);
-            handLimitText.setText(MAX_HAND_LIMIT);
+            handLimitText.setText(playsLeft);
         }
     }
 
