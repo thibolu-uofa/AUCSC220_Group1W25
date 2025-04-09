@@ -1,6 +1,5 @@
 package com.rollo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,7 +58,7 @@ public class GameField extends AppCompatActivity {
         roundScore = continueReader.getCurrentScoreFromJson();
         scoreDisplay.setText(String.valueOf(roundScore));
         rerollsLeft = continueReader.getRerollFromJson();
-        playsLeft = continueReader.getHandsFromJson();
+        playsLeft = continueReader.getPlaysFromJson();
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
         threshold.setText("Score to beat: " + ScoreToBeat);
 
@@ -176,6 +175,7 @@ public class GameField extends AppCompatActivity {
             scoreDisplay.setText(String.valueOf(roundScore));
 
             playsLeft--;
+            continueReader.setPlays(this, playsLeft);
             TextView handLimitText = findViewById(R.id.handLimitText);
             handLimitText.setText(String.valueOf(playsLeft));
 
@@ -358,6 +358,7 @@ public class GameField extends AppCompatActivity {
             if (anyRerolled){
                 amountSelected = 0;
                 rerollsLeft--;
+                continueReader.setRerolls(this, rerollsLeft);
                 TextView rerollCounter = findViewById(R.id.rerollCounter);
                 rerollCounter.setText(String.valueOf(rerollsLeft));
             }
