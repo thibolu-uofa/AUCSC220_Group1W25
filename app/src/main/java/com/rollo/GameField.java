@@ -1,24 +1,19 @@
 package com.rollo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
-
-import java.util.Arrays;
 import java.util.List;
 
 public class GameField extends AppCompatActivity {
@@ -26,6 +21,8 @@ public class GameField extends AppCompatActivity {
     private boolean clickedStart = false;
     private int imageWidth;
     private int playScore;
+    private int rerollsLeft;
+    private int playsLeft;
     private int roundScore = 0;
     private TextView result;
     private TextView pipCount;
@@ -35,6 +32,8 @@ public class GameField extends AppCompatActivity {
     private TextView[] sixTextDie;
 
     private HandTypeManager hands;
+
+    private Round round;
 
     private int amountSelected = 0;
     private final int[] sixValues = new int[]{0,0,0,0,0,0};
@@ -50,8 +49,12 @@ public class GameField extends AppCompatActivity {
         multCount = findViewById(R.id.multText);
         scoreDisplay = findViewById(R.id.roundScore);
         hands = new HandTypeManager();
+        round = new Round();//Initilize round
         Continue continueReader = new Continue(this);
         List<HandType> handTypes = continueReader.getHandTypesFromJson();
+        rerollsLeft = continueReader.getRerollFromJson();
+
+
         hands = new HandTypeManager(handTypes);
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
@@ -69,6 +72,7 @@ public class GameField extends AppCompatActivity {
         for (int i = 0; i < sixTextDie.length; i++) {
             sixTextDie[i].setBackgroundResource(R.drawable.dice_1);
         }
+
     }
 
     private void startScrolling() {
@@ -151,7 +155,49 @@ public class GameField extends AppCompatActivity {
             playScore = hand.getPips() * hand.getMult();
             roundScore += playScore;
             scoreDisplay.setText(String.valueOf(roundScore));
+
+            if (round.isThresholdReached()){
+                openShop();
+            }
         }
+    }
+
+    private void openShop() {
+        Intent intent = new Intent(this, ShopPage.class);
+        intent.putExtra("currentRound", round.getRoundNum());
+        intent.putExtra("playerMoney", round.score);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK){
+
+            clickedStart = false;
+            round.setNextRound();
+            resetAllDice();
+            scoreDisplay.setText("0");
+            result.setText("Next Round! ");
+
+            playsLeft = round.getNumOfHands(); //Edit to try and do with json
+            rerollsLeft = round.getNumOfRerolls();//Edit to do with json
+
+            TextView rerollCounter = findViewById(R.id.rerollCounter);
+            rerollCounter.setText(rerollsLeft);
+
+            TextView handLimitText = findViewById(R.id.handLimitText);
+            handLimitText.setText(playsLeft);
+        }
+    }
+
+    public void resetAllDice(){
+
+        for (int i = 0; i < selectedTextDie.length; i++){
+            selectedTextDie[i] = true;
+        }
+        amountSelected = selectedTextDie.length;
+        resetSelectedDice();
     }
 
     private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {

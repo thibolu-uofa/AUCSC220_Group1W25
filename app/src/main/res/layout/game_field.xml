@@ -55,6 +55,40 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
+        android:id="@+id/rerollCounter"
+        android:layout_width="67dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="347dp"
+        android:layout_marginEnd="547dp"
+        android:layout_marginBottom="27dp"
+        android:background="@drawable/dice_frame"
+        android:gravity="center"
+        android:text="ReRoll 1/1"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/handLimitText"
+        android:layout_width="67dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="347dp"
+        android:layout_marginEnd="640dp"
+        android:layout_marginBottom="27dp"
+        android:background="@drawable/dice_frame"
+        android:gravity="center"
+        android:text="Hands 1/1"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/PauseBar1"
         android:layout_width="9dp"
         android:layout_height="20dp"
