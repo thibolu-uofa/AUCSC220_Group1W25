@@ -4,15 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.List;
 
 public class Continue {
