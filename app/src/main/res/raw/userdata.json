@@ -1,0 +1,28 @@
+{
+    "handTypes": [
+        {"name": "High Die", "pips": 5, "mult": 1, "level": 1},
+        {"name": "Pair", "pips": 10, "mult": 2, "level": 1},
+        {"name": "Two Pair", "pips": 20, "mult": 2, "level": 1},
+        {"name": "Three of a Kind", "pips": 20, "mult": 3, "level": 1},
+        {"name": "Small Straight", "pips": 30, "mult": 3, "level": 1},
+        {"name": "Large Straight", "pips": 40, "mult": 4, "level": 1},
+        {"name": "Full House", "pips": 25, "mult": 3, "level": 1},
+        {"name": "Four of a Kind", "pips": 30, "mult": 4, "level": 1},
+        {"name": "Yahtzee", "pips": 50, "mult": 5, "level": 1}
+    ],
+    "gameState": {
+        "round": 0,
+        "highScore": 0,
+        "money": 0,
+        "rerolls": 3,
+        "plays": 3
+    },
+    "dice": [
+        {"diceType": "", "pipColour": "", "possibleSides": [1,2,3,4,5,6]},
+        {"diceType": "", "pipColour": "", "possibleSides": [1,2,3,4,5,6]},
+        {"diceType": "", "pipColour": "", "possibleSides": [1,2,3,4,5,6]},
+        {"diceType": "", "pipColour": "", "possibleSides": [1,2,3,4,5,6]},
+        {"diceType": "", "pipColour": "", "possibleSides": [1,2,3,4,5,6]},
+        {"diceType": "", "pipColour": "", "possibleSides": [1,2,3,4,5,6]}
+    ]
+}
