@@ -13,7 +13,7 @@ public class HandTypeManager {
         handTypes.add(new HandType("Three of a Kind", 20, 3, 1));
         handTypes.add(new HandType("Small Straight", 30, 3, 1));
         handTypes.add(new HandType("Large Straight", 40, 4, 1));
-        handTypes.add(new HandType("Full House", 25, 3, 1));
+        handTypes.add(new HandType("Full House", 25, 4, 1));
         handTypes.add(new HandType("Four of a Kind", 30, 4, 1));
         handTypes.add(new HandType("Yahtzee", 50, 5, 1));
     }
