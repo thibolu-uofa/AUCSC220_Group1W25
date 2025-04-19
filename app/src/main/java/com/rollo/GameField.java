@@ -49,7 +49,7 @@ public class GameField extends AppCompatActivity {
 
         View blackoutView = findViewById(R.id.blackoutView);
         blackoutView.post(() -> {
-            animManager.startRevealAnimation(blackoutView, this);
+            animManager.startRevealAnimation(blackoutView);
         });
 
         result = findViewById(R.id.result);

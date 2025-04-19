@@ -178,7 +178,7 @@ public class EventListener {
      */
     public void menuTransition() {
         blackoutView.setVisibility(View.VISIBLE);
-        animManager.rollDice(diceImageView, blackoutView, mainActivity);
+        animManager.rollDice(diceImageView, blackoutView);
     }//menuTransition
 
     /**

@@ -21,6 +21,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import java.util.Random;
 
 public class AnimationManager {
@@ -74,18 +76,18 @@ public class AnimationManager {
 
             circularReveal.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animation) {}//onAnimationStart
+                public void onAnimationStart(@NonNull Animator animation) {}//onAnimationStart
 
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnimationEnd(@NonNull Animator animation) {
                     MainActivity.moveToGame(mainActivity);
                 }//onAnimationEnd
 
                 @Override
-                public void onAnimationCancel(Animator animation) {}//onAnimationCancel
+                public void onAnimationCancel(@NonNull Animator animation) {}//onAnimationCancel
 
                 @Override
-                public void onAnimationRepeat(Animator animation) {}//onAnimationRepeat
+                public void onAnimationRepeat(@NonNull Animator animation) {}//onAnimationRepeat
             });
 
             circularReveal.start();
@@ -99,7 +101,7 @@ public class AnimationManager {
     }//startBlackoutAnimation
 
 
-    protected void startRevealAnimation(View blackoutView, Context context) {
+    protected void startRevealAnimation(View blackoutView) {
         final int ANIM_DURATION = 500;  // Duration in milliseconds
 
         // Using .post() ensures that blackoutView has been laid out and its dimensions are available
@@ -118,20 +120,20 @@ public class AnimationManager {
 
             circularReveal.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animation) {
+                public void onAnimationStart(@NonNull Animator animation) {
                     blackoutView.setVisibility(View.VISIBLE);
                 }//onAnimationStart
 
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnimationEnd(@NonNull Animator animation) {
                     blackoutView.setVisibility(View.GONE);
                 }//onAnimationEnd
 
                 @Override
-                public void onAnimationCancel(Animator animation) {} //onAnimationCancel
+                public void onAnimationCancel(@NonNull Animator animation) {} //onAnimationCancel
 
                 @Override
-                public void onAnimationRepeat(Animator animation) {} //onAnimationRepeat
+                public void onAnimationRepeat(@NonNull Animator animation) {} //onAnimationRepeat
             });
 
             circularReveal.start();
@@ -141,7 +143,7 @@ public class AnimationManager {
     /**
      * Animates a dice roll
      */
-    public void rollDice(View diceImageView, View blackoutView, Context context) {
+    public void rollDice(View diceImageView, View blackoutView) {
         // Step 1: Rotate Animation
         ObjectAnimator rotateX = ObjectAnimator.ofFloat(diceImageView, "rotationX", 0f, 455f);
         ObjectAnimator rotateY = ObjectAnimator.ofFloat(diceImageView, "rotationY", 0f, 455f);
@@ -174,7 +176,7 @@ public class AnimationManager {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         // Step 4: Start circular reveal
-                        startRevealAnimation(blackoutView, context);
+                        startRevealAnimation(blackoutView);
                     }
 
                     @Override
