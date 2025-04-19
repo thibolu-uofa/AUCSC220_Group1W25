@@ -12,18 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Rollo"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".GameField">
-        </activity>
+        <activity android:name=".GameField" />
+
     </application>
 
 </manifest>

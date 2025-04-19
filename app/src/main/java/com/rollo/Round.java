@@ -1,6 +1,10 @@
 /**
  * The Round class handles all the attributes of the game's round system, from round number to
  * the score threshold generation.
+ *
+ * @authors - Timi Aina & Jesse Maeko
+ * @version - 1.0
+ * @date - April 08, 2025
  */
 
 package com.rollo;
@@ -24,10 +28,9 @@ public class Round {
     protected int numOfRerolls;
     protected int roundNum;
     protected double threshold;
-    private final int maxRound;
 
-    /*
-     Constructor
+    /**
+     * Constructor to initialize the Round object.
      */
     public Round() {
         this.score = 0;
@@ -35,23 +38,22 @@ public class Round {
         this.numOfRerolls = DEFAULT_REROLLS;
         this.roundNum = START_ROUND;
         this.threshold = STARTING_THRESHOLD;
-        this.maxRound = MAX_ROUND;
-    }
+    }//Round
 
-    /*
-     Advance to the next round
+    /**
+     Advances the game to the next round.
      */
     public void setNextRound() {
-        if (roundNum >= maxRound) return;
+        if (roundNum >= MAX_ROUND) return;
 
         this.score = 0;
         this.numOfHands = DEFAULT_HANDS;
         this.numOfRerolls = DEFAULT_REROLLS;
         this.roundNum += 1;
         setThreshold(); // Might want to adjust in future
-    }
+    }//setNextRound
 
-    /*
+    /**
      Checks whether the score threshold has been reached.
      */
     public boolean isThresholdReached() {
@@ -61,19 +63,19 @@ public class Round {
             //GameField.enableButtons(true);
             setNextRound();
             return true;
-        }
+        }//if-statement
         return false;
-    }//chec
+    }//isThresholdReached
 
-    /*
-     Checks whether the game is finished
+    /**
+     Checks whether the game is finished.
      */
     public boolean isGameFinished() {
-        return roundNum > maxRound;
+        return roundNum > MAX_ROUND;
     }//isGameFinished
 
-    /*
-     Applies end-game logic
+    /**
+     Applies end-game logic.
      */
     public void handleGameFinish() {
         if (isGameFinished()) {
@@ -82,24 +84,22 @@ public class Round {
         }//if-statement
     }//handleGameFinish
 
-    /*
-     Increases score threshold for next round
+    /**
+     Increases score threshold for next round.
      */
     public void setThreshold() {
         this.threshold *= THRESHOLD_MULT;
     }//setThreshold
 
     // Optional getters
-    public int getScore() { return score; }
+    public int getScore() { return score; }//getScore
 
-    public int getRoundNum() { return roundNum; }
+    public int getRoundNum() { return roundNum; }//getRoundNum
 
-    public double getThreshold() { return threshold; }
+    public double getThreshold() { return threshold; }//getThreshold
 
-    public int getMaxRound() { return maxRound; }
+    public int getNumOfHands() { return numOfHands; }//getNumOfHands
 
-    public int getNumOfHands() { return numOfHands; }
-
-    public int getNumOfRerolls() { return numOfRerolls; }
+    public int getNumOfRerolls() { return numOfRerolls; }//getNumOfRerolls
 
 }//Round

@@ -3,6 +3,8 @@ package com.rollo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameField extends AppCompatActivity {
+    private AnimationManager animManager;
     private ImageView imageView1, imageView2;
     private boolean clickedStart = false;
     private int imageWidth;
@@ -38,16 +41,19 @@ public class GameField extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_field);
+
+        animManager = new AnimationManager(this);
+
+        ImageView gameBackground = findViewById(R.id.gameBackground);
+        gameBackground.startAnimation(animManager.waveAnim);
+
+        View blackoutView = findViewById(R.id.blackoutView);
+        blackoutView.post(() -> {
+            animManager.startRevealAnimation(blackoutView, this);
+        });
+
         result = findViewById(R.id.result);
         hands = new HandTypeManager();
-        imageView1 = findViewById(R.id.imageView1);
-        imageView2 = findViewById(R.id.imageView2);
-        imageView1.post(() -> {
-            imageWidth = imageView1.getWidth();
-            imageView1.setX(0);
-            imageView2.setX(imageWidth);
-            startScrolling();
-        });
 
         sixDie = new Dice[]{new Dice(), new Dice(), new Dice(),
                 new Dice(), new Dice(), new Dice()};

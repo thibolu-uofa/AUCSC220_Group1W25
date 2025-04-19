@@ -1,8 +1,18 @@
+/**
+ * The Main Activity class handles all AppCompatActivity related tasks while initializing UI,
+ * animations, and transitions to the game screen.
+ *
+ * @authors - Timi Aina, Jesse Maeko, & Brett Siemens
+ * @version - 1.0
+ * @date - April 08, 2025
+ */
+
 package com.rollo;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.metrics.Event;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,39 +27,60 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EventListener listener;
     private MediaPlayer mp;
+    private AnimationManager animManager;
 
+    /**
+     * Performs essential setup tasks when the activity is created.
+     *
+     * @param savedInstanceState - holds the last saved state of the activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        mp = MediaPlayer.create(this, R.raw.hopeful);
-        mp.start();
-        mp.setLooping(true);
-
-        //Gets the background From image view
-        ImageView gameBackground = findViewById(R.id.background);
-
-        Animation waveAnimation = AnimationUtils.loadAnimation(this, R.anim.wave);
-
-        gameBackground.startAnimation(waveAnimation);
+        init(); // Initialize menu components
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        new EventListener(this);
-    }
+    }//onCreate
 
+    /**
+     * Initializes the main components (transitions, animations, background music) for the main menu
+     * activity.
+     */
+    private void init() {
+        listener = new EventListener(this);
+        animManager = new AnimationManager(this);
+        //listener.menuTransition();
+
+        // Start menu background music playing and looping
+        mp = MediaPlayer.create(this, R.raw.hopeful);
+        mp.start();
+        mp.setLooping(true);
+
+        ImageView menuBackground = findViewById(R.id.background);
+        menuBackground.startAnimation(animManager.waveAnim);
+    }//init
+
+
+    /**
+     * Moves the user from the main menu activity to the game activity.
+     *
+     * @param context - the application context
+     */
     protected static void moveToGame(Context context) {
         Intent intent = new Intent(context, GameField.class);
         context.startActivity(intent);
 
         if (context instanceof Activity) {
-            ((Activity) context).finish(); // Close current activity
+            ((Activity) context).finish(); // Close main menu activity
         }//if statement
     }//moveToGame
-}
+}//MainActivity

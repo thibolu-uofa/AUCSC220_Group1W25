@@ -2,10 +2,17 @@
  * The Dice class represents a customizable die with a type, pip colour, and possible sides.
  * This class involves rolling the die to select a random side, retrieving its current side,
  * and modifying both attributes the possible sides of the die and the pip colour.
+ *
+ * @author - Timi Aina
+ * @version - 1.0
+ * @date - April 08, 2025
  */
 
 package com.rollo;
 
+import androidx.annotation.NonNull;
+
+import java.util.Arrays;
 import java.util.Random;
 
 public class Dice {
@@ -26,9 +33,9 @@ public class Dice {
 
     /**
      * Constructor to initialize the Dice object.
-     * @param diceType The type of the die.
-     * @param pipColour The colour of the pips.
-     * @param possibleSides The array of the die's possible sides.
+     * @param diceType - the type of the die.
+     * @param pipColour - the colour of the pips.
+     * @param possibleSides - the array of the die's possible sides.
      */
     public Dice(String diceType, String pipColour, int[] possibleSides) {
         this.diceType = diceType;
@@ -67,7 +74,7 @@ public class Dice {
 
     /**
      * Sets the type of the die.
-     * @param diceType The new die type.
+     * @param diceType - the new die type.
      */
     public void setDiceType(String diceType) {
         this.diceType = diceType;
@@ -75,7 +82,7 @@ public class Dice {
 
     /**
      * Sets the pip colour of the die.
-     * @param pipColour The new pip colour.
+     * @param pipColour - the new pip colour.
      */
     public void setPipColour(String pipColour) {
         this.pipColour = pipColour;
@@ -83,7 +90,7 @@ public class Dice {
 
     /**
      * Sets new possible sides for the die.
-     * @param possibleSides An array of new possible sides.
+     * @param possibleSides - an array of new possible sides.
      */
     public void setPossibleSides(int[] possibleSides) {
         this.possibleSides = possibleSides;
@@ -97,5 +104,12 @@ public class Dice {
         currentSide = possibleSides[rand.nextInt(possibleSides.length)];
         return currentSide;
     }//getRandomSide
+
+    @NonNull
+    @Override
+    public String toString() {
+        return currentSide + " (" + diceType + ", " + pipColour + ", " +
+                Arrays.toString(possibleSides) + ")";
+    }//toString
 }//Dice
 
