@@ -281,6 +281,34 @@ public class Continue {
         }
     }
 
+    public void setHandtype(Context context, List<HandType> handTypes) {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+
+            // Read the current userdata
+            UserData data;
+            try (FileReader reader = new FileReader(file)) {
+                data = gson.fromJson(reader, UserData.class);
+            }
+
+            // Update the plays
+            if (data != null && data.getGameState() != null) {
+                data.setHandTypes(handTypes);
+
+
+                // Write it back
+                try (FileWriter writer = new FileWriter(file)) {
+                    gson.toJson(data, writer);
+                    Log.d("CONTINUE", "Handtypes are: " + data.getHandTypes());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("CONTINUE", "Failed to handtypes", e);
+        }
+    }
+
     public void resetToDefaults(Context context) {
         File file = new File(context.getFilesDir(), FILENAME);
 
