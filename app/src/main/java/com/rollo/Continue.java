@@ -22,7 +22,6 @@ public class Continue {
         InputStream inputStream = context.getResources().openRawResource(R.raw.userdata);
     }
 
-
     public List<HandType> getHandTypesFromJson() {
         try {
             File file = new File(context.getFilesDir(), FILENAME);
@@ -281,7 +280,7 @@ public class Continue {
         }
     }
 
-    public void setHandtype(Context context, List<HandType> handTypes) {
+    public void setHandtypes(Context context, List<HandType> handTypes) {
         try {
             File file = new File(context.getFilesDir(), FILENAME);
             Gson gson = new Gson();

@@ -2,14 +2,14 @@ package com.rollo;
 
 import android.content.Context;
 
-public class Gemstone extends Upgrade {
+public class Combo extends Upgrade {
     private HandTypeManager manager;
 
-    public Gemstone() {
+    public Combo() {
         this.manager = new HandTypeManager();
     }
 
-    public Gemstone(HandTypeManager manager){
+    public Combo(HandTypeManager manager){
         this.manager = manager;
     }
 
@@ -23,5 +23,6 @@ public class Gemstone extends Upgrade {
 
     public void setToJson(Context context){
         Continue cont = new Continue(context);
+        cont.setHandtypes(context, manager.getAllHands());
     }
 }

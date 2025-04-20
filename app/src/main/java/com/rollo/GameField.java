@@ -140,6 +140,9 @@ public class GameField extends AppCompatActivity {
 
         TextView handLimitText = findViewById(R.id.handLimitText);
         handLimitText.setText(String.valueOf(playsLeft));
+
+        Combo upgrade = new Combo(hands);
+        upgrade.upgradeHandType("Two Pair");
     }
 
     public void play(View myView) {
