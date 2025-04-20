@@ -53,6 +53,7 @@ public class GameField extends AppCompatActivity {
         pipCount = findViewById(R.id.pipsText);
         multCount = findViewById(R.id.multText);
         scoreDisplay = findViewById(R.id.roundScore);
+        threshold = findViewById(R.id.threshold);
         hands = new HandTypeManager();
         continueReader = new Continue(this);
         List<HandType> handTypes = continueReader.getHandTypesFromJson();
@@ -111,6 +112,7 @@ public class GameField extends AppCompatActivity {
 
     public void start(View view) {
         TextView clicked = (TextView) view;
+
         if (!clickedStart) {
             if (sixTextDie == null) {
                 sixTextDie = getAllTheDice();
@@ -127,13 +129,21 @@ public class GameField extends AppCompatActivity {
             clicked.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View myView) {play(myView);}
-
             });
         }
+
+        playsLeft = continueReader.getPlaysFromJson();
+        rerollsLeft = continueReader.getRerollFromJson();
+
+        TextView rerollCounter = findViewById(R.id.rerollCounter);
+        rerollCounter.setText(String.valueOf(rerollsLeft));
+
+        TextView handLimitText = findViewById(R.id.handLimitText);
+        handLimitText.setText(String.valueOf(playsLeft));
     }
 
     public void play(View myView) {
-        if (amountSelected >= 1 && amountSelected <= 5) {
+        if (amountSelected >= 1 && amountSelected <= 5 && playsLeft > 0) {
             ArrayList<Integer> selectedValues = updateDiceArray();
             HashMap<Integer, Integer> scoring = new HashMap<>();
             for (int i = 1; i <= 6; i++) scoring.put(i, 0);
@@ -147,8 +157,37 @@ public class GameField extends AppCompatActivity {
             result.setText("");
             playScore = hand.getPips() * hand.getMult();
             roundScore += playScore;
+            continueReader.setCurrentScore(this, roundScore);
             scoreDisplay.setText(String.valueOf(roundScore));
+
+            playsLeft--;
+            continueReader.setPlays(this, playsLeft);
+            TextView handLimitText = findViewById(R.id.handLimitText);
+            handLimitText.setText(String.valueOf(playsLeft));
+
+            if (continueReader.getScoreToBeatFromJson() < roundScore){
+                continueReader.setHighScore(this);
+                openShop(this);
+            }
+
         }
+
+    }
+
+    private void openShop(Context context) {
+        Intent intent = new Intent(context, ShopPage.class);
+        context.startActivity(intent);
+        finish();
+    }
+
+
+    public void resetAllDice(){
+
+        for (int i = 0; i < selectedTextDie.length; i++){
+            selectedTextDie[i] = true;
+        }
+        amountSelected = selectedTextDie.length;
+        resetSelectedDice();
     }
 
     private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {
@@ -168,35 +207,27 @@ public class GameField extends AppCompatActivity {
         if (hasLargeStraight(uniqueValues)) {
             return hands.getHandByName("Large Straight");
         }
-
         if (hasSmallStraight(uniqueValues)) {
             return hands.getHandByName("Small Straight");
         }
-
         if (frequencies.get(0) == 5) {
             return hands.getHandByName("Yahtzee");
         }
-
         else if (frequencies.get(0) == 4) {
             return hands.getHandByName("Four of a Kind");
         }
-
         else if (frequencies.get(0) == 3 && frequencies.get(1) == 2) {
             return hands.getHandByName("Full House");
         }
-
         else if (frequencies.get(0) == 3) {
             return hands.getHandByName("Three of a Kind");
         }
-
         else if (frequencies.get(0) == 2 && frequencies.get(1) == 2) {
             return hands.getHandByName("Two Pair");
         }
-
         else if (frequencies.get(0) == 2) {
             return hands.getHandByName("Pair");
         }
-
         else {
             return hands.getHandByName("High Die");
         }
@@ -267,10 +298,11 @@ public class GameField extends AppCompatActivity {
 
             }
             catch (Exception e) {
-                System.out.println("Selection error: " + e.getMessage());
+                Log.d("Failure","Failure in selecting dice");
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
 
+            //Should be its own method
             HashMap<Integer, Integer> scoring = new HashMap<>();
             ArrayList<Integer> selectedValues = updateDiceArray();
             for (int i = 1; i <= 6; i++) scoring.put(i, 0);
@@ -279,6 +311,7 @@ public class GameField extends AppCompatActivity {
                     scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
                 }
             }
+            //should be its own method
             HandType hand = determineHandType(selectedValues, scoring);
             result.setText(hand.getName());
             pipCount.setText(String.valueOf(hand.getPips()));
@@ -296,15 +329,24 @@ public class GameField extends AppCompatActivity {
     }
 
     public void rerollAllDice(View myView){
-        if(clickedStart){
+        if(clickedStart && rerollsLeft > 0){
+            boolean anyRerolled = false;
             for (int i = 0; i < sixTextDie.length; i++) {
                 if (selectedTextDie[i]){
                     rerollDice(sixTextDie[i]);
                     sixTextDie[i].setBackgroundResource(
                             getResources().getIdentifier("dice_" + sixValues[i], "drawable", getPackageName()));
                     selectedTextDie[i] = false;
-                    amountSelected = 0;
+                    anyRerolled = true;
                 }
+            }
+
+            if (anyRerolled){
+                amountSelected = 0;
+                rerollsLeft--;
+                continueReader.setRerolls(this, rerollsLeft);
+                TextView rerollCounter = findViewById(R.id.rerollCounter);
+                rerollCounter.setText(String.valueOf(rerollsLeft));
             }
         }
     }
