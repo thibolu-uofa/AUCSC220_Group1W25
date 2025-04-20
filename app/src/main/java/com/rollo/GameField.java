@@ -177,6 +177,7 @@ public class GameField extends AppCompatActivity {
     private void openShop(Context context) {
         Intent intent = new Intent(context, ShopPage.class);
         context.startActivity(intent);
+        continueReader.setScoreToBeat(this);
         finish();
     }
 
