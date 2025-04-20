@@ -263,9 +263,9 @@ public class Continue {
                 data = gson.fromJson(reader, UserData.class);
             }
 
-            // Update the plays
+            // Update the rerolls
             if (data != null && data.getGameState() != null) {
-                data.getGameState().setPlays(amount);
+                data.getGameState().setRerolls(amount);
 
 
                 // Write it back
