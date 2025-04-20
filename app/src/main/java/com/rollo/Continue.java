@@ -166,33 +166,6 @@ public class Continue {
         }
     }
 
-    public void setScoreToBeat(Context context) {
-        try {
-            File file = new File(context.getFilesDir(), FILENAME);
-            Gson gson = new Gson();
-
-            // Read the current userdata
-            UserData data;
-            try (FileReader reader = new FileReader(file)) {
-                data = gson.fromJson(reader, UserData.class);
-            }
-
-            // Update the Score to Beat
-            if (data != null && data.getGameState() != null) {
-                data.getGameState().setScoreToBeat(data.getGameState().getScoreToBeat() + 100);
-
-                // Write it back
-                try (FileWriter writer = new FileWriter(file)) {
-                    gson.toJson(data, writer);
-                    Log.d("CONTINUE", "Score to beat is: " + data.getGameState().getCurrentScore());
-                }
-            }
-
-        } catch (Exception e) {
-            Log.e("CONTINUE", "Failed to setCurrentScore", e);
-        }
-    }
-
     public void setRounds(Context context, int amount) {
         try {
             File file = new File(context.getFilesDir(), FILENAME);
