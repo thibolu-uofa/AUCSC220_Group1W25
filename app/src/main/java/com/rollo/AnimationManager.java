@@ -57,7 +57,7 @@ public class AnimationManager {
      * @param blackoutView - the pitch black view the blackout animation utilizes
      * @param mainActivity - the main menu activity
      */
-    protected void startBlackoutAnimation(View blackoutView, MainActivity mainActivity) {
+    protected void startBlackoutAnimation(View blackoutView, MainActivity mainActivity, boolean startNewGame) {
         final int ANIM_DURATION = 500;
 
         blackoutView.setAlpha(0f); // Initially transparent
@@ -80,7 +80,11 @@ public class AnimationManager {
 
                 @Override
                 public void onAnimationEnd(@NonNull Animator animation) {
-                    MainActivity.moveToGame(mainActivity);
+                    if (startNewGame) {
+                        MainActivity.newGame(mainActivity);
+                    } else {
+                        MainActivity.moveToGame(mainActivity);
+                    }
                 }//onAnimationEnd
 
                 @Override
@@ -101,6 +105,11 @@ public class AnimationManager {
     }//startBlackoutAnimation
 
 
+    /**
+     * Starts a circular reveal animation on a pitch black view for a specified duration.
+     *
+     * @param blackoutView - the pitch black view the blackout animation utilizes
+     */
     protected void startRevealAnimation(View blackoutView) {
         final int ANIM_DURATION = 500;  // Duration in milliseconds
 
@@ -190,7 +199,6 @@ public class AnimationManager {
         // Start the rotation animation
         rotateSet.start();
     }
-
 
     private void updateDiceFace(View diceImageView, int diceNumber) {
         if (diceImageView instanceof ImageView) {

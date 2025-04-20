@@ -16,10 +16,10 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Dice {
-    private String diceType;
-    private String pipColour;
-    private int[] possibleSides;
-    private int currentSide;
+    protected String diceType;
+    protected String pipColour;
+    protected int[] possibleSides;
+    protected int currentSide;
 
     /**
      * Default constructor to initialize the Dice object.

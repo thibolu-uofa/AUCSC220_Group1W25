@@ -12,8 +12,8 @@ package com.rollo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.metrics.Event;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -27,9 +27,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EventListener listener;
     private MediaPlayer mp;
-    private AnimationManager animManager;
 
     /**
      * Performs essential setup tasks when the activity is created.
@@ -44,20 +42,22 @@ public class MainActivity extends AppCompatActivity {
 
         init(); // Initialize menu components
 
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-    }//onCreate
+        new EventListener(this);
+    }
 
     /**
      * Initializes the main components (transitions, animations, background music) for the main menu
      * activity.
      */
     private void init() {
-        listener = new EventListener(this);
-        animManager = new AnimationManager(this);
+        EventListener listener = new EventListener(this);
+        AnimationManager animManager = new AnimationManager(this);
         //listener.menuTransition();
 
         // Start menu background music playing and looping
@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         menuBackground.startAnimation(animManager.waveAnim);
     }//init
 
+    public static void newGame(Context context){
+        Continue obj = new Continue(context);
+        obj.copyJsonToInternalStorageIfNeeded(context);
+
+        obj.resetToDefaults(context);
+        moveToGame(context);
+    }//newGame
 
     /**
      * Moves the user from the main menu activity to the game activity.
@@ -80,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         context.startActivity(intent);
 
         if (context instanceof Activity) {
-            ((Activity) context).finish(); // Close main menu activity
+            ((Activity) context).finish(); // Close current activity
         }//if statement
     }//moveToGame
-}//MainActivity
+}

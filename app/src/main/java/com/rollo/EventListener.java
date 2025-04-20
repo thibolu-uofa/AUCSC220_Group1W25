@@ -104,8 +104,8 @@ public class EventListener {
      * Sets up all the event listeners for the buttons in the main menu activity.
      */
     private void setUpMenuListeners(){
-        loadGameButton.setOnClickListener(v -> playGameTransition());
-        newGameButton.setOnClickListener(v -> playGameTransition());
+        loadGameButton.setOnClickListener(v -> loadGameTransition());
+        newGameButton.setOnClickListener(v -> newGameTransition());
         tutorialButton.setOnClickListener(v -> showOverlay(tutorialView, tutorialBackButton,
                 animManager.slideUpAnim));
         creditsButton.setOnClickListener(v -> showOverlay(creditsView, creditsBackButton,
@@ -182,10 +182,20 @@ public class EventListener {
     }//menuTransition
 
     /**
-     * Transition the user from the main menu activity to the game activity.
+     * Loads a new game as the user is transitioned from the main menu activity to the game
+     * activity.
      */
-    public void playGameTransition() {
+    public void newGameTransition() {
 
-        animManager.startBlackoutAnimation(blackoutView, mainActivity);
-        }//playGameTransition
+        animManager.startBlackoutAnimation(blackoutView, mainActivity, true);
+    }//newGameTransition
+
+    /**
+     * Loads an existing game as the user is transitioned from the main menu activity to the game
+     * activity.
+     */
+    public void loadGameTransition() {
+
+        animManager.startBlackoutAnimation(blackoutView, mainActivity, false);
+    }//loadGameTransition
 }//EventListener

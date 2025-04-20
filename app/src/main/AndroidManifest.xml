@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Rollo"
         tools:targetApi="31">
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -22,8 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameField" />
-
+        <activity
+            android:name=".GameField">
+        </activity>
+        <activity android:name=".Shop">
+        </activity>
+        <activity android:name=".ShopPage">
+        </activity>
     </application>
 
 </manifest>
