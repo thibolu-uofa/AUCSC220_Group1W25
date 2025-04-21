@@ -6,16 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
-import android.animation.ValueAnimator;
-import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
-
-import java.util.HashMap;
 
 import java.util.ArrayList;
 import java.util.Collections;

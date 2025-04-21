@@ -81,13 +81,13 @@ public class AnimationManager {
                 @Override
                 public void onAnimationEnd(@NonNull Animator animation) {
                     if (nextState.equals("load")) {
-                        MainActivity.newGame(mainActivity);
+                        MainActivity.moveToGame(mainActivity);
                     }
                     else if (nextState.equals("return")) {
                         GameField.openMenuAgain(gameField); // Changed to use gameField context
                     }
                     else if (nextState.equals("new")) {
-                        MainActivity.moveToGame(mainActivity);
+                        MainActivity.newGame(mainActivity);
                     }
                 }
 
