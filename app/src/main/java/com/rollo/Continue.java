@@ -166,7 +166,7 @@ public class Continue {
         }
     }
 
-    public void setScoreToBeat(Context context) {
+    public void setScoreToBeat(Context context, int amount) {
         try {
             File file = new File(context.getFilesDir(), FILENAME);
             Gson gson = new Gson();
@@ -179,7 +179,7 @@ public class Continue {
 
             // Update the Score to Beat
             if (data != null && data.getGameState() != null) {
-                data.getGameState().setScoreToBeat(data.getGameState().getScoreToBeat() + 100);
+                data.getGameState().setScoreToBeat(amount);
 
                 // Write it back
                 try (FileWriter writer = new FileWriter(file)) {

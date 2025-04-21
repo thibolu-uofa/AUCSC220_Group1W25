@@ -8,6 +8,7 @@
     android:screenOrientation="landscape"
     tools:context=".GameField">
 
+
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
@@ -44,11 +45,13 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="267dp"
-        android:layout_height="121dp"
-        android:background="@drawable/box"
+        android:layout_width="270dp"
+        android:layout_height="122dp"
+        android:layout_marginTop="8dp"
 
+        android:background="@drawable/box"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,39 +103,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/PauseBar1"
-        android:layout_width="9dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/box"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.114"
-        app:layout_constraintStart_toStartOf="@+id/imageView1"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
 
     <TextView
-        android:id="@+id/PauseBar2"
-        android:layout_width="9dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/box"
+        android:id="@+id/MainMenu"
+        android:layout_width="47dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/arrow_left"
+        android:onClick="openMenu"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.226"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
-
-    <Button
-        android:id="@+id/PauseMenu"
-        android:layout_width="43dp"
-        android:layout_height="38dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.103"
-        app:layout_constraintStart_toStartOf="@+id/imageView1"
-        app:layout_constraintTop_toTopOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/ScoreSurround"
@@ -145,7 +127,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="@+id/imageView1"
-        app:layout_constraintTop_toBottomOf="@+id/PauseBar1"
+        app:layout_constraintTop_toBottomOf="@+id/MainMenu"
         app:layout_constraintVertical_bias="0.418" />
 
     <TextView
@@ -364,11 +346,61 @@
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
+    <TextView
+        android:id="@+id/painting2"
+        android:layout_width="48dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="selectedPainting"
+        android:background="@drawable/dashed_line"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/painting3"
+        android:layout_width="48dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/dashed_line"
+        android:onClick="selectedPainting"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.675"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/painting4"
+        android:layout_width="48dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/dashed_line"
+        android:onClick="selectedPainting"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/painting1"
+        android:layout_width="48dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/dashed_line"
+        android:onClick="selectedPainting"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
+
     <View
         android:id="@+id/blackoutView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="10dp"
         android:background="@color/black" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

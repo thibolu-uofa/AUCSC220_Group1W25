@@ -1,5 +1,6 @@
 package com.rollo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,9 +22,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class GameField extends AppCompatActivity {
+    //External files to help run game
     private AnimationManager animManager;
+    private Continue continueReader;
+    private HandTypeManager hands;
+
+    //Round Specific
     private boolean clickedStart = false;
-    private int imageWidth;
     private int playScore;
     private int rerollsLeft;
     private int playsLeft;
@@ -36,14 +41,17 @@ public class GameField extends AppCompatActivity {
     private Dice[] sixDie;
     private TextView[] sixTextDie;
 
-    private Continue continueReader;
 
-    private HandTypeManager hands;
 
     private int amountSelected = 0;
     private final int[] sixValues = new int[]{0,0,0,0,0,0};
     private final boolean[] selectedTextDie = new boolean[]{false, false, false,
             false, false, false};
+
+    //Paintings
+    private TextView firstSelectedPainting = null;
+    private int paintingsSelected = 0;
+    private String[] paintings = new String[4]; // Your painting names array
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +92,7 @@ public class GameField extends AppCompatActivity {
         for (int i = 0; i < sixTextDie.length; i++) {
             sixTextDie[i].setBackgroundResource(R.drawable.dice_1);
         }
-
+        new EventListener(this);
     }
 
     public void rerollDice(View view) {
@@ -144,15 +152,8 @@ public class GameField extends AppCompatActivity {
 
     public void play(View myView) {
         if (amountSelected >= 1 && amountSelected <= 5 && playsLeft > 0) {
-            ArrayList<Integer> selectedValues = updateDiceArray();
-            HashMap<Integer, Integer> scoring = new HashMap<>();
-            for (int i = 1; i <= 6; i++) scoring.put(i, 0);
-            for (int i = 0; i < selectedValues.size(); i++) {
-                if (scoring.containsKey(selectedValues.get(i))) {
-                    scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
-                }
-            }
-            HandType hand = determineHandType(selectedValues, scoring);
+            PaintingAndScoring scored = new PaintingAndScoring(hands);
+            HandType hand = scored.scoring(updateDiceArray());
             resetSelectedDice();
             result.setText("");
             playScore = hand.getPips() * hand.getMult();
@@ -174,96 +175,29 @@ public class GameField extends AppCompatActivity {
 
     }
 
+    public static void openMenu(GameField gameField) {
+        View blackoutView = gameField.findViewById(R.id.blackoutView);
+        AnimationManager animManager = new AnimationManager(gameField);
+
+        // Start the radial reveal animation
+        animManager.startBlackoutAnimation(blackoutView, null, "return", gameField);
+    }
+
+    public static void openMenuAgain(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
+    }
+
     private void openShop(Context context) {
         Intent intent = new Intent(context, ShopPage.class);
         context.startActivity(intent);
-        continueReader.setScoreToBeat(this);
+        continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
         finish();
     }
-
-
-    public void resetAllDice(){
-
-        for (int i = 0; i < selectedTextDie.length; i++){
-            selectedTextDie[i] = true;
-        }
-        amountSelected = selectedTextDie.length;
-        resetSelectedDice();
-    }
-
-    private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {
-        ArrayList<Integer> frequencies = new ArrayList<>(scoring.values());
-        Collections.sort(frequencies, Collections.reverseOrder());
-
-        System.out.println("Selected values: " + selectedValues);
-        System.out.println("Frequencies: " + frequencies);
-
-        ArrayList<Integer> uniqueValues = new ArrayList<>();
-        for (int i = 0; i < selectedValues.size(); i++) {
-            if (i == 0 || !selectedValues.get(i).equals(selectedValues.get(i - 1))) {
-                uniqueValues.add(selectedValues.get(i));
-            }
-        }
-
-        if (hasLargeStraight(uniqueValues)) {
-            return hands.getHandByName("Large Straight");
-        }
-        if (hasSmallStraight(uniqueValues)) {
-            return hands.getHandByName("Small Straight");
-        }
-        if (frequencies.get(0) == 5) {
-            return hands.getHandByName("Yahtzee");
-        }
-        else if (frequencies.get(0) == 4) {
-            return hands.getHandByName("Four of a Kind");
-        }
-        else if (frequencies.get(0) == 3 && frequencies.get(1) == 2) {
-            return hands.getHandByName("Full House");
-        }
-        else if (frequencies.get(0) == 3) {
-            return hands.getHandByName("Three of a Kind");
-        }
-        else if (frequencies.get(0) == 2 && frequencies.get(1) == 2) {
-            return hands.getHandByName("Two Pair");
-        }
-        else if (frequencies.get(0) == 2) {
-            return hands.getHandByName("Pair");
-        }
-        else {
-            return hands.getHandByName("High Die");
-        }
-    }
-
-    private boolean hasLargeStraight(ArrayList<Integer> values) {
-        for (int i = 0; i <= values.size() - 5; i++) {
-            int count = 1;
-            for (int j = i + 1; j < values.size(); j++) {
-                if (values.get(j) == values.get(j - 1) + 1) {
-                    count++;
-                    if (count == 5) return true;
-                } else if (values.get(j) != values.get(j - 1)) {
-                    break; // sequence broken
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean hasSmallStraight(ArrayList<Integer> values) {
-        for (int i = 0; i <= values.size() - 4; i++) {
-            int count = 1;
-            for (int j = i + 1; j < values.size(); j++) {
-                if (values.get(j) == values.get(j - 1) + 1) {
-                    count++;
-                    if (count == 4) return true;
-                } else if (values.get(j) != values.get(j - 1)) {
-                    break; // sequence broken
-                }
-            }
-        }
-        return false;
-    }
-
     public void resetSelectedDice(){
         for (int i = 0; i < sixTextDie.length; i++) {
             if (selectedTextDie[i]){
@@ -304,16 +238,10 @@ public class GameField extends AppCompatActivity {
             }
 
             //Should be its own method
-            HashMap<Integer, Integer> scoring = new HashMap<>();
-            ArrayList<Integer> selectedValues = updateDiceArray();
-            for (int i = 1; i <= 6; i++) scoring.put(i, 0);
-            for (int i = 0; i < selectedValues.size(); i++) {
-                if (scoring.containsKey(selectedValues.get(i))) {
-                    scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
-                }
-            }
+            PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
             //should be its own method
-            HandType hand = determineHandType(selectedValues, scoring);
+            HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
+                    paintingAndScoring.getScoring(updateDiceArray()));
             result.setText(hand.getName());
             pipCount.setText(String.valueOf(hand.getPips()));
             multCount.setText(String.valueOf(hand.getMult()));
@@ -371,5 +299,62 @@ public class GameField extends AppCompatActivity {
         Collections.sort(selectedValues); // Sort in ascending order
 
         return selectedValues;
+    }
+
+    // Class level variables to track selections
+
+
+    public void selectedPainting(View view) {
+        TextView clicked = (TextView) view;
+
+        // If already selected, deselect it
+        if (clicked.getBackground() != null &&
+                clicked.getBackground().getConstantState() ==
+                        getResources().getDrawable(R.drawable.selected_dash_line).getConstantState()) {
+            clicked.setBackgroundResource(R.drawable.dashed_line); // Or set to default background
+            paintingsSelected--;
+            if (firstSelectedPainting == clicked) {
+                firstSelectedPainting = null;
+            }
+            return;
+        }
+
+        // First selection
+        if (paintingsSelected == 0) {
+            clicked.setBackgroundResource(R.drawable.selected_dash_line);
+            firstSelectedPainting = clicked;
+            paintingsSelected = 1;
+        }
+        // Second selection - perform swap
+        else if (paintingsSelected == 1) {
+            // Get indices of selected paintings
+            int firstIndex = getPaintingIndex(firstSelectedPainting);
+            int secondIndex = getPaintingIndex(clicked);
+
+            // Swap the painting names/text
+            String temp = paintings[firstIndex];
+            paintings[firstIndex] = paintings[secondIndex];
+            paintings[secondIndex] = temp;
+
+            // Update the TextViews
+
+
+            // Reset selection states
+            firstSelectedPainting.setBackgroundResource(R.drawable.dashed_line);
+            clicked.setBackgroundResource(R.drawable.dashed_line);
+            firstSelectedPainting = null;
+            paintingsSelected = 0;
+        }
+    }
+
+    private int getPaintingIndex(TextView paintingView) {
+        int viewId = paintingView.getId(); // Returns the resource ID (e.g., R.id.dice1)
+        String idName = getResources().getResourceEntryName(viewId); // "dice1"
+        for (int i = 1; i < paintings.length + 1; i++) {
+            if (idName.equals("painting" + i)) {
+                return i;
+            }
+        }
+        return -1; // Not found
     }
 }

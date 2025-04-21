@@ -57,11 +57,11 @@ public class AnimationManager {
      * @param blackoutView - the pitch black view the blackout animation utilizes
      * @param mainActivity - the main menu activity
      */
-    protected void startBlackoutAnimation(View blackoutView, MainActivity mainActivity, boolean startNewGame) {
+    protected void startBlackoutAnimation(View blackoutView, MainActivity mainActivity, String nextState, GameField gameField) {
         final int ANIM_DURATION = 500;
 
-        blackoutView.setAlpha(0f); // Initially transparent
-        blackoutView.setVisibility(View.VISIBLE); // Set visible before animating
+        blackoutView.setAlpha(0f);
+        blackoutView.setVisibility(View.VISIBLE);
 
         blackoutView.post(() -> {
             int centerX = blackoutView.getWidth() / 2;
@@ -76,34 +76,35 @@ public class AnimationManager {
 
             circularReveal.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(@NonNull Animator animation) {}//onAnimationStart
+                public void onAnimationStart(@NonNull Animator animation) {}
 
                 @Override
                 public void onAnimationEnd(@NonNull Animator animation) {
-                    if (startNewGame) {
+                    if (nextState.equals("load")) {
                         MainActivity.newGame(mainActivity);
-                    } else {
+                    }
+                    else if (nextState.equals("return")) {
+                        GameField.openMenuAgain(gameField); // Changed to use gameField context
+                    }
+                    else if (nextState.equals("new")) {
                         MainActivity.moveToGame(mainActivity);
                     }
-                }//onAnimationEnd
+                }
 
                 @Override
-                public void onAnimationCancel(@NonNull Animator animation) {}//onAnimationCancel
+                public void onAnimationCancel(@NonNull Animator animation) {}
 
                 @Override
-                public void onAnimationRepeat(@NonNull Animator animation) {}//onAnimationRepeat
+                public void onAnimationRepeat(@NonNull Animator animation) {}
             });
 
             circularReveal.start();
-
-            // Fade in the view simultaneously
             blackoutView.animate()
                     .alpha(1f)
                     .setDuration(ANIM_DURATION)
                     .start();
         });
-    }//startBlackoutAnimation
-
+    }
 
     /**
      * Starts a circular reveal animation on a pitch black view for a specified duration.
