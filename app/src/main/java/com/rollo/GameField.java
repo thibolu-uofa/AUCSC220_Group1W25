@@ -1,5 +1,6 @@
 package com.rollo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -84,7 +85,7 @@ public class GameField extends AppCompatActivity {
         for (int i = 0; i < sixTextDie.length; i++) {
             sixTextDie[i].setBackgroundResource(R.drawable.dice_1);
         }
-
+        new EventListener(this);
     }
 
     public void rerollDice(View view) {
@@ -167,11 +168,21 @@ public class GameField extends AppCompatActivity {
 
     }
 
-    private void openMenu(Context context) {
+    public static void openMenu(GameField gameField) {
+        View blackoutView = gameField.findViewById(R.id.blackoutView);
+        AnimationManager animManager = new AnimationManager(gameField);
+
+        // Start the radial reveal animation
+        animManager.startBlackoutAnimation(blackoutView, null, "return", gameField);
+    }
+
+    public static void openMenuAgain(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
-        continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
-        finish();
+
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+        }
     }
 
     private void openShop(Context context) {

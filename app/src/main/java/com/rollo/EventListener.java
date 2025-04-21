@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,7 @@ public class EventListener {
     private final MainActivity mainActivity;
     private final GameField gameField;
     private List<Button> menuButtons;
-    private List<Button> gameButtons;
+    private List<TextView> gameButtons;
     private View tutorialView, creditsView;
     private View dimOverlay;
     private View blackoutView;
@@ -31,6 +32,8 @@ public class EventListener {
     private final Handler handler = new Handler(Looper.getMainLooper());
     private TouchColorButton loadGameButton, newGameButton, tutorialButton, creditsButton;
     private TouchColorButton tutorialBackButton, creditsBackButton;
+
+    private TextView returnToMenu;
 
     /**
      * Constructor to initialize the EventListener object for main menu.
@@ -83,7 +86,7 @@ public class EventListener {
      * Initializes all the views in the game activity.
      */
     private void initGameViews() {
-
+        returnToMenu = gameField.findViewById(R.id.MainMenu);
     }//initGameViews
 
     /**
@@ -97,7 +100,7 @@ public class EventListener {
      * Stores all buttons in a list for easy disabling/enabling in game activity.
      */
     private void setUpGameButtons(){
-        //gameButtons = Arrays.asList();
+        gameButtons = Arrays.asList(returnToMenu);
     }//setUpGameButtons
 
     /**
@@ -120,6 +123,7 @@ public class EventListener {
      * Sets up all the event listeners for the buttons in the game activity.
      */
     private void setUpGameListeners(){
+        returnToMenu.setOnClickListener(v -> returnMenuTransition());
     }//setUpGameListeners
 
     /**
@@ -187,7 +191,7 @@ public class EventListener {
      */
     public void newGameTransition() {
 
-        animManager.startBlackoutAnimation(blackoutView, mainActivity, true);
+        animManager.startBlackoutAnimation(blackoutView, mainActivity, "new", gameField);
     }//newGameTransition
 
     /**
@@ -196,6 +200,12 @@ public class EventListener {
      */
     public void loadGameTransition() {
 
-        animManager.startBlackoutAnimation(blackoutView, mainActivity, false);
-    }//loadGameTransition
+        animManager.startBlackoutAnimation(blackoutView, mainActivity, "load", gameField);
+    }//
+
+    public void returnMenuTransition() {
+        if (gameField != null) {
+            GameField.openMenu(gameField); // This will trigger the radial animation
+        }
+    }
 }//EventListener
