@@ -8,11 +8,24 @@ public class PaintingAndScoring {
 
     private HandTypeManager hands;
 
+    public String[] paintings;
+
     public PaintingAndScoring(){
         hands = new HandTypeManager();
+        paintings = new String[]{"", "", "", ""};
     }
     public PaintingAndScoring(HandTypeManager hands){
         this.hands = hands;
+        paintings = new String[]{"", "", "", ""};
+    }
+    public PaintingAndScoring(HandTypeManager hands, String[] paintings){
+        this.hands = hands;
+        this.paintings = paintings;
+    }
+
+    public PaintingAndScoring(String[] paintings){
+        hands = new HandTypeManager();
+        this.paintings = paintings;
     }
 
     public void setHands(HandTypeManager hands) {
