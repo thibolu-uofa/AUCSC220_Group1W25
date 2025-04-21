@@ -351,6 +351,7 @@
         android:layout_width="48dp"
         android:layout_height="95dp"
         android:layout_marginBottom="16dp"
+        android:onClick="selectedPainting"
         android:background="@drawable/dashed_line"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/textView"
@@ -358,10 +359,12 @@
         app:layout_constraintStart_toStartOf="@+id/textView" />
 
     <TextView
+        android:id="@+id/painting3"
         android:layout_width="48dp"
         android:layout_height="95dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/dashed_line"
+        android:onClick="selectedPainting"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.675"
@@ -373,6 +376,7 @@
         android:layout_height="95dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/dashed_line"
+        android:onClick="selectedPainting"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.941"
@@ -384,6 +388,7 @@
         android:layout_height="95dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/dashed_line"
+        android:onClick="selectedPainting"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_bias="0.063"
