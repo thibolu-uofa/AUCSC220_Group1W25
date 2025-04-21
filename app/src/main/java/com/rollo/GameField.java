@@ -167,51 +167,18 @@ public class GameField extends AppCompatActivity {
 
     }
 
-    private void openShop(Context context) {
-        Intent intent = new Intent(context, ShopPage.class);
+    private void openMenu(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
-        continueReader.setScoreToBeat(this);
+        continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
         finish();
     }
 
-    private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {
-        ArrayList<Integer> frequencies = new ArrayList<>(scoring.values());
-        Collections.sort(frequencies, Collections.reverseOrder());
-
-        ArrayList<Integer> uniqueValues = new ArrayList<>();
-        for (int i = 0; i < selectedValues.size(); i++) {
-            if (i == 0 || !selectedValues.get(i).equals(selectedValues.get(i - 1))) {
-                uniqueValues.add(selectedValues.get(i));
-            }
-        }
-
-        if (hasLargeStraight(uniqueValues)) {
-            return hands.getHandByName("Large Straight");
-        }
-        if (hasSmallStraight(uniqueValues)) {
-            return hands.getHandByName("Small Straight");
-        }
-        if (frequencies.get(0) == 5) {
-            return hands.getHandByName("Yahtzee");
-        }
-        else if (frequencies.get(0) == 4) {
-            return hands.getHandByName("Four of a Kind");
-        }
-        else if (frequencies.get(0) == 3 && frequencies.get(1) == 2) {
-            return hands.getHandByName("Full House");
-        }
-        else if (frequencies.get(0) == 3) {
-            return hands.getHandByName("Three of a Kind");
-        }
-        else if (frequencies.get(0) == 2 && frequencies.get(1) == 2) {
-            return hands.getHandByName("Two Pair");
-        }
-        else if (frequencies.get(0) == 2) {
-            return hands.getHandByName("Pair");
-        }
-        else {
-            return hands.getHandByName("High Die");
-        }
+    private void openShop(Context context) {
+        Intent intent = new Intent(context, ShopPage.class);
+        context.startActivity(intent);
+        continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
+        finish();
     }
 
     private boolean hasLargeStraight(ArrayList<Integer> values) {
