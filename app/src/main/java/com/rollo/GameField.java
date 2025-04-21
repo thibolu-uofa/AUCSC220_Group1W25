@@ -158,15 +158,8 @@ public class GameField extends AppCompatActivity {
 
     public void play(View myView) {
         if (amountSelected >= 1 && amountSelected <= 5 && playsLeft > 0) {
-            ArrayList<Integer> selectedValues = updateDiceArray();
-            HashMap<Integer, Integer> scoring = new HashMap<>();
-            for (int i = 1; i <= 6; i++) scoring.put(i, 0);
-            for (int i = 0; i < selectedValues.size(); i++) {
-                if (scoring.containsKey(selectedValues.get(i))) {
-                    scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
-                }
-            }
-            HandType hand = determineHandType(selectedValues, scoring);
+            PaintingAndScoring scored = new PaintingAndScoring(hands);
+            HandType hand = scored.scoring(updateDiceArray());
             resetSelectedDice();
             result.setText("");
             playScore = hand.getPips() * hand.getMult();
@@ -194,22 +187,9 @@ public class GameField extends AppCompatActivity {
         finish();
     }
 
-
-    public void resetAllDice(){
-
-        for (int i = 0; i < selectedTextDie.length; i++){
-            selectedTextDie[i] = true;
-        }
-        amountSelected = selectedTextDie.length;
-        resetSelectedDice();
-    }
-
     private HandType determineHandType(ArrayList<Integer> selectedValues, HashMap<Integer, Integer> scoring) {
         ArrayList<Integer> frequencies = new ArrayList<>(scoring.values());
         Collections.sort(frequencies, Collections.reverseOrder());
-
-        System.out.println("Selected values: " + selectedValues);
-        System.out.println("Frequencies: " + frequencies);
 
         ArrayList<Integer> uniqueValues = new ArrayList<>();
         for (int i = 0; i < selectedValues.size(); i++) {
@@ -317,16 +297,10 @@ public class GameField extends AppCompatActivity {
             }
 
             //Should be its own method
-            HashMap<Integer, Integer> scoring = new HashMap<>();
-            ArrayList<Integer> selectedValues = updateDiceArray();
-            for (int i = 1; i <= 6; i++) scoring.put(i, 0);
-            for (int i = 0; i < selectedValues.size(); i++) {
-                if (scoring.containsKey(selectedValues.get(i))) {
-                    scoring.replace(selectedValues.get(i), scoring.get(selectedValues.get(i)) + 1);
-                }
-            }
+            PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
             //should be its own method
-            HandType hand = determineHandType(selectedValues, scoring);
+            HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
+                    paintingAndScoring.getScoring(updateDiceArray()));
             result.setText(hand.getName());
             pipCount.setText(String.valueOf(hand.getPips()));
             multCount.setText(String.valueOf(hand.getMult()));
