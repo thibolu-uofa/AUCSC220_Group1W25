@@ -191,6 +191,7 @@ public class GameField extends AppCompatActivity {
         continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
         finish();
     }
+
     public void resetSelectedDice(){
         for (int i = 0; i < sixTextDie.length; i++) {
             if (selectedTextDie[i]){
