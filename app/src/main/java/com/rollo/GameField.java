@@ -159,7 +159,7 @@ public class GameField extends AppCompatActivity {
             TextView handLimitText = findViewById(R.id.handLimitText);
             handLimitText.setText(String.valueOf(playsLeft));
 
-            if (continueReader.getScoreToBeatFromJson() < roundScore){
+            if (continueReader.getScoreToBeatFromJson() <= roundScore){
                 continueReader.setHighScore(this);
                 openShop(this);
             }
