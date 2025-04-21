@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
-import java.util.HashMap;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -191,7 +191,6 @@ public class GameField extends AppCompatActivity {
         continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
         finish();
     }
-
     public void resetSelectedDice(){
         for (int i = 0; i < sixTextDie.length; i++) {
             if (selectedTextDie[i]){
