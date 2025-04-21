@@ -15,6 +15,8 @@ import android.animation.ValueAnimator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
+
+
 import java.util.HashMap;
 
 import java.util.ArrayList;
@@ -63,6 +65,22 @@ public class GameField extends AppCompatActivity {
         scoreDisplay.setText(String.valueOf(roundScore));
         rerollsLeft = continueReader.getRerollFromJson();
         playsLeft = continueReader.getPlaysFromJson();
+
+        Intent intent = getIntent();
+        String voucherType = intent.getStringExtra("voucherType");
+
+        if (voucherType != null) {
+            if (voucherType.equals("rerolls")) {
+                rerollsLeft += 1;
+                continueReader.setRerolls(this, rerollsLeft); // persist it
+            } else if (voucherType.equals("plays")) {
+                playsLeft += 1;
+                continueReader.setPlays(this, playsLeft); // persist it
+            }
+        }
+
+
+
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
         threshold.setText("Score to beat: " + ScoreToBeat);
 
