@@ -9,7 +9,6 @@
     tools:context=".GameField">
 
 
-
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
@@ -46,11 +45,13 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="267dp"
-        android:layout_height="121dp"
-        android:background="@drawable/box"
+        android:layout_width="270dp"
+        android:layout_height="122dp"
+        android:layout_marginTop="8dp"
 
+        android:background="@drawable/box"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -345,11 +346,55 @@
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
-    <View
-        android:id="@+id/blackoutView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="10dp"
-        android:background="@color/black" />
+    <TextView
+        android:id="@+id/painting2"
+        android:layout_width="48dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/dashed_line"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="48dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/dashed_line"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.675"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/painting4"
+        android:layout_width="48dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/dashed_line"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/painting1"
+        android:layout_width="48dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/dashed_line"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
