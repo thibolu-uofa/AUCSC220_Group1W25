@@ -22,7 +22,6 @@ public class Continue {
         InputStream inputStream = context.getResources().openRawResource(R.raw.userdata);
     }
 
-
     public List<HandType> getHandTypesFromJson() {
         try {
             File file = new File(context.getFilesDir(), FILENAME);
@@ -167,6 +166,32 @@ public class Continue {
         }
     }
 
+    public void setScoreToBeat(Context context) {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+
+            // Read the current userdata
+            UserData data;
+            try (FileReader reader = new FileReader(file)) {
+                data = gson.fromJson(reader, UserData.class);
+            }
+
+            // Update the Score to Beat
+            if (data != null && data.getGameState() != null) {
+                data.getGameState().setScoreToBeat(data.getGameState().getScoreToBeat() + 100);
+
+                // Write it back
+                try (FileWriter writer = new FileWriter(file)) {
+                    gson.toJson(data, writer);
+                    Log.d("CONTINUE", "Score to beat is: " + data.getGameState().getCurrentScore());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("CONTINUE", "Failed to setCurrentScore", e);
+        }
+    }
 
     public void setRounds(Context context, int amount) {
         try {
@@ -264,9 +289,9 @@ public class Continue {
                 data = gson.fromJson(reader, UserData.class);
             }
 
-            // Update the plays
+            // Update the rerolls
             if (data != null && data.getGameState() != null) {
-                data.getGameState().setPlays(amount);
+                data.getGameState().setRerolls(amount);
 
 
                 // Write it back
@@ -278,6 +303,34 @@ public class Continue {
 
         } catch (Exception e) {
             Log.e("CONTINUE", "Failed to setCurrentScore", e);
+        }
+    }
+
+    public void setHandtypes(Context context, List<HandType> handTypes) {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+
+            // Read the current userdata
+            UserData data;
+            try (FileReader reader = new FileReader(file)) {
+                data = gson.fromJson(reader, UserData.class);
+            }
+
+            // Update the plays
+            if (data != null && data.getGameState() != null) {
+                data.setHandTypes(handTypes);
+
+
+                // Write it back
+                try (FileWriter writer = new FileWriter(file)) {
+                    gson.toJson(data, writer);
+                    Log.d("CONTINUE", "Handtypes are: " + data.getHandTypes());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("CONTINUE", "Failed to handtypes", e);
         }
     }
 

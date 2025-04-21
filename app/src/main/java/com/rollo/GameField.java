@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ValueAnimator;
@@ -18,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class GameField extends AppCompatActivity {
-    private ImageView imageView1, imageView2;
+    private AnimationManager animManager;
     private boolean clickedStart = false;
     private int imageWidth;
     private int playScore;
@@ -62,16 +65,18 @@ public class GameField extends AppCompatActivity {
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
         threshold.setText("Score to beat: " + ScoreToBeat);
 
-        hands = new HandTypeManager(handTypes);
-        imageView1 = findViewById(R.id.imageView1);
-        imageView2 = findViewById(R.id.imageView2);
-        imageView1.post(() -> {
-            imageWidth = imageView1.getWidth();
-            imageView1.setX(0);
-            imageView2.setX(imageWidth);
-            startScrolling();
+        animManager = new AnimationManager(this);
+
+        ImageView gameBackground = findViewById(R.id.gameBackground);
+        gameBackground.startAnimation(animManager.waveAnim);
+
+        View blackoutView = findViewById(R.id.blackoutView);
+        blackoutView.post(() -> {
+            animManager.startRevealAnimation(blackoutView);
         });
 
+
+        hands = new HandTypeManager(handTypes);
         sixDie = continueReader.getDiceFromJson();
 
         sixTextDie = getAllTheDice();
@@ -80,25 +85,6 @@ public class GameField extends AppCompatActivity {
             sixTextDie[i].setBackgroundResource(R.drawable.dice_1);
         }
 
-    }
-
-    private void startScrolling() {
-        ValueAnimator animator = ValueAnimator.ofFloat(0, -imageWidth);
-        animator.setDuration(15000);
-        animator.setRepeatCount(ValueAnimator.INFINITE);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.addUpdateListener(animation -> {
-            float value = (float) animation.getAnimatedValue();
-            imageView1.setX(value);
-            imageView2.setX(value + imageWidth);
-            if (value <= -imageWidth) {
-                imageView1.setX(imageView2.getX() + imageWidth);
-                ImageView temp = imageView1;
-                imageView1 = imageView2;
-                imageView2 = temp;
-            }
-        });
-        animator.start();
     }
 
     public void rerollDice(View view) {
@@ -184,6 +170,7 @@ public class GameField extends AppCompatActivity {
     private void openShop(Context context) {
         Intent intent = new Intent(context, ShopPage.class);
         context.startActivity(intent);
+        continueReader.setScoreToBeat(this);
         finish();
     }
 

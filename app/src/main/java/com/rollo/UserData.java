@@ -12,6 +12,10 @@ public class UserData {
         return handTypes;
     }
 
+    public void setHandTypes(List<HandType> handTypes) {
+        this.handTypes = handTypes;
+    }
+
     public GameState getGameState() { return gameState; }
     public Dice[] getDice() {
         return dice;

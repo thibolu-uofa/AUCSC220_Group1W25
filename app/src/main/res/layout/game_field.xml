@@ -26,6 +26,22 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-14dp" />
 
+    <ImageView
+        android:id="@+id/gameBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/Background"
+        android:rotation="45"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="3"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.643"
+        app:layout_constraintWidth_percent="3"
+        app:srcCompat="@drawable/game_background" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="267dp"
@@ -113,10 +129,10 @@
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintHorizontal_bias="0.103"
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toTopOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.018" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/ScoreSurround"
@@ -347,5 +363,12 @@
         app:layout_constraintHorizontal_bias="0.563"
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+    <View
+        android:id="@+id/blackoutView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:background="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

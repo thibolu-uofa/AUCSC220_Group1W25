@@ -6,7 +6,7 @@
         {"name": "Three of a Kind", "pips": 20, "mult": 3, "level": 1},
         {"name": "Small Straight", "pips": 30, "mult": 3, "level": 1},
         {"name": "Large Straight", "pips": 40, "mult": 4, "level": 1},
-        {"name": "Full House", "pips": 25, "mult": 3, "level": 1},
+        {"name": "Full House", "pips": 25, "mult": 4, "level": 1},
         {"name": "Four of a Kind", "pips": 30, "mult": 4, "level": 1},
         {"name": "Yahtzee", "pips": 50, "mult": 5, "level": 1}
     ],

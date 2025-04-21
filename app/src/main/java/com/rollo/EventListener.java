@@ -1,3 +1,12 @@
+/**
+ * The EventListener class is responsible for listening to and responding to button taps and clicks
+ * throughout the application. It acts as the central manager of event-driven behaviour to keep the
+ * code modular and easier to maintain.
+ *
+ * @author - Timi Aina
+ * @version - 1.0
+ * @date - April 08, 2025
+ */
 package com.rollo;
 
 import android.os.Handler;
@@ -11,38 +20,53 @@ import java.util.List;
 
 public class EventListener {
     private final MainActivity mainActivity;
+    private final GameField gameField;
     private List<Button> menuButtons;
-
     private List<Button> gameButtons;
-
+    private View tutorialView, creditsView;
     private View dimOverlay;
-
-    //Transition Views
     private View blackoutView;
-    //private final View diceView;
-    private final AnimationPlayer animPlayer;
-
+    private View diceImageView;
+    private final AnimationManager animManager;
     private final Handler handler = new Handler(Looper.getMainLooper());
-
     private TouchColorButton loadGameButton, newGameButton, tutorialButton, creditsButton;
     private TouchColorButton tutorialBackButton, creditsBackButton;
 
-    private View tutorialView, creditsView;
-
+    /**
+     * Constructor to initialize the EventListener object for main menu.
+     * @param mainActivity - the main menu activity
+     */
     public EventListener(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
-        this.animPlayer = new AnimationPlayer(mainActivity);
+        this.gameField = null;
+        this.animManager = new AnimationManager(mainActivity);
 
-        initViews();
+        initMenuViews();
         setUpMenuButtons();
-        setUpGameButtons();
-        setUpListeners();
+        setUpMenuListeners();
     }//EventListener
 
-    private void initViews() {
+    /**
+     * Constructor to initialize the EventListener object for game activity.
+     * @param gameField - the game field activity
+     */
+    public EventListener(GameField gameField) {
+        this.mainActivity = null;
+        this.gameField = gameField;
+        this.animManager = new AnimationManager(gameField);
+
+        initGameViews();
+        setUpGameButtons();
+        setUpGameListeners();
+    }//EventListener
+
+    /**
+     * Initializes all the views in the main menu activity.
+     */
+    private void initMenuViews() {
         dimOverlay = mainActivity.findViewById(R.id.dimOverlay);
         blackoutView = mainActivity.findViewById(R.id.blackoutView);
-        //diceView = mainActivity.findViewById(R.id.diceView);
+        //diceImageView = mainActivity.findViewById(R.id.diceImageView);
 
         loadGameButton = mainActivity.findViewById(R.id.loadGameButton);
         newGameButton = mainActivity.findViewById(R.id.newGameButton);
@@ -53,38 +77,68 @@ public class EventListener {
         creditsBackButton = mainActivity.findViewById(R.id.creditsBackButton);
         tutorialView = mainActivity.findViewById(R.id.tutorialView);
         creditsView = mainActivity.findViewById(R.id.creditsView);
-    }//initViews
+    }//initMenuViews
 
-    // Store all core buttons in a list for easy disabling/enabling
+    /**
+     * Initializes all the views in the game activity.
+     */
+    private void initGameViews() {
+
+    }//initGameViews
+
+    /**
+     * Stores all buttons in a list for easy disabling/enabling in main menu activity.
+     */
     private void setUpMenuButtons(){
         menuButtons = Arrays.asList(loadGameButton, newGameButton, tutorialButton, creditsButton);
     }//setUpMenuButtons
 
+    /**
+     * Stores all buttons in a list for easy disabling/enabling in game activity.
+     */
     private void setUpGameButtons(){
         //gameButtons = Arrays.asList();
     }//setUpGameButtons
 
-    private void setUpListeners(){
-        loadGameButton.setOnClickListener(v -> playGameTransition(animPlayer.radialBlackout(),
-                animPlayer.diceRotate()));
-        newGameButton.setOnClickListener(v -> newGameTransition(animPlayer.radialBlackout(),
-                animPlayer.diceRotate()));
+    /**
+     * Sets up all the event listeners for the buttons in the main menu activity.
+     */
+    private void setUpMenuListeners(){
+        loadGameButton.setOnClickListener(v -> loadGameTransition());
+        newGameButton.setOnClickListener(v -> newGameTransition());
         tutorialButton.setOnClickListener(v -> showOverlay(tutorialView, tutorialBackButton,
-                animPlayer.slideUp()));
+                animManager.slideUpAnim));
         creditsButton.setOnClickListener(v -> showOverlay(creditsView, creditsBackButton,
-                animPlayer.slideUp()));
+                animManager.slideUpAnim));
         tutorialBackButton.setOnClickListener(v -> hideOverlay(tutorialView, tutorialBackButton,
-                animPlayer.slideDown()));
+                animManager.slideDownAnim));
         creditsBackButton.setOnClickListener(v -> hideOverlay(creditsView, creditsBackButton,
-                animPlayer.slideDown()));
-    }//setUpListeners
+                animManager.slideDownAnim));
+    }//setUpMenuListeners
 
-    private void enableMenuButtons(boolean enabled) {
-        for (Button button : menuButtons) {
+    /**
+     * Sets up all the event listeners for the buttons in the game activity.
+     */
+    private void setUpGameListeners(){
+    }//setUpGameListeners
+
+    /**
+     * Enables/disables all the buttons in the buttons list.
+     * @param buttons - the button list to be altered
+     * @param enabled - true to enable buttons events, false to disable them
+     */
+    private void enableButtons(List<Button> buttons, boolean enabled) {
+        for (Button button : buttons) {
             button.setEnabled(enabled);
-        }//for-loop
-    }//enableButtons
+        } // for-loop
+    } // enableMenuButtons
 
+    /**
+     * Slides the overlay view (tutorial/credits) up to be shown.
+     * @param overlayView - the view to be shown
+     * @param backButton - the view's button to be shown
+     * @param slideUp - slide up animation
+     */
     private void showOverlay(View overlayView, Button backButton, Animation slideUp) {
         overlayView.setVisibility(View.VISIBLE);
         overlayView.startAnimation(slideUp);
@@ -93,11 +147,17 @@ public class EventListener {
         backButton.startAnimation(slideUp);
 
         dimOverlay.setVisibility(View.VISIBLE);
-        dimOverlay.startAnimation(animPlayer.fadeIn());
+        dimOverlay.startAnimation(animManager.fadeInAnim);
 
-        enableMenuButtons(false);
+        enableButtons(menuButtons, false);
     }//showOverlay
 
+    /**
+     * Slides the overlay view (tutorial/credits) down to be hidden.
+     * @param overlayView - the view to be hidden
+     * @param backButton - the view's button to be hidden
+     * @param slideDown - slide down animation
+     */
     private void hideOverlay(View overlayView, Button backButton, Animation slideDown) {
 
         overlayView.startAnimation(slideDown);
@@ -106,38 +166,36 @@ public class EventListener {
         backButton.startAnimation(slideDown);
         handler.postDelayed(() -> backButton.setVisibility(View.GONE), slideDown.getDuration());
 
-        dimOverlay.startAnimation(animPlayer.fadeOut());
+        dimOverlay.startAnimation(animManager.fadeOutAnim);
         handler.postDelayed(() -> dimOverlay.setVisibility(View.GONE),
-                animPlayer.fadeOutAnim.getDuration());
+                animManager.fadeOutAnim.getDuration());
 
-        enableMenuButtons(true);
+        enableButtons(menuButtons, true);
     }//hideOverlay
 
+    /**
+     * Transitions the user to the main menu activity.
+     */
+    public void menuTransition() {
+        blackoutView.setVisibility(View.VISIBLE);
+        animManager.rollDice(diceImageView, blackoutView);
+    }//menuTransition
 
-    private void playGameTransition(Animation radialBlackout, Animation diceRotate) {
-            blackoutView.startAnimation(radialBlackout);
+    /**
+     * Loads a new game as the user is transitioned from the main menu activity to the game
+     * activity.
+     */
+    public void newGameTransition() {
 
-            //diceView.setVisibility(View.VISIBLE);
-            //diceView.startAnimation(diceRotationAnim);
+        animManager.startBlackoutAnimation(blackoutView, mainActivity, true);
+    }//newGameTransition
 
-            long blackoutDuration = radialBlackout.getDuration();
-            long rotateDuration = diceRotate.getDuration();
-            long animDuration = Math.max(blackoutDuration, rotateDuration);
+    /**
+     * Loads an existing game as the user is transitioned from the main menu activity to the game
+     * activity.
+     */
+    public void loadGameTransition() {
 
-            handler.postDelayed(() -> MainActivity.moveToGame(mainActivity), animDuration);
-    }//playGameTransition
-
-    private void newGameTransition(Animation radialBlackout, Animation diceRotate) {
-        blackoutView.startAnimation(radialBlackout);
-
-        //diceView.setVisibility(View.VISIBLE);
-        //diceView.startAnimation(diceRotationAnim);
-
-        long blackoutDuration = radialBlackout.getDuration();
-        long rotateDuration = diceRotate.getDuration();
-        long animDuration = Math.max(blackoutDuration, rotateDuration);
-
-        handler.postDelayed(() -> MainActivity.newGame(mainActivity), animDuration);
-    }//playGameTransition
-
+        animManager.startBlackoutAnimation(blackoutView, mainActivity, false);
+    }//loadGameTransition
 }//EventListener
