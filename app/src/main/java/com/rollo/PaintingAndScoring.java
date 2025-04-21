@@ -31,11 +31,48 @@ public class PaintingAndScoring {
     public void setHands(HandTypeManager hands) {
         this.hands = hands;
     }
+    public void setPaintings(String[] paintings) { this.paintings = paintings;}
 
     public HandType scoring(ArrayList<Integer> selectedValues){
+        ArrayList<Integer> confirmedValues = selectedValues;
 
-        return determineHandType(selectedValues, getScoring(selectedValues));
+        HandType selectedHand = determineHandType(confirmedValues, getScoring(confirmedValues));
+
+        for (int i = 0; i < paintings.length; i++) {
+            if (paintings[i].equals("High Roller")){
+                int increasedMult = HighRoller(confirmedValues);
+                selectedHand.setMult(selectedHand.getMult() + increasedMult);
+            }
+            else if (paintings[i].equals("Pair Magnet")){
+                if(selectedHand.getName().equals("Pair") ||
+                        selectedHand.getName().equals("Two Pair")){
+                    selectedHand.setMult(selectedHand.getMult() + 3);
+                }
+            }
+            else if (paintings[i].equals("Straight Shooter")){
+                if(selectedHand.getName().equals("Small Straight")){
+                    selectedHand = hands.getHandByName("Large Straight");
+                }
+            }
+            else if (paintings[i].equals("House Flipper")){
+                if(selectedHand.getName().equals("Full House")){
+                    selectedHand.setPips(selectedHand.getMult() + 15);
+                }
+            }
+            else if (paintings[i].equals("All or Nothing")){
+
+                if(allOrNothing(confirmedValues)){
+                    selectedHand.setMult(selectedHand.getMult() + 4);
+                }
+                else{
+                    selectedHand.setMult(selectedHand.getMult() - 1);
+                }
+            }
+        }
+
+        return selectedHand;
     }
+
 
     public HashMap<Integer, Integer> getScoring(ArrayList<Integer> selectedValues){
         HashMap<Integer, Integer> scoring = new HashMap<>();
@@ -116,5 +153,24 @@ public class PaintingAndScoring {
             }
         }
         return false;
+    }
+
+    public int HighRoller(ArrayList<Integer> selectedValues){
+        int increasedMult = 0;
+        for (int i = 0; i < selectedValues.size(); i++) {
+            if (selectedValues.get(i) == 5 || selectedValues.get(i) == 6){
+                increasedMult++;
+            }
+        }
+        return increasedMult;
+    }
+
+    public boolean allOrNothing(ArrayList<Integer> selectedValues){
+        for (int i = 0; i < selectedValues.size(); i++) {
+            if (selectedValues.get(i) % 2 != 0){
+                return false;
+            }
+        }
+        return true;
     }
 }
