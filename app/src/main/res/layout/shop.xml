@@ -47,30 +47,13 @@
         app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
 
     <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="399dp"
-        android:layout_height="136dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="137dp"
-        android:layout_marginEnd="172dp"
-        android:layout_marginBottom="138dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onUpgradeClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/upgrade_dice_button" />
-
-    <ImageView
         android:id="@+id/imageView8"
         android:layout_width="400dp"
         android:layout_height="137dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="185dp"
-        android:layout_marginEnd="172dp"
-        android:layout_marginBottom="89dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="166dp"
+        android:layout_marginBottom="122dp"
         android:clickable="true"
         android:focusable="true"
         android:onClick="onCombosClick"
@@ -80,14 +63,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/combos_button" />
 
+
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="402dp"
         android:layout_height="138dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="245dp"
-        android:layout_marginEnd="169dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="53dp"
         android:clickable="true"
         android:focusable="true"
         android:onClick="onPaintingClick"
@@ -101,9 +85,9 @@
         android:id="@+id/imageView10"
         android:layout_width="401dp"
         android:layout_height="138dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="288dp"
-        android:layout_marginEnd="170dp"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="273dp"
+        android:layout_marginEnd="165dp"
         android:clickable="true"
         android:focusable="true"
         android:onClick="onVouchersClick"
@@ -111,8 +95,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/vouchers_button" />
-
-
 
     <ImageView
         android:id="@+id/imageView4"

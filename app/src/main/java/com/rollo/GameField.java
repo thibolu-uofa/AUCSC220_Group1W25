@@ -6,22 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
+import android.animation.ValueAnimator;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
+
+
+
+import java.util.HashMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class GameField extends AppCompatActivity {
-    //External files to help run game
     private AnimationManager animManager;
-    private Continue continueReader;
-    private HandTypeManager hands;
-
-    //Round Specific
     private boolean clickedStart = false;
+    private int imageWidth;
     private int playScore;
     private int rerollsLeft;
     private int playsLeft;
@@ -34,17 +39,14 @@ public class GameField extends AppCompatActivity {
     private Dice[] sixDie;
     private TextView[] sixTextDie;
 
+    private Continue continueReader;
 
+    private HandTypeManager hands;
 
     private int amountSelected = 0;
     private final int[] sixValues = new int[]{0,0,0,0,0,0};
     private final boolean[] selectedTextDie = new boolean[]{false, false, false,
             false, false, false};
-
-    //Paintings
-    private TextView firstSelectedPainting = null;
-    private int paintingsSelected = 0;
-    private String[] paintings = new String[4]; // Your painting names array
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,22 @@ public class GameField extends AppCompatActivity {
         scoreDisplay.setText(String.valueOf(roundScore));
         rerollsLeft = continueReader.getRerollFromJson();
         playsLeft = continueReader.getPlaysFromJson();
+
+        Intent intent = getIntent();
+        String voucherType = intent.getStringExtra("voucherType");
+
+        if (voucherType != null) {
+            if (voucherType.equals("rerolls")) {
+                rerollsLeft += 1;
+                continueReader.setRerolls(this, rerollsLeft); // persist it
+            } else if (voucherType.equals("plays")) {
+                playsLeft += 1;
+                continueReader.setPlays(this, playsLeft); // persist it
+            }
+        }
+
+
+
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
         threshold.setText("Score to beat: " + ScoreToBeat);
 
@@ -191,6 +209,37 @@ public class GameField extends AppCompatActivity {
         continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
         finish();
     }
+
+    private boolean hasLargeStraight(ArrayList<Integer> values) {
+        for (int i = 0; i <= values.size() - 5; i++) {
+            int count = 1;
+            for (int j = i + 1; j < values.size(); j++) {
+                if (values.get(j) == values.get(j - 1) + 1) {
+                    count++;
+                    if (count == 5) return true;
+                } else if (values.get(j) != values.get(j - 1)) {
+                    break; // sequence broken
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean hasSmallStraight(ArrayList<Integer> values) {
+        for (int i = 0; i <= values.size() - 4; i++) {
+            int count = 1;
+            for (int j = i + 1; j < values.size(); j++) {
+                if (values.get(j) == values.get(j - 1) + 1) {
+                    count++;
+                    if (count == 4) return true;
+                } else if (values.get(j) != values.get(j - 1)) {
+                    break; // sequence broken
+                }
+            }
+        }
+        return false;
+    }
+
     public void resetSelectedDice(){
         for (int i = 0; i < sixTextDie.length; i++) {
             if (selectedTextDie[i]){
@@ -292,60 +341,5 @@ public class GameField extends AppCompatActivity {
         Collections.sort(selectedValues); // Sort in ascending order
 
         return selectedValues;
-    }
-
-    // Class level variables to track selections
-
-
-    public void selectedPainting(View view) {
-        TextView clicked = (TextView) view;
-
-        // If already selected, deselect it
-        if (clicked.getBackground().getConstantState() ==
-                getResources().getDrawable(R.drawable.selected_dash_line).getConstantState()) {
-
-            clicked.setBackgroundResource(R.drawable.dashed_line); // Or set to default background
-            paintingsSelected--;
-            if (firstSelectedPainting == clicked) {
-                firstSelectedPainting = null;
-            }
-            return;
-        }
-
-        // First selection
-        if (paintingsSelected == 0) {
-            clicked.setBackgroundResource(R.drawable.selected_dash_line);
-            firstSelectedPainting = clicked;
-            paintingsSelected = 1;
-        }
-        // Second selection - perform swap
-        else if (paintingsSelected == 1) {
-            // Get indices of selected paintings
-            int firstIndex = getPaintingIndex(firstSelectedPainting);
-            int secondIndex = getPaintingIndex(clicked);
-
-            // Swap the painting names/text
-
-
-            // Update the TextViews
-
-
-            // Reset selection states
-            firstSelectedPainting.setBackgroundResource(R.drawable.dashed_line);
-            clicked.setBackgroundResource(R.drawable.dashed_line);
-            firstSelectedPainting = null;
-            paintingsSelected = 0;
-        }
-    }
-
-    private int getPaintingIndex(TextView paintingView) {
-        int viewId = paintingView.getId(); // Returns the resource ID (e.g., R.id.dice1)
-        String idName = getResources().getResourceEntryName(viewId); // "dice1"
-        for (int i = 1; i < paintings.length + 1; i++) {
-            if (idName.equals("painting" + i)) {
-                return i;
-            }
-        }
-        return -1; // Not found
     }
 }
