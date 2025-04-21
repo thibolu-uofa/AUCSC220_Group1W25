@@ -301,9 +301,9 @@ public class GameField extends AppCompatActivity {
         TextView clicked = (TextView) view;
 
         // If already selected, deselect it
-        if (clicked.getBackground() != null &&
-                clicked.getBackground().getConstantState() ==
-                        getResources().getDrawable(R.drawable.selected_dash_line).getConstantState()) {
+        if (clicked.getBackground().getConstantState() ==
+                getResources().getDrawable(R.drawable.selected_dash_line).getConstantState()) {
+
             clicked.setBackgroundResource(R.drawable.dashed_line); // Or set to default background
             paintingsSelected--;
             if (firstSelectedPainting == clicked) {
@@ -325,9 +325,7 @@ public class GameField extends AppCompatActivity {
             int secondIndex = getPaintingIndex(clicked);
 
             // Swap the painting names/text
-            String temp = paintings[firstIndex];
-            paintings[firstIndex] = paintings[secondIndex];
-            paintings[secondIndex] = temp;
+
 
             // Update the TextViews
 
