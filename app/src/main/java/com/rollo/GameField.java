@@ -1,3 +1,53 @@
+/**
+ * GameField
+ *
+ * Author: ROLLO TEAM
+ *
+ * This file is the handler for everything that occurs in the game
+ * section of the Rollo Experience. Everything from selecting and playing
+ * dice, to swapping paintings, and rerolling is in this file.
+ *
+ * Functions:
+ *      rerollDice(View view)
+ *          rerolls dice
+ *      start(View view)
+ *          starts the game
+ *      play(View myView)
+ *          after selecting dice, play the dice
+ *      openMenu(GameField gameField)
+ *          starts animation to return back to menu
+ *      openMenuAgain(Context context)
+ *          returns user back to main menu
+ *      openShop(Context context)
+ *          moves the player to the shop
+ *      resetSelectedDice()
+ *          rerolls the selected dice after they
+ *          have been played
+ *      selectDice(View view)
+ *          selects and deselects dice, with instant
+ *          feedback on what they will outcome to
+ *      getDiceIndex(TextView diceView)
+ *          gets the index of a given dice textview
+ *          in all arrays
+ *      rerollAllDice(View myView)
+ *          rerolls all dice at the start of the
+ *          round
+ *      getAllTheDice()
+ *          initializes a global textview array
+ *          that will allow for simple dice
+ *          textview manipulation
+ *      updateDiceArray()
+ *          finds all the values of the selected
+ *          dice
+ *      selectedPainting(View view)
+ *          selects, deselects, and swaps paintings
+ *          to give the user ability to optimize
+ *          scoring
+ *      getPaintingIndex(TextView paintingView)
+ *          returns the index of the given paintingView
+ *
+ */
+
 package com.rollo;
 
 import android.app.Activity;
@@ -88,6 +138,14 @@ public class GameField extends AppCompatActivity {
         new EventListener(this);
     }
 
+    /**
+     * rerollDice
+     *
+     * is a function that will convert the given textview dice,
+     * reroll it, change the background resource on it
+     *
+     * @param view
+     */
     public void rerollDice(View view) {
         TextView clicked = (TextView) view;
         if (clicked == null) return;
@@ -106,11 +164,18 @@ public class GameField extends AppCompatActivity {
             Log.e("Dice", "Reroll error", e);
             clicked.setBackgroundResource(R.drawable.dice_1);
         }
-        result.setText("");
-        pipCount.setText("0");
-        multCount.setText("0");
+
     }
 
+    /**
+     * start
+     *
+     * is the function that starts the user round, this will make sure
+     * that the user does not just jump in to the experience but have
+     * control over their experience
+     *
+     * @param view
+     */
     public void start(View view) {
         TextView clicked = (TextView) view;
 
@@ -125,6 +190,10 @@ public class GameField extends AppCompatActivity {
                 }
             }
             clickedStart = true;
+
+            result.setText("");
+            pipCount.setText("0");
+            multCount.setText("0");
 
             clicked.setText("Play");
             clicked.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +212,17 @@ public class GameField extends AppCompatActivity {
         handLimitText.setText(String.valueOf(playsLeft));
     }
 
+    /**
+     * play
+     *
+     * is a function that after a user selects some dice,
+     * will allow them to play those dice. After playing the
+     * hand, it will check if the user is going to progress
+     * to the shop or have to continue playing to beat the score
+     * given
+     *
+     * @param myView
+     */
     public void play(View myView) {
         if (amountSelected >= 1 && amountSelected <= 5 && playsLeft > 0) {
             PaintingAndScoring scored = new PaintingAndScoring(hands);
@@ -168,6 +248,14 @@ public class GameField extends AppCompatActivity {
 
     }
 
+    /**
+     * openMenu
+     *
+     * using Timi's animation manager, this will play a beautiful animation
+     * as the user starts his move back to the main menu.
+     *
+     * @param gameField
+     */
     public static void openMenu(GameField gameField) {
         View blackoutView = gameField.findViewById(R.id.blackoutView);
         AnimationManager animManager = new AnimationManager(gameField);
@@ -176,6 +264,14 @@ public class GameField extends AppCompatActivity {
         animManager.startBlackoutAnimation(blackoutView, null, "return", gameField);
     }
 
+    /**
+     * openMenuAgain
+     *
+     * is the actual function that moves the user back to the main menu
+     * by finish this activity.
+     *
+     * @param context
+     */
     public static void openMenuAgain(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
@@ -185,12 +281,26 @@ public class GameField extends AppCompatActivity {
         }
     }
 
+    /**
+     * openShop
+     *
+     * will move the user to the shop page
+     *
+     * @param context
+     */
     private void openShop(Context context) {
         Intent intent = new Intent(context, ShopPage.class);
         context.startActivity(intent);
         continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
         finish();
     }
+
+    /**
+     * resetSelectedDice
+     *
+     * will move through the selected dice, and will reset
+     * them after they have been played.
+     */
     public void resetSelectedDice(){
         for (int i = 0; i < sixTextDie.length; i++) {
             if (selectedTextDie[i]){
@@ -198,9 +308,22 @@ public class GameField extends AppCompatActivity {
             }
             selectedTextDie[i] = false;
         }
+        result.setText("");
+        pipCount.setText("0");
+        multCount.setText("0");
         amountSelected = 0;
     }
 
+    /**
+     * selectDice
+     *
+     * allows the user to select and deselect dice. While selecting
+     * and deselecting, it will update the text on the left side
+     * of the screen to allow users to see what they need to play
+     * to win.
+     *
+     * @param view
+     */
     public void selectDice(View view) {
         if (clickedStart) {
             TextView clicked = (TextView) view;
@@ -230,9 +353,9 @@ public class GameField extends AppCompatActivity {
                 clicked.setBackgroundResource(R.drawable.dice_1);
             }
 
-            //Should be its own method
+
             PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
-            //should be its own method
+
             HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
                     paintingAndScoring.getScoring(updateDiceArray()));
             result.setText(hand.getName());
@@ -241,6 +364,15 @@ public class GameField extends AppCompatActivity {
         }
     }
 
+    /**
+     * getDiceIndex
+     *
+     * gets the dice location in the many arrays attributed to them.
+     * This simplifies there handling for more efficient uses.
+     *
+     * @param diceView
+     * @return index location of a specific dice
+     */
     private int getDiceIndex(TextView diceView) {
         try {
             String id = getResources().getResourceEntryName(diceView.getId());
@@ -250,6 +382,14 @@ public class GameField extends AppCompatActivity {
         }
     }
 
+    /**
+     * rerollAllDice
+     *
+     * will be used at the start of a round to reset all the dice to
+     * a random pip amount.
+     *
+     * @param myView
+     */
     public void rerollAllDice(View myView){
         if(clickedStart && rerollsLeft > 0){
             boolean anyRerolled = false;
@@ -263,6 +403,11 @@ public class GameField extends AppCompatActivity {
                 }
             }
 
+            //sets text
+            result.setText("");
+            pipCount.setText("0");
+            multCount.setText("0");
+
             if (anyRerolled){
                 amountSelected = 0;
                 rerollsLeft--;
@@ -273,6 +418,16 @@ public class GameField extends AppCompatActivity {
         }
     }
 
+    /**
+     * getAllTheDice
+     *
+     * gets the textviews into one array to make it easier to update
+     * them or any other operations.
+     *
+     * Used in initialization
+     *
+     * @return the array of the dice textviews in a proper indexing
+     */
     private TextView[] getAllTheDice() {
         TextView[] allTheDice = new TextView[6];
         for (int i = 0; i < 6; i++) {
@@ -282,6 +437,13 @@ public class GameField extends AppCompatActivity {
         return allTheDice;
     }
 
+    /**
+     * updateDiceArray
+     *
+     * finds all the dice pip values and puts them into a list
+     *
+     * @return
+     */
     private ArrayList<Integer> updateDiceArray() {
         ArrayList<Integer> selectedValues = new ArrayList<>();
         for (int i = 0; i < selectedTextDie.length; i++) {
@@ -294,9 +456,15 @@ public class GameField extends AppCompatActivity {
         return selectedValues;
     }
 
-    // Class level variables to track selections
 
-
+    /**
+     * selectedPainting
+     *
+     * will select, deselect, and swap paintings. This will give the user
+     * control to how their score is computed.
+     *
+     * @param view
+     */
     public void selectedPainting(View view) {
         TextView clicked = (TextView) view;
 
@@ -338,12 +506,20 @@ public class GameField extends AppCompatActivity {
         }
     }
 
+    /**
+     * getPaintingIndex
+     *
+     * same as the dice index function but for one of the four paintings
+     *
+     * @param paintingView
+     * @return the index of a painting in the paintings array
+     */
     private int getPaintingIndex(TextView paintingView) {
         int viewId = paintingView.getId(); // Returns the resource ID (e.g., R.id.dice1)
         String idName = getResources().getResourceEntryName(viewId); // "dice1"
         for (int i = 1; i < paintings.length + 1; i++) {
             if (idName.equals("painting" + i)) {
-                return i;
+                return i - 1;
             }
         }
         return -1; // Not found
