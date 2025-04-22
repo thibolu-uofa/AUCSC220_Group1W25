@@ -59,6 +59,7 @@ import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
+import android.app.Dialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,6 +79,9 @@ public class GameField extends AppCompatActivity {
     private int playsLeft;
     private int beginningPlays;
     private int roundScore;
+    private int roundNumber; // Keeps track of the round the user is on
+
+    private int highestPlay; //User to keep the players highest score reached
     private TextView result;
     private TextView pipCount;
     private TextView multCount;
@@ -85,6 +89,8 @@ public class GameField extends AppCompatActivity {
     private TextView scoreDisplay;
     private Dice[] sixDie;
     private TextView[] sixTextDie;
+    private boolean hasLost = false;
+    private Dialog lossDialog;
 
 
 
@@ -248,8 +254,50 @@ public class GameField extends AppCompatActivity {
                 openShop(this);
             }
 
+            //This should check to see if when the player has ran out of plays
+            else if(playsLeft == 0 && continueReader.getScoreToBeatFromJson() > roundScore && !hasLost){
+                //Need to change one of round score to highestPlay
+                hasLost = true;
+                lossGame(roundScore, roundNumber, roundScore);
+            }
+
         }
 
+    }
+
+    /**
+     * This function is responsible for displaying the endGame dialog where the players
+     * stats are shown
+     * @param score - This is the players current score at the time of their loss
+     * @param round - This is the current round which the player has stopped in
+     * @param highscore - This is the players highest score during their time playing the game.
+     */
+    private void lossGame(int score, int round, int highscore){
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.loss_screen);
+        dialog.setCancelable(false);
+
+        TextView roundText = dialog.findViewById(R.id.round);
+        TextView scoreText = dialog.findViewById(R.id.score);
+        TextView highscoreText = dialog.findViewById(R.id.highscore);
+
+        roundText.setText(String.valueOf(round));
+        scoreText.setText(String.valueOf(score));
+        highscoreText.setText(String.valueOf(highscore));
+
+        dialog.show();
+
+        View decorView = dialog.getWindow().getDecorView();
+
+        decorView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                    openMenu(GameField.this);
+                }
+            }
+        }, 5000);
     }
 
     /**
