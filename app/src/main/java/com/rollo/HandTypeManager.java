@@ -36,4 +36,13 @@ public class HandTypeManager {
     public List<HandType> getAllHands() {
         return handTypes;
     }
+
+    public void upgradeHand(String handName, HandType newHandtype) {
+        for (int i = 0; i < handTypes.size(); i++) {
+            if (handTypes.get(i).getName().equalsIgnoreCase(handName)) {
+                handTypes.set(i, newHandtype);
+                return;
+            }
+        }
+    }
 }
