@@ -339,9 +339,9 @@ public class PaintingAndScoring {
      */
     public String selectRandomPainting(){
         String[] possiblePaintings = new String[]{"High Roller", "Pair Magnet", "Lucky 6",
-                                                "Chaos Die", "Straight Shooter", "House Flipper",
-                                                "Glass Die", "All or Nothing", "Pip Squeak",
-                                                "Time Warp"};
+                "Chaos Die", "Straight Shooter", "House Flipper",
+                "Glass Die", "All or Nothing", "Pip Squeak",
+                "Time Warp"};
         Random rand = new Random();
         return possiblePaintings[rand.nextInt(possiblePaintings.length)];
     }
