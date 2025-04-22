@@ -30,12 +30,8 @@ public class ShopPage extends AppCompatActivity {
         continueReader.copyJsonToInternalStorageIfNeeded(this);
     }
 
-    public void onUpgradeClick(View view){
-        openShopPage("shop_upgrade");
-    }
-
     public void onCombosClick(View view){
-        openShopPage("shop_combos");
+        showComboPopup();
     }
 
     public void onPaintingClick(View view){
@@ -43,7 +39,6 @@ public class ShopPage extends AppCompatActivity {
     }
 
     public void onVouchersClick(View view){
-
         showVoucherPopup();
     }
 
@@ -127,14 +122,93 @@ public class ShopPage extends AppCompatActivity {
         nextRound(this);
     }
 
+    private void showComboPopup() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.popup_upgrade_selection);
+
+        TextView comboOption1 = dialog.findViewById(R.id.ChoiceOne);
+        TextView comboOption2 = dialog.findViewById(R.id.ChoiceTwo);
+        ImageView checkMark1 = dialog.findViewById(R.id.checkMark1); // Add these ImageViews to your popup layout
+        ImageView checkMark2 = dialog.findViewById(R.id.checkMark2);
+
+        Combo combo = new Combo(new HandTypeManager(continueReader.getHandTypesFromJson()));
+
+        String option1 = combo.selectRandomCombo();
+        String option2 = combo.selectRandomCombo();
+
+        comboOption1.setText("+ " + option1);
+        comboOption2.setText("+ " + option2);
+
+        // Initially hide check marks
+        checkMark1.setVisibility(View.INVISIBLE);
+        checkMark2.setVisibility(View.INVISIBLE);
+
+        View.OnClickListener voucherClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView selectedOption = (TextView) v;
+                ImageView correspondingCheckMark;
+                TextView otherOption;
+                ImageView otherCheckMark;
+
+                if (v.getId() == R.id.ChoiceOne) {
+                    correspondingCheckMark = checkMark1;
+                    otherOption = comboOption2;
+                    otherCheckMark = checkMark2;
+                } else {
+                    correspondingCheckMark = checkMark2;
+                    otherOption = comboOption1;
+                    otherCheckMark = checkMark1;
+                }
+
+                // Gray out the selected option
+                selectedOption.setAlpha(0.5f);
+                selectedOption.setClickable(false);
+
+                // Show check mark
+                correspondingCheckMark.setVisibility(View.VISIBLE);
+
+                // Reset the other option if it was previously selected
+                otherOption.setAlpha(1f);
+                otherOption.setClickable(true);
+                otherCheckMark.setVisibility(View.INVISIBLE);
+
+                // Set up check mark click listener
+                correspondingCheckMark.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Apply the selected upgrade
+                        if (selectedOption == comboOption1) {
+                            addComboUpgrade(option1);
+                        } else {
+                            addComboUpgrade(option2);
+                        }
+                        dialog.dismiss();
+                    }
+                });
+            }
+        };
+
+        comboOption1.setOnClickListener(voucherClickListener);
+        comboOption2.setOnClickListener(voucherClickListener);
+
+        dialog.show();
+    }
+
+    public void addComboUpgrade(String combo){
+        HandTypeManager handTypeManager = new
+                HandTypeManager(continueReader.getHandTypesFromJson());
+        Combo combo1 = new Combo(handTypeManager);
+        handTypeManager.upgradeHand(combo, combo1.upgradeHandType(combo));
+        continueReader.setHandtypes(this, handTypeManager.getAllHands());
+        nextRound(this);
+    }
+
     private void openShopPage(String layoutName){
         Intent intent = new Intent(ShopPage.this, Shop.class);
         intent.putExtra("layoutName", layoutName);
         startActivity(intent);
     }
-
-
-
 
 
     public void nextRound(Context context) {
