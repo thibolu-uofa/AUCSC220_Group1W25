@@ -14,6 +14,10 @@
  *          if the user has some paintings added,
  *          we would like to update them through this
  *          method
+ *      getPaintings()
+ *          returns the paintings in hand
+ *      getHands()
+ *          returns the handtype manager in this file
  *      scoring(ArrayList<Integer> selectedValues)
  *          returns the hand of the selected dice which
  *          will be used to calculate the score
@@ -35,6 +39,9 @@
  *      allOrNothing(ArrayList<Integer> selectedValues)
  *          finds out if the allOrNothing painting can be
  *          used
+ *      selectRandomPainting()
+ *          out of a predetermined list of paintings, gives
+ *          random one
  */
 
 package com.rollo;
@@ -42,6 +49,7 @@ package com.rollo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
 public class PaintingAndScoring {
 
@@ -93,6 +101,24 @@ public class PaintingAndScoring {
      * @param paintings
      */
     public void setPaintings(String[] paintings) { this.paintings = paintings;}
+
+    /**
+     * getPaintings
+     *
+     * will return the paintings in hand
+     *
+     * @return the paintings in hand
+     */
+    public String[] getPaintings() { return paintings; }
+
+    /**
+     * getHands
+     *
+     * will return the hands inputted
+     *
+     * @return the handtype manager
+     */
+    public HandTypeManager getHands() { return hands; }
 
     /**
      * scoring
@@ -299,5 +325,24 @@ public class PaintingAndScoring {
             }
         }
         return true;
+    }
+
+    /**
+     * selectRandomPainting
+     *
+     * this will be used in the shop to return a random
+     * painting
+     *
+     * Uses Timi's Code in Dice.Java
+     *
+     * @return string of painting offered
+     */
+    public String selectRandomPainting(){
+        String[] possiblePaintings = new String[]{"High Roller", "Pair Magnet", "Lucky 6",
+                                                "Chaos Die", "Straight Shooter", "House Flipper",
+                                                "Glass Die", "All or Nothing", "Pip Squeak",
+                                                "Time Warp"};
+        Random rand = new Random();
+        return possiblePaintings[rand.nextInt(possiblePaintings.length)];
     }
 }
