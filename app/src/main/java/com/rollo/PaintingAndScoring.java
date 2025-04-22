@@ -42,6 +42,8 @@
  *      selectRandomPainting()
  *          out of a predetermined list of paintings, gives
  *          random one
+ *      returnDialogue(String paintingSelected)
+ *          returns what a certain painting does
  */
 
 package com.rollo;
@@ -344,5 +346,49 @@ public class PaintingAndScoring {
                 "Time Warp"};
         Random rand = new Random();
         return possiblePaintings[rand.nextInt(possiblePaintings.length)];
+    }
+
+    /**
+     * returnDialogue
+     *
+     * This will be used to get text from each painting
+     * that describes its ability
+     *
+     * @return string of the paintings ability
+     */
+    public String returnDialogue(String paintingSelected){
+        if(paintingSelected.equals("High Roller")){
+            return "+1 Mult for each played die showing 5 or 6 ";
+        }
+        else if (paintingSelected.equals("Pair Magnet")) {
+            return "Pairs grant +3 Mult";
+        }
+        else if (paintingSelected.equals("Lucky 6")) {
+            return "Once per round, set one die to 6";
+        }
+        else if (paintingSelected.equals("Chaos Die")){
+            return "One die rolls twice—pick either result";
+        }
+        else if (paintingSelected.equals("Straight Shooter")){
+            return "Treat Small Straights as Large Straights";
+        }
+        else if (paintingSelected.equals("House Flipper")){
+            return "Full Houses score +15 pips";
+        }
+        else if (paintingSelected.equals("Glass Die")){
+            return "Double one die’s value, but another becomes 1";
+        }
+        else if (paintingSelected.equals("All or Nothing")){
+            return "If all selected dice are even, +4 Mult. Else, -1 Mult";
+        }
+        else if (paintingSelected.equals("Pip Squeak")){
+            return "All 1s count as 6s";
+        }
+        else if (paintingSelected.equals("Time Warp")){
+            return "Freeze one die’s value for the next round.";
+        }
+        else{
+            return "";
+        }
     }
 }
