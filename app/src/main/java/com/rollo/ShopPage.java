@@ -4,17 +4,15 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.view.View;
 import android.app.Dialog;
-import android.widget.Toast;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ShopPage extends AppCompatActivity {
 
     private Continue continueReader;
-    private String pendingVoucherType = "";
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -53,56 +51,80 @@ public class ShopPage extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_upgrade_selection);
 
-        ImageView voucherOption1 = dialog.findViewById(R.id.imageView11);
-        ImageView voucherOption2 = dialog.findViewById(R.id.imageView13);
-        Button confirmButton = dialog.findViewById(R.id.button);
+        TextView voucherOption1 = dialog.findViewById(R.id.ChoiceOne);
+        TextView voucherOption2 = dialog.findViewById(R.id.ChoiceTwo);
+        ImageView checkMark1 = dialog.findViewById(R.id.checkMark1); // Add these ImageViews to your popup layout
+        ImageView checkMark2 = dialog.findViewById(R.id.checkMark2);
 
-        final String[] selectedVoucherType = new String[]{""};
+        voucherOption1.setText("+1▶️");
+        voucherOption2.setText("+1🎲");
 
-        voucherOption1.setImageResource(R.drawable.dice_frame);
-        voucherOption2.setImageResource(R.drawable.dice_frame);
+        // Initially hide check marks
+        checkMark1.setVisibility(View.INVISIBLE);
+        checkMark2.setVisibility(View.INVISIBLE);
 
-        voucherOption1.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener voucherClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedVoucherType[0] = "plays";
-                voucherOption1.setAlpha(1f);
-                voucherOption2.setAlpha(0.5f);
-            }
-        });
-        voucherOption2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedVoucherType[0] = "rerolls";
-                voucherOption1.setAlpha(0.5f);
-                voucherOption2.setAlpha(1f);
-            }
-        });
+                TextView selectedOption = (TextView) v;
+                ImageView correspondingCheckMark;
+                TextView otherOption;
+                ImageView otherCheckMark;
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!selectedVoucherType[0].isEmpty()) {
-                    Voucher voucher = new Voucher();
-
-                    if ("plays".equals(selectedVoucherType[0])) {
-                        continueReader.setVoucherType(ShopPage.this, "plays");
-                    } else if ("rerolls".equals(selectedVoucherType[0])) {
-                        continueReader.setVoucherType(ShopPage.this, "rerolls");
-                    }
-
-
-                    Toast.makeText(ShopPage.this, "Voucher selected! Press 'Next Round' to continue.", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                if (v.getId() == R.id.ChoiceOne) {
+                    correspondingCheckMark = checkMark1;
+                    otherOption = voucherOption2;
+                    otherCheckMark = checkMark2;
                 } else {
-                    Toast.makeText(ShopPage.this, "Please select a voucher first.", Toast.LENGTH_SHORT).show();
+                    correspondingCheckMark = checkMark2;
+                    otherOption = voucherOption1;
+                    otherCheckMark = checkMark1;
                 }
+
+                // Gray out the selected option
+                selectedOption.setAlpha(0.5f);
+                selectedOption.setClickable(false);
+
+                // Show check mark
+                correspondingCheckMark.setVisibility(View.VISIBLE);
+
+                // Reset the other option if it was previously selected
+                otherOption.setAlpha(1f);
+                otherOption.setClickable(true);
+                otherCheckMark.setVisibility(View.INVISIBLE);
+
+                // Set up check mark click listener
+                correspondingCheckMark.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Apply the selected upgrade
+                        if (selectedOption == voucherOption1) {
+                            // Handle +1▶️ upgrade
+                            addPlaysUpgrade();
+                        } else {
+                            // Handle +1🎲 upgrade
+                            addRerollUpgrade();
+                        }
+                        dialog.dismiss();
+                    }
+                });
             }
-        });
+        };
 
-
+        voucherOption1.setOnClickListener(voucherClickListener);
+        voucherOption2.setOnClickListener(voucherClickListener);
 
         dialog.show();
+    }
+
+    private void addPlaysUpgrade() {
+        continueReader.setPlays(this,continueReader.getPlaysFromJson() + 1);
+        nextRound(this);
+    }
+
+    private void addRerollUpgrade() {
+        continueReader.setRerolls(this, continueReader.getRerollFromJson() + 1);
+        nextRound(this);
     }
 
     private void openShopPage(String layoutName){
@@ -111,40 +133,13 @@ public class ShopPage extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onNextRoundClick(View view) {
 
-        String voucher = continueReader.getVoucherType(this);
-
-        int newPlays = 5;
-        int newRerolls = 4;
-        /*
-        if (voucher.equals("plays")) {
-            newPlays += 1;
-        } else if (voucher.equals("rerolls")) {
-            newRerolls += 1;
-        }
-        */
-        continueReader.setPlays(this, newPlays);
-        continueReader.setRerolls(this, newRerolls);
-
-        nextRound(this);  // this now clears the voucher inside
-
-
-    }
 
 
 
     public void nextRound(Context context) {
-        String voucher = continueReader.getVoucherType(context);
-        continueReader.setCurrentScore(context, 0);
-
         Intent intent = new Intent(context, GameField.class);
-        if (!voucher.isEmpty()) {
-            intent.putExtra("voucherType", voucher);
-        }
         context.startActivity(intent);
-
-        continueReader.clearVoucherType(context);
         finish();
     }
 }
