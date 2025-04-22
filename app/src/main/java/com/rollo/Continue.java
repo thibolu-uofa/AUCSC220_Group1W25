@@ -20,6 +20,8 @@
  *          gets the needed score to beat saved in the userdata.json file
  *      getCurrentScoreFromJson()
  *          gets the current score saved in the userdata.json file
+ *      getPaintingsFromJson()
+ *          gets the paintings saved in the userdata.json file
  *      copyJsonToInternalStorageIfNeeded(Context context)
  *          saves the json file to internal storage for save state to work
  *      setCurrentScore(Context context, int amount)
@@ -36,6 +38,8 @@
  *          saves the amount of Rerolls to the json file
  *      setHandtypes(Context context, List<HandType> handTypes)
  *          saves the hands to the json file
+ *      setHandtypes(Context context, String[] paintings)
+ *  *          saves the paintings to the json file
  *      resetToDefaults(Context context)
  *          resets the userdata.json file
  */
@@ -213,6 +217,31 @@ public class Continue {
         } catch (Exception e) {
             Log.e("Continue", "Error reading internal JSON", e);
             return 0;
+        }
+    }
+
+    /**
+     * getPaintingsFromJson
+     *
+     * using the google Json reader, it will use the UserData.java
+     * class to cleanse the file "userdata.json" and output the proper data
+     *
+     * @return the paintings saved in the json file
+     */
+    public String[] getPaintingsFromJson() {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+            UserData userData;
+
+            try (FileReader reader = new FileReader(file)) {
+                userData = gson.fromJson(reader, UserData.class);
+            }
+
+            return userData.getPaintings();
+        } catch (Exception e) {
+            Log.e("Continue", "Error reading internal JSON", e);
+            return new String[]{"", "", "", ""};
         }
     }
 
@@ -491,6 +520,43 @@ public class Continue {
 
         } catch (Exception e) {
             Log.e("CONTINUE", "Failed to handtypes", e);
+        }
+    }
+
+    /**
+     * setPaintings
+     *
+     * sets the Users Paintings from the user
+     * into the internal storage
+     *
+     * @param context
+     * @param paintings
+     */
+    public void setPaintings(Context context, String[] paintings) {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+
+            // Read the current userdata
+            UserData data;
+            try (FileReader reader = new FileReader(file)) {
+                data = gson.fromJson(reader, UserData.class);
+            }
+
+            // Update the plays
+            if (data != null && data.getGameState() != null) {
+                data.setPaintings(paintings);
+
+
+                // Write it back
+                try (FileWriter writer = new FileWriter(file)) {
+                    gson.toJson(data, writer);
+                    Log.d("CONTINUE", "Paintings are: " + data.getPaintings().toString());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("CONTINUE", "Failed to set paintings", e);
         }
     }
 
