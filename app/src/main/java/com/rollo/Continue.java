@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.util.List;
-
+import android.content.SharedPreferences;
 public class Continue {
     private final Context context;
 
@@ -20,6 +20,21 @@ public class Continue {
     public Continue(Context context) {
         this.context = context;
         InputStream inputStream = context.getResources().openRawResource(R.raw.userdata);
+    }
+    // Add these in your Continue class
+    public void setVoucherType(Context context, String type) {
+        SharedPreferences prefs = context.getSharedPreferences("game_data", Context.MODE_PRIVATE);
+        prefs.edit().putString("voucher_type", type).apply();
+    }
+
+    public String getVoucherType(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("game_data", Context.MODE_PRIVATE);
+        return prefs.getString("voucher_type", "");
+    }
+
+    public void clearVoucherType(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("game_data", Context.MODE_PRIVATE);
+        prefs.edit().remove("voucher_type").apply();
     }
 
     public List<HandType> getHandTypesFromJson() {
