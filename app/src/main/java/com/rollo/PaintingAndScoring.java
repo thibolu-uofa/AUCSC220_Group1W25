@@ -44,6 +44,8 @@
  *          random one
  *      returnDialogue(String paintingSelected)
  *          returns what a certain painting does
+ *      convertToDrawableName(String displayName)
+ *          gets the filename of a certain painting
  */
 
 package com.rollo;
@@ -408,5 +410,19 @@ public class PaintingAndScoring {
             }
         }
         return paintings;
+    }
+
+    /**
+     * convertToDrawableName
+     *
+     * will convert names of paintings into something
+     * that can get the physical painting
+     *
+     * @param displayName
+     * @return the filename of hands
+     */
+    public String convertToDrawableName(String displayName) {
+        // Convert to lowercase and replace spaces with underscores
+        return displayName.toLowerCase().replace(" ", "_");
     }
 }

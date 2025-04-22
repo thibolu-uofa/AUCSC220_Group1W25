@@ -364,6 +364,7 @@ public class ShopPage extends AppCompatActivity {
         paintingOption1View.setText("+ " + selectedPainting1);
         paintingOption2View.setText("+ " + selectedPainting2);
 
+
         // Reset UI state
         checkMark1.setVisibility(View.INVISIBLE);
         checkMark2.setVisibility(View.INVISIBLE);
