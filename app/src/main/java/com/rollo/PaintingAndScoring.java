@@ -391,4 +391,22 @@ public class PaintingAndScoring {
             return "";
         }
     }
+
+    /**
+     * updatePaintingHand
+     *
+     * taking an upgrade string of a painting and it will
+     * update the paintings in hand
+     *
+     * @param newPainting
+     * @return the newly updated painting hand
+     */
+    public String[] updatePaintingHand(String newPainting){
+        for (int i = 0; i < paintings.length; i++) {
+            if(paintings[i].equals("")){
+                paintings[i] = newPainting;
+            }
+        }
+        return paintings;
+    }
 }

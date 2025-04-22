@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.view.View;
 import android.app.Dialog;
@@ -17,6 +18,21 @@ public class ShopPage extends AppCompatActivity {
     private TextView firstSelectedPainting = null;
     private int paintingsSelected = 0;
     private String[] paintings = new String[4]; // Your painting names array
+
+    private Dialog comboDialog;
+    private boolean isComboDialogShowing = false;
+
+    private String comboOption1;
+    private String comboOption2;
+
+    // Add these as class member variables
+    private String selectedPainting1;
+    private String selectedPainting2;
+    private boolean isPaintingDialogShowing = false;
+    private Dialog paintingDialog;
+
+    private Dialog voucherDialog;
+    private boolean isVoucherDialogShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -33,10 +49,6 @@ public class ShopPage extends AppCompatActivity {
 
         continueReader = new Continue(this);
         continueReader.copyJsonToInternalStorageIfNeeded(this);
-    }
-
-    public void onCombosClick(View view){
-        showComboPopup();
     }
 
     /**
@@ -106,8 +118,11 @@ public class ShopPage extends AppCompatActivity {
         }
         return -1; // Not found
     }
+    public void onCombosClick(View view){
+        showComboPopup();
+    }
     public void onPaintingClick(View view){
-        openShopPage("shop_painting");
+        showPaintingPopup();
     }
 
     public void onVouchersClick(View view){
@@ -115,13 +130,25 @@ public class ShopPage extends AppCompatActivity {
     }
 
     private void showVoucherPopup() {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.popup_upgrade_selection);
+        if (isVoucherDialogShowing) {
+            return;
+        }
 
-        TextView voucherOption1 = dialog.findViewById(R.id.ChoiceOne);
-        TextView voucherOption2 = dialog.findViewById(R.id.ChoiceTwo);
-        ImageView checkMark1 = dialog.findViewById(R.id.checkMark1); // Add these ImageViews to your popup layout
-        ImageView checkMark2 = dialog.findViewById(R.id.checkMark2);
+        voucherDialog = new Dialog(this);
+        voucherDialog.setContentView(R.layout.popup_upgrade_selection);
+
+        // Allow dismissing when clicking outside
+        voucherDialog.setCanceledOnTouchOutside(true);
+
+        // Handle dialog dismissal
+        voucherDialog.setOnDismissListener(dialog -> {
+            isVoucherDialogShowing = false;
+        });
+
+        TextView voucherOption1 = voucherDialog.findViewById(R.id.ChoiceOne);
+        TextView voucherOption2 = voucherDialog.findViewById(R.id.ChoiceTwo);
+        ImageView checkMark1 = voucherDialog.findViewById(R.id.checkMark1); // Add these ImageViews to your popup layout
+        ImageView checkMark2 = voucherDialog.findViewById(R.id.checkMark2);
 
         voucherOption1.setText("+1▶️");
         voucherOption2.setText("+1🎲");
@@ -129,6 +156,10 @@ public class ShopPage extends AppCompatActivity {
         // Initially hide check marks
         checkMark1.setVisibility(View.INVISIBLE);
         checkMark2.setVisibility(View.INVISIBLE);
+        voucherOption1.setAlpha(1f);
+        voucherOption1.setClickable(true);
+        voucherOption2.setAlpha(1f);
+        voucherOption2.setClickable(true);
 
         View.OnClickListener voucherClickListener = new View.OnClickListener() {
             @Override
@@ -172,7 +203,7 @@ public class ShopPage extends AppCompatActivity {
                             // Handle +1🎲 upgrade
                             addRerollUpgrade();
                         }
-                        dialog.dismiss();
+                        voucherDialog.dismiss();
                     }
                 });
             }
@@ -181,7 +212,7 @@ public class ShopPage extends AppCompatActivity {
         voucherOption1.setOnClickListener(voucherClickListener);
         voucherOption2.setOnClickListener(voucherClickListener);
 
-        dialog.show();
+        voucherDialog.show();
     }
 
     private void addPlaysUpgrade() {
@@ -195,25 +226,47 @@ public class ShopPage extends AppCompatActivity {
     }
 
     private void showComboPopup() {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.popup_upgrade_selection);
+        // Return if dialog is already showing
+        if (isComboDialogShowing) {
+            return;
+        }
 
-        TextView comboOption1 = dialog.findViewById(R.id.ChoiceOne);
-        TextView comboOption2 = dialog.findViewById(R.id.ChoiceTwo);
-        ImageView checkMark1 = dialog.findViewById(R.id.checkMark1); // Add these ImageViews to your popup layout
-        ImageView checkMark2 = dialog.findViewById(R.id.checkMark2);
+        comboDialog = new Dialog(this);
+        comboDialog.setContentView(R.layout.popup_upgrade_selection);
+
+        // Allow dismissing when clicking outside
+        comboDialog.setCanceledOnTouchOutside(true);
+
+        // Handle dialog dismissal
+        comboDialog.setOnDismissListener(dialog -> {
+            isComboDialogShowing = false;
+        });
+
+        TextView ComboOption1 = comboDialog.findViewById(R.id.ChoiceOne);
+        TextView ComboOption2 = comboDialog.findViewById(R.id.ChoiceTwo);
+        ImageView checkMark1 = comboDialog.findViewById(R.id.checkMark1);
+        ImageView checkMark2 = comboDialog.findViewById(R.id.checkMark2);
 
         Combo combo = new Combo(new HandTypeManager(continueReader.getHandTypesFromJson()));
 
-        String option1 = combo.selectRandomCombo();
-        String option2 = combo.selectRandomCombo();
+        if(comboOption1 == null && comboOption2 == null){
+            comboOption1 = combo.selectRandomCombo();
+            comboOption2 = combo.selectRandomCombo();
+        }
 
-        comboOption1.setText("+ " + option1);
-        comboOption2.setText("+ " + option2);
 
-        // Initially hide check marks
+        ComboOption1.setText("+ " + comboOption1);
+        ComboOption2.setText("+ " + comboOption2);
+        ComboOption1.setTextSize(15);
+        ComboOption2.setTextSize(15);
+
+        // Initially hide check marks and reset states
         checkMark1.setVisibility(View.INVISIBLE);
         checkMark2.setVisibility(View.INVISIBLE);
+        ComboOption1.setAlpha(1f);
+        ComboOption1.setClickable(true);
+        ComboOption2.setAlpha(1f);
+        ComboOption2.setClickable(true);
 
         View.OnClickListener voucherClickListener = new View.OnClickListener() {
             @Override
@@ -225,11 +278,11 @@ public class ShopPage extends AppCompatActivity {
 
                 if (v.getId() == R.id.ChoiceOne) {
                     correspondingCheckMark = checkMark1;
-                    otherOption = comboOption2;
+                    otherOption = ComboOption2;
                     otherCheckMark = checkMark2;
                 } else {
                     correspondingCheckMark = checkMark2;
-                    otherOption = comboOption1;
+                    otherOption = ComboOption1;
                     otherCheckMark = checkMark1;
                 }
 
@@ -250,21 +303,22 @@ public class ShopPage extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // Apply the selected upgrade
-                        if (selectedOption == comboOption1) {
-                            addComboUpgrade(option1);
+                        if (selectedOption == ComboOption1) {
+                            addComboUpgrade(comboOption1);
                         } else {
-                            addComboUpgrade(option2);
+                            addComboUpgrade(comboOption2);
                         }
-                        dialog.dismiss();
+                        comboDialog.dismiss();
                     }
                 });
             }
         };
 
-        comboOption1.setOnClickListener(voucherClickListener);
-        comboOption2.setOnClickListener(voucherClickListener);
+        ComboOption1.setOnClickListener(voucherClickListener);
+        ComboOption2.setOnClickListener(voucherClickListener);
 
-        dialog.show();
+        isComboDialogShowing = true;
+        comboDialog.show();
     }
 
     public void addComboUpgrade(String combo){
@@ -277,28 +331,49 @@ public class ShopPage extends AppCompatActivity {
     }
 
     private void showPaintingPopup() {
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.popup_upgrade_selection);
+        if (isPaintingDialogShowing) {
+            return;
+        }
 
-        TextView voucherOption1 = dialog.findViewById(R.id.ChoiceOne);
-        TextView voucherOption2 = dialog.findViewById(R.id.ChoiceTwo);
-        ImageView checkMark1 = dialog.findViewById(R.id.checkMark1); // Add these ImageViews to your popup layout
-        ImageView checkMark2 = dialog.findViewById(R.id.checkMark2);
+        paintingDialog = new Dialog(this);
+        paintingDialog.setContentView(R.layout.popup_upgrade_selection);
+        paintingDialog.setCanceledOnTouchOutside(true);
+        paintingDialog.setOnDismissListener(dialog -> {
+            isPaintingDialogShowing = false;
+            selectedPainting1 = null;  // Reset selections when dismissed
+            selectedPainting2 = null;
+        });
 
-        PaintingAndScoring paintingAndScoring = new
-                PaintingAndScoring(continueReader.getPaintingsFromJson());
+        TextView paintingOption1View = paintingDialog.findViewById(R.id.ChoiceOne);
+        TextView paintingOption2View = paintingDialog.findViewById(R.id.ChoiceTwo);
+        ImageView checkMark1 = paintingDialog.findViewById(R.id.checkMark1);
+        ImageView checkMark2 = paintingDialog.findViewById(R.id.checkMark2);
+        TextView optionDialogue = paintingDialog.findViewById(R.id.PaintingDialogue);
 
-        String ChoiceOne = paintingAndScoring.selectRandomPainting();
-        String ChoiceTwo = paintingAndScoring.selectRandomPainting();
+        PaintingAndScoring paintingAndScoring = new PaintingAndScoring(continueReader.getPaintingsFromJson());
 
-        voucherOption1.setText("+ " + ChoiceOne);
-        voucherOption2.setText("+" + ChoiceTwo);
+        // Always get new random paintings when popup opens
+        selectedPainting1 = paintingAndScoring.selectRandomPainting();
+        selectedPainting2 = paintingAndScoring.selectRandomPainting();
 
-        // Initially hide check marks
+        // Ensure we don't show the same painting twice
+        while (selectedPainting2.equals(selectedPainting1)) {
+            selectedPainting2 = paintingAndScoring.selectRandomPainting();
+        }
+
+        paintingOption1View.setText("+ " + selectedPainting1);
+        paintingOption2View.setText("+ " + selectedPainting2);
+
+        // Reset UI state
         checkMark1.setVisibility(View.INVISIBLE);
         checkMark2.setVisibility(View.INVISIBLE);
+        paintingOption1View.setAlpha(1f);
+        paintingOption1View.setClickable(true);
+        paintingOption2View.setAlpha(1f);
+        paintingOption2View.setClickable(true);
+        optionDialogue.setText("Select a painting upgrade");
 
-        View.OnClickListener voucherClickListener = new View.OnClickListener() {
+        View.OnClickListener paintingClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextView selectedOption = (TextView) v;
@@ -306,20 +381,16 @@ public class ShopPage extends AppCompatActivity {
                 TextView otherOption;
                 ImageView otherCheckMark;
 
-                //Show option text
-                TextView optionDialogue = dialog.findViewById(R.id.PaintingDialogue);
-
-
                 if (v.getId() == R.id.ChoiceOne) {
                     correspondingCheckMark = checkMark1;
-                    otherOption = voucherOption2;
+                    otherOption = paintingOption2View;
                     otherCheckMark = checkMark2;
-                    optionDialogue.setText(paintingAndScoring.returnDialogue(ChoiceOne));
+                    optionDialogue.setText(paintingAndScoring.returnDialogue(selectedPainting1));
                 } else {
                     correspondingCheckMark = checkMark2;
-                    otherOption = voucherOption1;
+                    otherOption = paintingOption1View;
                     otherCheckMark = checkMark1;
-                    optionDialogue.setText(paintingAndScoring.returnDialogue(ChoiceTwo));
+                    optionDialogue.setText(paintingAndScoring.returnDialogue(selectedPainting2));
                 }
 
                 // Gray out the selected option
@@ -335,35 +406,38 @@ public class ShopPage extends AppCompatActivity {
                 otherCheckMark.setVisibility(View.INVISIBLE);
 
 
-
                 // Set up check mark click listener
                 correspondingCheckMark.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Apply the selected upgrade
-                        if (selectedOption == voucherOption1) {
-                            // Handle +1▶️ upgrade
-                            addPlaysUpgrade();
+                        if (selectedOption == paintingOption1View) {
+                            addPaintingUpgrade(selectedPainting1);
                         } else {
-                            // Handle +1🎲 upgrade
-                            addRerollUpgrade();
+                            addPaintingUpgrade(selectedPainting2);
                         }
-                        dialog.dismiss();
+                        comboDialog.dismiss();
                     }
                 });
             }
         };
+        paintingOption1View.setOnClickListener(paintingClickListener);
+        paintingOption2View.setOnClickListener(paintingClickListener);
 
-        voucherOption1.setOnClickListener(voucherClickListener);
-        voucherOption2.setOnClickListener(voucherClickListener);
-
-        dialog.show();
+        isPaintingDialogShowing = true;
+        paintingDialog.show();
     }
 
-    private void openShopPage(String layoutName){
-        Intent intent = new Intent(ShopPage.this, Shop.class);
-        intent.putExtra("layoutName", layoutName);
-        startActivity(intent);
+    public void addPaintingUpgrade(String newPainting){
+        HandTypeManager handTypeManager = new
+                HandTypeManager(continueReader.getHandTypesFromJson());
+        PaintingAndScoring paintingAndScoring = new PaintingAndScoring(handTypeManager,
+                continueReader.getPaintingsFromJson());
+
+        continueReader.setPaintings(this,
+                paintingAndScoring.updatePaintingHand(newPainting));
+
+        nextRound(this);
     }
 
 
