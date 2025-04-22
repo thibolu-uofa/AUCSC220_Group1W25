@@ -74,7 +74,9 @@ public class GameField extends AppCompatActivity {
     private boolean clickedStart = false;
     private int playScore;
     private int rerollsLeft;
+    private int beginningRerolls;
     private int playsLeft;
+    private int beginningPlays;
     private int roundScore;
     private TextView result;
     private TextView pipCount;
@@ -112,7 +114,9 @@ public class GameField extends AppCompatActivity {
         roundScore = continueReader.getCurrentScoreFromJson();
         scoreDisplay.setText(String.valueOf(roundScore));
         rerollsLeft = continueReader.getRerollFromJson();
+        beginningRerolls = rerollsLeft;
         playsLeft = continueReader.getPlaysFromJson();
+        beginningPlays = playsLeft;
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
         threshold.setText("Score to beat: " + ScoreToBeat);
 
@@ -284,7 +288,7 @@ public class GameField extends AppCompatActivity {
     /**
      * openShop
      *
-     * will move the user to the shop page
+     * will move the user to the shop page and reset Values
      *
      * @param context
      */
@@ -292,6 +296,9 @@ public class GameField extends AppCompatActivity {
         Intent intent = new Intent(context, ShopPage.class);
         context.startActivity(intent);
         continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
+        continueReader.setCurrentScore(this, 0);
+        continueReader.setRerolls(this, beginningRerolls);
+        continueReader.setPlays(this, beginningPlays);
         finish();
     }
 
