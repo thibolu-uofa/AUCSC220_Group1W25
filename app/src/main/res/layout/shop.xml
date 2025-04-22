@@ -18,33 +18,32 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/background" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="636dp"
-        android:layout_height="243dp"
+    <TextView
+        android:id="@+id/BoxBehindUpgrades"
+        android:layout_width="434dp"
+        android:layout_height="218dp"
         android:layout_marginStart="47dp"
         android:layout_marginTop="152dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="47dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="411dp"
-        android:layout_height="125dp"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="270dp"
+    <TextView
+        android:id="@+id/PaintingBox"
+        android:layout_width="270dp"
+        android:layout_height="122dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dice_upgrade_removebg_preview" />
+        app:layout_constraintVertical_bias="0.028" />
 
     <ImageView
         android:id="@+id/imageView8"
@@ -52,7 +51,7 @@
         android:layout_height="137dp"
         android:layout_marginStart="165dp"
         android:layout_marginTop="152dp"
-        android:layout_marginEnd="166dp"
+        android:layout_marginEnd="165dp"
         android:layout_marginBottom="122dp"
         android:clickable="true"
         android:focusable="true"
@@ -70,7 +69,7 @@
         android:layout_height="138dp"
         android:layout_marginStart="165dp"
         android:layout_marginTop="220dp"
-        android:layout_marginEnd="164dp"
+        android:layout_marginEnd="165dp"
         android:layout_marginBottom="53dp"
         android:clickable="true"
         android:focusable="true"
@@ -95,23 +94,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/vouchers_button" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="324dp"
-        android:layout_height="201dp"
-        android:layout_marginStart="391dp"
-        android:layout_marginTop="172dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="38dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onNextRoundClick"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/next_round_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
