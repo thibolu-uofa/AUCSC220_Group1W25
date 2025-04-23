@@ -403,6 +403,7 @@ public class GameField extends AppCompatActivity {
                         getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
                 selectedTextDie[whichDie] = false;
                 amountSelected -= 1;
+                sum = summationOfPips();
             } else {
                 // Select dice
                 clicked.setBackgroundResource(
@@ -509,7 +510,7 @@ public class GameField extends AppCompatActivity {
             for (int i = 0; i < 6; i++) {
                 if(freqMap.containsKey(i)){
                     if(freqMap.get(i) == 2){
-                        sum += i;
+                        sum += i * 2;
                     }
                 }
             }

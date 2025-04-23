@@ -368,6 +368,8 @@ public class ShopPage extends AppCompatActivity {
 
         paintingOption1View.setText("+ " + selectedPainting1);
         paintingOption2View.setText("+ " + selectedPainting2);
+        paintingOption1View.setTextSize(15);
+        paintingOption2View.setTextSize(15);
 
 
         // Reset UI state
