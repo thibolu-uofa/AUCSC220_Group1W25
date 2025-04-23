@@ -1,3 +1,23 @@
+/**
+ *
+ * HandTypeManager.java
+ *
+ * The HandTypeManager class is a class that contains the initialization of the nine
+ * different hand types in Rollo, and manages changes to those hand types.
+ *
+ * @authors - Brett Siemens
+ *
+ * functions:
+ * getHandByName()
+ *      gets information about a hand from a string equal to its name
+ * setHandTypes()
+ *      currently unused
+ * getAllHands()
+ *      basic getter for hand types
+ * upgradeHand()
+ *      increase the scoring of each hand type
+ **/
+
 package com.rollo;
 
 import java.util.ArrayList;
@@ -23,10 +43,12 @@ public class HandTypeManager {
     }
 
     public HandType getHandByName(String name) {
-        return handTypes.stream()
-                .filter(h -> h.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
+        for (HandType hand : handTypes) {
+            if (hand.getName().equals(name)) {
+                return hand;
+            }
+        }
+        return null;
     }
 
     public void setHandTypes(List<HandType> handTypes) {
