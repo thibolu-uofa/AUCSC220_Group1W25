@@ -90,9 +90,6 @@ public class GameField extends AppCompatActivity {
     private Dice[] sixDie;
     private TextView[] sixTextDie;
     private boolean hasLost = false;
-    private Dialog lossDialog;
-
-
 
     private int amountSelected = 0;
     private final int[] sixValues = new int[]{0,0,0,0,0,0};
@@ -234,12 +231,18 @@ public class GameField extends AppCompatActivity {
      * @param myView
      */
     public void play(View myView) {
+        int sumOfSelected = 0;
+        for (int i = 0; i < selectedTextDie.length; i++) {
+            if (selectedTextDie[i]) {
+                sumOfSelected += sixValues[i];
+            }
+        }
         if (amountSelected >= 1 && amountSelected <= 5 && playsLeft > 0) {
             PaintingAndScoring scored = new PaintingAndScoring(hands);
             HandType hand = scored.scoring(updateDiceArray());
             resetSelectedDice();
             result.setText("");
-            playScore = hand.getPips() * hand.getMult();
+            playScore = (hand.getPips() + sumOfSelected) * hand.getMult();
             roundScore += playScore;
             continueReader.setCurrentScore(this, roundScore);
             continueReader.setRunHighScore(this);
@@ -289,6 +292,13 @@ public class GameField extends AppCompatActivity {
         dialog.show();
 
         View decorView = dialog.getWindow().getDecorView();
+
+        int allTimeScore = continueReader.getAllTimeHighScoreFromJson();
+
+        continueReader.resetToDefaults(this);
+        continueReader.setCurrentScore(this, allTimeScore);
+        continueReader.setAllTimeHighScore(this);
+        continueReader.setCurrentScore(this, 0);
 
         decorView.postDelayed(new Runnable() {
             @Override
