@@ -1,3 +1,22 @@
+/**
+ *
+ * Combo.java
+ *
+ * The Combo class is a type of upgrade which upgrades the users hand combinations.
+ *
+ * @authors - Brett Siemens
+ *
+ * functions:
+ * upgradeHandType(String handType)
+ *      increases score when that hand type is played
+ *
+ * setToJson(Context context)
+ *      writes the new hand type combos into UserData json file
+ *
+ * selectRandomCombo
+ *      picks a random combo - used in the shop to generate combo upgrades
+ */
+
 package com.rollo;
 
 import android.content.Context;
