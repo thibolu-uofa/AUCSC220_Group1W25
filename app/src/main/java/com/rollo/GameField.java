@@ -381,43 +381,47 @@ public class GameField extends AppCompatActivity {
      * @param view
      */
     public void selectDice(View view) {
-        if (clickedStart) {
-            TextView clicked = (TextView) view;
-            if (clicked == null) return;
+        if (!clickedStart) return;
 
-            try {
-                int whichDie = getDiceIndex(clicked);
+        TextView clicked = (TextView) view;
+        if (clicked == null) return;
 
-                if (selectedTextDie[whichDie]) {
-                    // Switch to regular dice
-                    clicked.setBackgroundResource(
-                            getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
-                    selectedTextDie[whichDie] = false;
-                    amountSelected -= 1;  // Decrease selected count
-                }
-                else {
-                    // Switch to selected dice
-                    clicked.setBackgroundResource(
-                            getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
-                    selectedTextDie[whichDie] = true;
-                    amountSelected += 1;  // Increase selected count
-                }
+        try {
+            int whichDie = getDiceIndex(clicked);
 
+            if (selectedTextDie[whichDie]) {
+                // Unselect dice
+                clicked.setBackgroundResource(
+                        getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
+                selectedTextDie[whichDie] = false;
+                amountSelected -= 1;
+            } else {
+                // Select dice
+                clicked.setBackgroundResource(
+                        getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
+                selectedTextDie[whichDie] = true;
+                amountSelected += 1;
             }
-            catch (Exception e) {
-                Log.d("Failure","Failure in selecting dice");
-                clicked.setBackgroundResource(R.drawable.dice_1);
-            }
-
-
-            PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
-
-            HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
-                    paintingAndScoring.getScoring(updateDiceArray()));
-            result.setText(hand.getName());
-            pipCount.setText(String.valueOf(hand.getPips()));
-            multCount.setText(String.valueOf(hand.getMult()));
+        } catch (Exception e) {
+            Log.d("Failure", "Failure in selecting dice");
+            clicked.setBackgroundResource(R.drawable.dice_1);
         }
+
+        // Now that the selection state is updated, recalculate the sum
+        int sumOfSelected = 0;
+        for (int i = 0; i < selectedTextDie.length; i++) {
+            if (selectedTextDie[i]) {
+                sumOfSelected += sixValues[i];
+            }
+        }
+
+        PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
+
+        HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
+                paintingAndScoring.getScoring(updateDiceArray()));
+        result.setText(hand.getName());
+        pipCount.setText(String.valueOf(hand.getPips() + sumOfSelected));
+        multCount.setText(String.valueOf(hand.getMult()));
     }
 
     /**
