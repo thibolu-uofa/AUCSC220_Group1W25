@@ -123,6 +123,10 @@ public class GameField extends AppCompatActivity {
         beginningRerolls = rerollsLeft;
         playsLeft = continueReader.getPlaysFromJson();
         beginningPlays = playsLeft;
+        roundNumber = continueReader.getRoundsFromJson();
+        highestPlay = continueReader.getHighScoreFromJson();
+
+
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
         threshold.setText("Score to beat: " + ScoreToBeat);
 
@@ -250,7 +254,12 @@ public class GameField extends AppCompatActivity {
             handLimitText.setText(String.valueOf(playsLeft));
 
             if (continueReader.getScoreToBeatFromJson() <= roundScore){
-                continueReader.setHighScore(this);
+                int previousHigh = continueReader.getHighScoreFromJson();
+                if (roundScore > previousHigh) {
+                    continueReader.setHighScore(this);
+
+                }
+                highestPlay = previousHigh;
                 openShop(this);
             }
 
@@ -258,7 +267,7 @@ public class GameField extends AppCompatActivity {
             else if(playsLeft == 0 && continueReader.getScoreToBeatFromJson() > roundScore && !hasLost){
                 //Need to change one of round score to highestPlay
                 hasLost = true;
-                lossGame(roundScore, roundNumber, roundScore);
+                lossGame(roundScore, roundNumber, highestPlay);
             }
 
         }
@@ -283,7 +292,12 @@ public class GameField extends AppCompatActivity {
 
         roundText.setText(String.valueOf(round));
         scoreText.setText(String.valueOf(score));
-        highscoreText.setText(String.valueOf(highscore));
+        if(highscore == 0){
+            highscoreText.setText(String.valueOf(score));
+        }
+        else {
+            highscoreText.setText(String.valueOf(highscore));
+        }
 
         dialog.show();
 
@@ -297,7 +311,7 @@ public class GameField extends AppCompatActivity {
                     openMenu(GameField.this);
                 }
             }
-        }, 5000);
+        }, 7000);
     }
 
     /**
@@ -343,6 +357,10 @@ public class GameField extends AppCompatActivity {
     private void openShop(Context context) {
         Intent intent = new Intent(context, ShopPage.class);
         context.startActivity(intent);
+
+        roundNumber++;
+        continueReader.setRounds(this,roundNumber);
+
         continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
         continueReader.setCurrentScore(this, 0);
         continueReader.setRerolls(this, beginningRerolls);

@@ -71,6 +71,69 @@ public class Continue {
 
 
     /**
+     * getRoundsFromJson
+     *
+     * using the google Json reader, it will use the UserData.java
+     * class to cleanse the file "userdata.json" and output the proper data
+     *
+     * @return the number of Rounds saved in the json file
+     */
+    public int getRoundsFromJson() {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+            UserData userData;
+
+            try (FileReader reader = new FileReader(file)) {
+                userData = gson.fromJson(reader, UserData.class);
+            }
+
+            if (userData != null && userData.getGameState() != null) {
+                return userData.getGameState().getRound();
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            Log.e("Continue", "Error reading rounds from JSON", e);
+            return 0;
+        }
+    }
+
+
+    /**
+     * getHighScoreFromJson
+     *
+     * using the google Json reader, it will use the UserData.java
+     * class to cleanse the file "userdata.json" and output the proper data
+     *
+     * @return the players HighScore saved in the json file
+     */
+    public int getHighScoreFromJson() {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+            UserData userData;
+
+            try (FileReader reader = new FileReader(file)) {
+                userData = gson.fromJson(reader, UserData.class);
+            }
+
+            if (userData != null && userData.getGameState() != null) {
+                return userData.getGameState().getHighScore();
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            Log.e("Continue", "Error reading high score from JSON", e);
+            return 0;
+        }
+    }
+
+
+
+
+
+    /**
      * getHandTypesFromJson
      *
      * using the google Json reader, it will use the UserData.java
