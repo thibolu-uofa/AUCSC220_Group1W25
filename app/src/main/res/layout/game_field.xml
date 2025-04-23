@@ -375,7 +375,6 @@
         android:layout_width="48dp"
         android:layout_height="95dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/dashed_line"
         android:onClick="selectedPainting"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/textView"

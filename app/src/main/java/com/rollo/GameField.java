@@ -56,11 +56,14 @@ package com.rollo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+
 import android.widget.TextView;
 import android.app.Dialog;
 
@@ -121,6 +124,8 @@ public class GameField extends AppCompatActivity {
         rerollsLeft = continueReader.getRerollFromJson();
         beginningRerolls = rerollsLeft;
         playsLeft = continueReader.getPlaysFromJson();
+        paintings = continueReader.getPaintingsFromJson();
+        initializePaintings();
         beginningPlays = playsLeft;
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
         threshold.setText("Score to beat: " + ScoreToBeat);
@@ -634,6 +639,18 @@ public class GameField extends AppCompatActivity {
      */
     public void selectedPainting(View view) {
         TextView clicked = (TextView) view;
+        int paintingIndex = getPaintingIndex(clicked);
+
+        if (paintingIndex == -1 || paintings[paintingIndex] == null || paintings[paintingIndex].isEmpty()) {
+            return;
+        }
+
+        boolean isCurrentlySelected = clicked.getBackground().getConstantState().equals(
+                AppCompatResources.getDrawable(this, R.drawable.selected_painting_container).getConstantState());
+
+        updatePaintingView(clicked, paintings[paintingIndex], !isCurrentlySelected);
+
+        setPaintingBackground(clicked, paintings[paintingIndex], !isCurrentlySelected);
 
         // If already selected, deselect it
         if (clicked.getBackground().getConstantState() ==
@@ -690,5 +707,76 @@ public class GameField extends AppCompatActivity {
             }
         }
         return -1; // Not found
+    }
+
+    // Initialize all painting views
+    private void initializePaintings() {
+        TextView[] paintingViews = {
+                findViewById(R.id.painting1),
+                findViewById(R.id.painting2),
+                findViewById(R.id.painting3),
+                findViewById(R.id.painting4)
+        };
+
+        for (int i = 0; i < paintings.length; i++) {
+            updatePaintingView(paintingViews[i], paintings[i], false);
+        }
+    }
+
+    private void updatePaintingView(TextView paintingView, String paintingName, boolean isSelected) {
+        if (paintingName == null || paintingName.isEmpty()) {
+            paintingView.setBackgroundResource(isSelected ?
+                    R.drawable.selected_dash_line : R.drawable.dashed_line);
+            paintingView.setCompoundDrawables(null, null, null, null);
+            return;
+        }
+
+        try {
+            // Set the appropriate container background
+            paintingView.setBackgroundResource(isSelected ?
+                    R.drawable.selected_painting_container : R.drawable.painting_container);
+
+            // Load and set the painting image
+            PaintingAndScoring painter = new PaintingAndScoring();
+            String drawableName = painter.convertToDrawableName(paintingName);
+            int resId = getResources().getIdentifier(drawableName, "drawable", getPackageName());
+
+            Drawable paintingImage = AppCompatResources.getDrawable(this, resId);
+            if (paintingImage != null) {
+                paintingImage.setBounds(0, 0, 80, 80); // Set appropriate size
+                paintingView.setCompoundDrawables(null, paintingImage, null, null);
+            }
+        } catch (Exception e) {
+            // Fallback if something goes wrong
+            paintingView.setBackgroundResource(isSelected ?
+                    R.drawable.selected_dash_line : R.drawable.dashed_line);
+            paintingView.setCompoundDrawables(null, null, null, null);
+        }
+    }
+
+
+    // Helper method to set painting background
+    private void setPaintingBackground(TextView paintingView, String paintingName, boolean isSelected) {
+        PaintingAndScoring painter = new PaintingAndScoring();
+        String drawableName = painter.convertToDrawableName(paintingName);
+        int resId = getResources().getIdentifier(drawableName, "drawable", getPackageName());
+
+        try {
+            if (isSelected) {
+                // Use selected state background
+                paintingView.setBackgroundResource(R.drawable.selected_dash_line);
+                // Set the painting image on top
+                paintingView.setCompoundDrawablesWithIntrinsicBounds(0, resId, 0, 0);
+            } else {
+                // Use regular state background
+                paintingView.setBackgroundResource(R.drawable.dashed_line);
+                // Set the painting image on top
+                paintingView.setCompoundDrawablesWithIntrinsicBounds(0, resId, 0, 0);
+            }
+        } catch (Exception e) {
+            // Fallback if image not found
+            paintingView.setBackgroundResource(isSelected ?
+                    R.drawable.selected_dash_line : R.drawable.dashed_line);
+        }
     }
 }
