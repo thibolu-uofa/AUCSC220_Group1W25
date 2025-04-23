@@ -254,7 +254,7 @@ public class PaintingAndScoring {
      * @param values
      * @return true if there is a large straight, if not then it is false
      */
-    private boolean hasLargeStraight(ArrayList<Integer> values) {
+    public boolean hasLargeStraight(ArrayList<Integer> values) {
         for (int i = 0; i <= values.size() - 5; i++) {
             int count = 1;
             for (int j = i + 1; j < values.size(); j++) {
@@ -279,7 +279,7 @@ public class PaintingAndScoring {
      * @param values
      * @return true if it is a small straight, false if it isn't
      */
-    private boolean hasSmallStraight(ArrayList<Integer> values) {
+    public boolean hasSmallStraight(ArrayList<Integer> values) {
         for (int i = 0; i <= values.size() - 4; i++) {
             int count = 1;
             for (int j = i + 1; j < values.size(); j++) {
