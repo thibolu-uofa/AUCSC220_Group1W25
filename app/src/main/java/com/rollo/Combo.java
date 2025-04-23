@@ -23,7 +23,7 @@ import android.content.Context;
 
 import java.util.Random;
 
-public class Combo extends Upgrade {
+public class Combo {
     private HandTypeManager manager;
 
     public Combo() {
