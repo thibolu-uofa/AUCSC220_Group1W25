@@ -68,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameField extends AppCompatActivity {
     //External files to help run game
@@ -392,7 +393,7 @@ public class GameField extends AppCompatActivity {
 
         TextView clicked = (TextView) view;
         if (clicked == null) return;
-
+        int sum = 0;
         try {
             int whichDie = getDiceIndex(clicked);
 
@@ -408,6 +409,7 @@ public class GameField extends AppCompatActivity {
                         getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
                 selectedTextDie[whichDie] = true;
                 amountSelected += 1;
+                sum = summationOfPips();
             }
         } catch (Exception e) {
             Log.d("Failure", "Failure in selecting dice");
@@ -416,12 +418,13 @@ public class GameField extends AppCompatActivity {
 
         // Now that the selection state is updated, recalculate the sum
 
+
         PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
 
         HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
                 paintingAndScoring.getScoring(updateDiceArray()));
         result.setText(hand.getName());
-        pipCount.setText(String.valueOf(hand.getPips() + summationOfPips()));
+        pipCount.setText(String.valueOf(hand.getPips() + sum));
         multCount.setText(String.valueOf(hand.getMult()));
 
         if (amountSelected == 0) {
@@ -447,12 +450,85 @@ public class GameField extends AppCompatActivity {
 
         HashMap<Integer, Integer> freqMap = paintingAndScoring.getScoring(sortedValues);
 
-        ArrayList<Integer> handValues = new ArrayList<>();
-
         String handType = paintingAndScoring.
                 determineHandType(sortedValues, freqMap).getName();
 
-        return 0;
+        int sum = 0;
+
+        if(handType.equals("Yahtzee")){
+            for (int i = 0; i < sortedValues.size(); i++) {
+                sum += sortedValues.get(i);
+            }
+        }
+        else if (handType.equals("Four of a Kind")) {
+            // Find which value has 4 occurrences
+            int quadValue = getValueWithCount(freqMap, 4);
+            // Add all instances of that value plus highest remaining die
+            sum += quadValue * 4;
+        }
+        else if (handType.equals("Full House")){
+            for (int i = 0; i < sortedValues.size(); i++) {
+                sum += sortedValues.get(i);
+            }
+        }
+        else if (handType.equals("Large Straight")) {
+            for (int i = 0; i < sortedValues.size(); i++) {
+                sum += sortedValues.get(i);
+            }
+        }
+        else if (handType.equals("Small Straight")) {
+            if(sortedValues.size() == 5) {
+                if (sortedValues.get(sortedValues.size() - 1) - 1 ==
+                        sortedValues.get(sortedValues.size() - 2)) {
+                    for (int i = 1; i < sortedValues.size(); i++) {
+                        sum += sortedValues.get(i);
+                    }
+                }
+                else{
+                    for (int i = 0; i < sortedValues.size() - 1; i++) {
+                        sum += sortedValues.get(i);
+                    }
+                }
+            }
+            else {
+                for (int i = 0; i < sortedValues.size(); i++) {
+                    sum += sortedValues.get(i);
+                }
+            }
+        }
+        else if (handType.equals("Three of a kind")) {
+            // Find which value has 3 occurrences
+            int tripleValue = getValueWithCount(freqMap, 3);
+            // Add all instances of that value plus highest remaining die
+            sum += tripleValue * 4;
+        }
+        else if (handType.equals("Pair")){
+            int doubleValue = getValueWithCount(freqMap, 2);
+            // Add all instances of that value plus highest remaining die
+            sum += doubleValue * 2;
+        }
+        else if (handType.equals("Two Pair")){
+            for (int i = 0; i < 6; i++) {
+                if(freqMap.containsKey(i)){
+                    if(freqMap.get(i) == 2){
+                        sum += i;
+                    }
+                }
+            }
+        }
+        else{
+            sum = sortedValues.get(sortedValues.size() -1);
+        }
+        return sum;
+    }
+
+    private int getValueWithCount(HashMap<Integer, Integer> freqMap, int count) {
+        for (Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
+            if (entry.getValue() == count) {
+                return entry.getKey();
+            }
+        }
+        return -1;
     }
 
     /**
