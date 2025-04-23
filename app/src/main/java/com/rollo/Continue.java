@@ -127,7 +127,7 @@ public class Continue {
             }
 
             if (userData != null && userData.getGameState() != null) {
-                return userData.getGameState().getHighScore();
+                return userData.getGameState().getRunHighScore();
             } else {
                 return 0;
             }
