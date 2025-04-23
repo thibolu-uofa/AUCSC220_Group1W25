@@ -246,6 +246,7 @@ public class ShopPage extends AppCompatActivity {
         TextView ComboOption2 = comboDialog.findViewById(R.id.ChoiceTwo);
         ImageView checkMark1 = comboDialog.findViewById(R.id.checkMark1);
         ImageView checkMark2 = comboDialog.findViewById(R.id.checkMark2);
+        TextView optionDialogue = comboDialog.findViewById(R.id.PaintingDialogue);
 
         Combo combo = new Combo(new HandTypeManager(continueReader.getHandTypesFromJson()));
 
@@ -280,10 +281,12 @@ public class ShopPage extends AppCompatActivity {
                     correspondingCheckMark = checkMark1;
                     otherOption = ComboOption2;
                     otherCheckMark = checkMark2;
+                    optionDialogue.setText(combo.returnDialogue(comboOption1));
                 } else {
                     correspondingCheckMark = checkMark2;
                     otherOption = ComboOption1;
                     otherCheckMark = checkMark1;
+                    optionDialogue.setText(combo.returnDialogue(comboOption2));
                 }
 
                 // Gray out the selected option
