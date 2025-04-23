@@ -363,9 +363,11 @@ public class ShopPage extends AppCompatActivity {
 
         PaintingAndScoring paintingAndScoring = new PaintingAndScoring(continueReader.getPaintingsFromJson());
 
-        // Always get new random paintings when popup opens
-        selectedPainting1 = paintingAndScoring.selectRandomPainting();
-        selectedPainting2 = paintingAndScoring.selectRandomPainting();
+
+        if(selectedPainting1 == null && selectedPainting2 == null) {
+            selectedPainting1 = paintingAndScoring.selectRandomPainting();
+            selectedPainting2 = paintingAndScoring.selectRandomPainting();
+        }
 
         // Ensure we don't show the same painting twice
         while (selectedPainting2.equals(selectedPainting1)) {
@@ -374,6 +376,8 @@ public class ShopPage extends AppCompatActivity {
 
         paintingOption1View.setText("+ " + selectedPainting1);
         paintingOption2View.setText("+ " + selectedPainting2);
+        paintingOption1View.setTextSize(15);
+        paintingOption2View.setTextSize(15);
 
 
         // Reset UI state

@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/background" />
+        app:srcCompat="@drawable/game_background" />
 
     <TextView
         android:id="@+id/BoxBehindUpgrades"

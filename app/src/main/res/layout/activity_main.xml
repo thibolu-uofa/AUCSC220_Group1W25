@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.643"
         app:layout_constraintWidth_percent="3"
-        app:srcCompat="@drawable/background" />
+        app:srcCompat="@drawable/game_background" />
 
     <ImageView
         android:id="@+id/logo"
