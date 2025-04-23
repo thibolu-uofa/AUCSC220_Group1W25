@@ -44,14 +44,61 @@ public class Combo {
      * @return - new, upgraded handtype
      */
     public HandType upgradeHandType(String handType) {
-        HandType type;
-        type = manager.getHandByName(handType);
-        type.setPips(type.getPips() + 10);
-        type.setMult(type.getMult() + 2);
+        HandType type = manager.getHandByName(handType);
+
+        int pipsIncrease = 0;
+        int multIncrease = 0;
+
+        switch (handType) {
+            case "High Die":
+                pipsIncrease = 5;
+                multIncrease = 1;
+                break;
+            case "Pair":
+                pipsIncrease = 10;
+                multIncrease = 1;
+                break;
+            case "Two Pair":
+                pipsIncrease = 10;
+                multIncrease = 2;
+                break;
+            case "Three of a Kind":
+                pipsIncrease = 10;
+                multIncrease = 1;
+                break;
+            case "Small Straight":
+                pipsIncrease = 10;
+                multIncrease = 2;
+                break;
+            case "Large Straight":
+                pipsIncrease = 15;
+                multIncrease = 2;
+                break;
+            case "Full House":
+                pipsIncrease = 20;
+                multIncrease = 2;
+                break;
+            case "Four of a Kind":
+                pipsIncrease = 20;
+                multIncrease = 2;
+                break;
+            case "Yahtzee":
+                pipsIncrease = 30;
+                multIncrease = 3;
+                break;
+        }
+
+        type.setPips(type.getPips() + pipsIncrease);
+        type.setMult(type.getMult() + multIncrease);
         type.setLevel(type.getLevel() + 1);
         return type;
     }
 
+    /**
+     * setToJson
+     * (Now an Unused Function)
+     * @param context
+     */
     public void setToJson(Context context){
         Continue cont = new Continue(context);
         cont.setHandtypes(context, manager.getAllHands());
