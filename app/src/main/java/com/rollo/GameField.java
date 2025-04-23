@@ -422,6 +422,12 @@ public class GameField extends AppCompatActivity {
         result.setText(hand.getName());
         pipCount.setText(String.valueOf(hand.getPips() + sumOfSelected));
         multCount.setText(String.valueOf(hand.getMult()));
+
+        if (amountSelected == 0) {
+            result.setText("");
+            pipCount.setText("");
+            multCount.setText("");
+        }
     }
 
     /**
