@@ -7,6 +7,17 @@ public class UserData {
     GameState gameState;
     Dice[] dice;
 
+    String[] paintings;
+
+    public UserData(){
+        HandTypeManager handTypeManager = new HandTypeManager();
+        this.handTypes = handTypeManager.getAllHands();
+        this.gameState = new GameState();
+        this.dice = new Dice[]{new Dice(), new Dice(), new Dice(),
+                                new Dice(), new Dice(), new Dice()};
+        paintings = new String[]{"", "", "", ""};
+    }
+
 
     public List<HandType> getHandTypes() {
         return handTypes;
@@ -15,6 +26,14 @@ public class UserData {
     public void setHandTypes(List<HandType> handTypes) {
         this.handTypes = handTypes;
     }
+    public void setDice(Dice[] dice) {
+        this.dice = dice;
+    }
+    public void setPaintings(String[] paintings) {
+        this.paintings = paintings;
+    }
+
+    public String[] getPaintings(){ return paintings; }
 
     public GameState getGameState() { return gameState; }
     public Dice[] getDice() {
