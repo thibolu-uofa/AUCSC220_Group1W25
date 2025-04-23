@@ -63,16 +63,16 @@ public class Combo {
                 multIncrease = 2;
                 break;
             case "Three of a Kind":
-                pipsIncrease = 10;
-                multIncrease = 1;
+                pipsIncrease = 15;
+                multIncrease = 2;
                 break;
             case "Small Straight":
-                pipsIncrease = 10;
+                pipsIncrease = 15;
                 multIncrease = 2;
                 break;
             case "Large Straight":
-                pipsIncrease = 15;
-                multIncrease = 2;
+                pipsIncrease = 20;
+                multIncrease = 3;
                 break;
             case "Full House":
                 pipsIncrease = 20;
@@ -114,5 +114,43 @@ public class Combo {
                 "Large Straight", "Full House", "Four of a Kind", "Yahtzee"};
         Random rand = new Random();
         return possibleCombo[rand.nextInt(possibleCombo.length)];
+    }
+
+    /**
+     * returnDialogue
+     *
+     * This will be used to get text from each combo
+     * that describes how much it upgrades by
+     *
+     * @return string of the paintings ability
+     */
+    public String returnDialogue(String comboSelected){
+        if(comboSelected.equals("High Die")){
+            return "+5 Pips, +1 Mult";
+        }
+        else if(comboSelected.equals("Pair")){
+            return "+10 Pips, +1 Mult";
+        }
+        else if(comboSelected.equals("Two Pair")){
+            return "+10 Pips, +2 Mult";
+        }
+        else if(comboSelected.equals("Three of a Kind")){
+            return "+15 Pips, +2 Mult";
+        }
+        else if(comboSelected.equals("Small Straight")){
+            return "+15 Pips, +2 Mult";
+        }
+        else if(comboSelected.equals("Large Straight")){
+            return "+20 Pips, +3 Mult";
+        }
+        else if(comboSelected.equals("Full House")){
+            return "+20 Pips, +2 Mult";
+        }
+        else if(comboSelected.equals("Four of a Kind")){
+            return "+20 Pips, +2 Mult";
+        }
+        else {
+            return "+30 Pips, +3 Mult";
+        }
     }
 }
