@@ -70,10 +70,16 @@ public class MainActivity extends AppCompatActivity {
     }//init
 
     public static void newGame(Context context){
-        Continue obj = new Continue(context);
-        obj.copyJsonToInternalStorageIfNeeded(context);
+        Continue continueReader = new Continue(context);
+        continueReader.copyJsonToInternalStorageIfNeeded(context);
 
-        obj.resetToDefaults(context);
+        int allTimeScore = continueReader.getAllTimeHighScoreFromJson();
+
+        continueReader.resetToDefaults(context);
+        continueReader.setCurrentScore(context, allTimeScore);
+        continueReader.setAllTimeHighScore(context);
+        continueReader.setCurrentScore(context, 0);
+
         moveToGame(context);
     }//newGame
 

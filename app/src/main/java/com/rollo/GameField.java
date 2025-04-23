@@ -90,9 +90,6 @@ public class GameField extends AppCompatActivity {
     private Dice[] sixDie;
     private TextView[] sixTextDie;
     private boolean hasLost = false;
-    private Dialog lossDialog;
-
-
 
     private int amountSelected = 0;
     private final int[] sixValues = new int[]{0,0,0,0,0,0};
@@ -295,6 +292,13 @@ public class GameField extends AppCompatActivity {
         dialog.show();
 
         View decorView = dialog.getWindow().getDecorView();
+
+        int allTimeScore = continueReader.getAllTimeHighScoreFromJson();
+
+        continueReader.resetToDefaults(this);
+        continueReader.setCurrentScore(this, allTimeScore);
+        continueReader.setAllTimeHighScore(this);
+        continueReader.setCurrentScore(this, 0);
 
         decorView.postDelayed(new Runnable() {
             @Override
