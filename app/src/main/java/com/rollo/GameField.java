@@ -14,6 +14,9 @@
  *          starts the game
  *      play(View myView)
  *          after selecting dice, play the dice
+ *      lossGame()
+ *          loss screen occurs, with some stats,
+ *          and the game is reset
  *      openMenu(GameField gameField)
  *          starts animation to return back to menu
  *      openMenuAgain(Context context)
