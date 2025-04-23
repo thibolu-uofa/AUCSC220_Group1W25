@@ -12,13 +12,13 @@
     ],
     "gameState": {
         "round": 1,
-        "highScore": 0,
+        "runHighScore": 0,
         "money": 0,
         "rerolls": 4,
         "plays": 5,
         "currentScore": 0,
         "scoreToBeat": 300,
-        "maxRound": 20
+        "allTimeHighScore": 0
     },
     "dice": [
         {"diceType": "", "pipColour": "", "possibleSides": [1,2,3,4,5,6]},

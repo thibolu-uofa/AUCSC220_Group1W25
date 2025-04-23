@@ -1,3 +1,30 @@
+/**
+ *
+ * HandType.java
+ *
+ * The HandType class is a class of nine combinations that the user can play.
+ *
+ * @authors - Brett Siemens
+ *
+ * functions:
+ * getName()
+ *      basic getter
+ * getPips()
+ *      basic getter
+ * getMult()
+ *      basic getter
+ * getLevel()
+ *      basic getter
+ * setName()
+ *      basic setter
+ * setPips()
+ *      basic setter
+ * setMult()
+ *      basic setter
+ * setLevel()
+ *      basic setter
+ **/
+
 package com.rollo;
 
 public class HandType {

@@ -14,6 +14,9 @@
  *          starts the game
  *      play(View myView)
  *          after selecting dice, play the dice
+ *      lossGame()
+ *          loss screen occurs, with some stats,
+ *          and the game is reset
  *      openMenu(GameField gameField)
  *          starts animation to return back to menu
  *      openMenuAgain(Context context)
@@ -79,9 +82,6 @@ public class GameField extends AppCompatActivity {
     private int playsLeft;
     private int beginningPlays;
     private int roundScore;
-    private int roundNumber; // Keeps track of the round the user is on
-
-    private int highestPlay; //User to keep the players highest score reached
     private TextView result;
     private TextView pipCount;
     private TextView multCount;
@@ -123,10 +123,6 @@ public class GameField extends AppCompatActivity {
         beginningRerolls = rerollsLeft;
         playsLeft = continueReader.getPlaysFromJson();
         beginningPlays = playsLeft;
-        roundNumber = continueReader.getRoundsFromJson();
-        highestPlay = continueReader.getHighScoreFromJson();
-
-
         String ScoreToBeat = Integer.toString(continueReader.getScoreToBeatFromJson());
         threshold.setText("Score to beat: " + ScoreToBeat);
 
@@ -246,6 +242,8 @@ public class GameField extends AppCompatActivity {
             playScore = hand.getPips() * hand.getMult();
             roundScore += playScore;
             continueReader.setCurrentScore(this, roundScore);
+            continueReader.setRunHighScore(this);
+            continueReader.setAllTimeHighScore(this);
             scoreDisplay.setText(String.valueOf(roundScore));
 
             playsLeft--;
@@ -254,12 +252,6 @@ public class GameField extends AppCompatActivity {
             handLimitText.setText(String.valueOf(playsLeft));
 
             if (continueReader.getScoreToBeatFromJson() <= roundScore){
-                int previousHigh = continueReader.getHighScoreFromJson();
-                if (roundScore > previousHigh) {
-                    continueReader.setHighScore(this);
-
-                }
-                highestPlay = previousHigh;
                 openShop(this);
             }
 
@@ -267,7 +259,7 @@ public class GameField extends AppCompatActivity {
             else if(playsLeft == 0 && continueReader.getScoreToBeatFromJson() > roundScore && !hasLost){
                 //Need to change one of round score to highestPlay
                 hasLost = true;
-                lossGame(roundScore, roundNumber, highestPlay);
+                lossGame();
             }
 
         }
@@ -275,13 +267,13 @@ public class GameField extends AppCompatActivity {
     }
 
     /**
+     * lossGame()
+     *
      * This function is responsible for displaying the endGame dialog where the players
      * stats are shown
-     * @param score - This is the players current score at the time of their loss
-     * @param round - This is the current round which the player has stopped in
-     * @param highscore - This is the players highest score during their time playing the game.
+     *
      */
-    private void lossGame(int score, int round, int highscore){
+    private void lossGame(){
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.loss_screen);
         dialog.setCancelable(false);
@@ -290,14 +282,9 @@ public class GameField extends AppCompatActivity {
         TextView scoreText = dialog.findViewById(R.id.score);
         TextView highscoreText = dialog.findViewById(R.id.highscore);
 
-        roundText.setText(String.valueOf(round));
-        scoreText.setText(String.valueOf(score));
-        if(highscore == 0){
-            highscoreText.setText(String.valueOf(score));
-        }
-        else {
-            highscoreText.setText(String.valueOf(highscore));
-        }
+        roundText.setText(String.valueOf(continueReader.getRoundFromJson()));
+        scoreText.setText(String.valueOf(continueReader.getRunHighScoreFromJson()));
+        highscoreText.setText(String.valueOf(continueReader.getAllTimeHighScoreFromJson()));
 
         dialog.show();
 
@@ -311,7 +298,7 @@ public class GameField extends AppCompatActivity {
                     openMenu(GameField.this);
                 }
             }
-        }, 7000);
+        }, 5000);
     }
 
     /**
@@ -357,10 +344,6 @@ public class GameField extends AppCompatActivity {
     private void openShop(Context context) {
         Intent intent = new Intent(context, ShopPage.class);
         context.startActivity(intent);
-
-        roundNumber++;
-        continueReader.setRounds(this,roundNumber);
-
         continueReader.setScoreToBeat(this, continueReader.getScoreToBeatFromJson() + 100);
         continueReader.setCurrentScore(this, 0);
         continueReader.setRerolls(this, beginningRerolls);
@@ -398,42 +381,52 @@ public class GameField extends AppCompatActivity {
      * @param view
      */
     public void selectDice(View view) {
-        if (clickedStart) {
-            TextView clicked = (TextView) view;
-            if (clicked == null) return;
+        if (!clickedStart) return;
 
-            try {
-                int whichDie = getDiceIndex(clicked);
+        TextView clicked = (TextView) view;
+        if (clicked == null) return;
 
-                if (selectedTextDie[whichDie]) {
-                    // Switch to regular dice
-                    clicked.setBackgroundResource(
-                            getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
-                    selectedTextDie[whichDie] = false;
-                    amountSelected -= 1;  // Decrease selected count
-                }
-                else {
-                    // Switch to selected dice
-                    clicked.setBackgroundResource(
-                            getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
-                    selectedTextDie[whichDie] = true;
-                    amountSelected += 1;  // Increase selected count
-                }
+        try {
+            int whichDie = getDiceIndex(clicked);
 
+            if (selectedTextDie[whichDie]) {
+                // Unselect dice
+                clicked.setBackgroundResource(
+                        getResources().getIdentifier("dice_" + sixValues[whichDie], "drawable", getPackageName()));
+                selectedTextDie[whichDie] = false;
+                amountSelected -= 1;
+            } else {
+                // Select dice
+                clicked.setBackgroundResource(
+                        getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
+                selectedTextDie[whichDie] = true;
+                amountSelected += 1;
             }
-            catch (Exception e) {
-                Log.d("Failure","Failure in selecting dice");
-                clicked.setBackgroundResource(R.drawable.dice_1);
+        } catch (Exception e) {
+            Log.d("Failure", "Failure in selecting dice");
+            clicked.setBackgroundResource(R.drawable.dice_1);
+        }
+
+        // Now that the selection state is updated, recalculate the sum
+        int sumOfSelected = 0;
+        for (int i = 0; i < selectedTextDie.length; i++) {
+            if (selectedTextDie[i]) {
+                sumOfSelected += sixValues[i];
             }
+        }
 
+        PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
 
-            PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
+        HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
+                paintingAndScoring.getScoring(updateDiceArray()));
+        result.setText(hand.getName());
+        pipCount.setText(String.valueOf(hand.getPips() + sumOfSelected));
+        multCount.setText(String.valueOf(hand.getMult()));
 
-            HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
-                    paintingAndScoring.getScoring(updateDiceArray()));
-            result.setText(hand.getName());
-            pipCount.setText(String.valueOf(hand.getPips()));
-            multCount.setText(String.valueOf(hand.getMult()));
+        if (amountSelected == 0) {
+            result.setText("");
+            pipCount.setText("");
+            multCount.setText("");
         }
     }
 
