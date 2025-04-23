@@ -30,10 +30,19 @@ public class Combo {
         this.manager = new HandTypeManager();
     }
 
+    /**
+     * Constructor
+     * @param manager
+     */
     public Combo(HandTypeManager manager){
         this.manager = manager;
     }
 
+    /**
+     * Upgrades a hand type from the name
+     * @param handType - the name of a handtype to be upgraded
+     * @return - new, upgraded handtype
+     */
     public HandType upgradeHandType(String handType) {
         HandType type;
         type = manager.getHandByName(handType);
@@ -48,6 +57,10 @@ public class Combo {
         cont.setHandtypes(context, manager.getAllHands());
     }
 
+    /**
+     * Given string array of names of hand types, selects a random one
+     * @return some random combo
+     */
     public String selectRandomCombo(){
         String[] possibleCombo = new String[]{"High Die", "Pair", "Two Pair",
                 "Three of a Kind", "Small Straight",
