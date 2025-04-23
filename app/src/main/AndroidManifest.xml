@@ -15,18 +15,27 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameField">
+            android:screenOrientation="landscape"
+            android:name=".GameField"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
-        <activity android:name=".Shop">
+        <activity
+            android:screenOrientation="landscape"
+            android:name=".Shop"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
-        <activity android:name=".ShopPage">
+        <activity
+            android:screenOrientation="landscape"
+            android:name=".ShopPage"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
     </application>
 
