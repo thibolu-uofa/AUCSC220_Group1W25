@@ -22,6 +22,12 @@
  *          gets the current score saved in the userdata.json file
  *      getPaintingsFromJson()
  *          gets the paintings saved in the userdata.json file
+ *      getRunHighScoreFromJson()
+ *          gets the score for the specific run
+ *          saved in the userdata.json file
+ *      getAllTimeHighScoreFromJson()
+ *          gets the all time high score
+ *          saved in the userdata.json file
  *      copyJsonToInternalStorageIfNeeded(Context context)
  *          saves the json file to internal storage for save state to work
  *      setCurrentScore(Context context, int amount)
@@ -30,7 +36,9 @@
  *          saves the score to beat to the json file
  *      setRounds(Context context, int amount)
  *          saves the rounds the user played to the json file
- *      setHighScore(Context context)
+ *      setRunHighScore(Context context)
+ *          saves the highscore the user got to the json file
+ *      setAllTimeHighScore(Context context)
  *          saves the highscore the user got to the json file
  *      setPlays(Context context, int amount)
  *          saves the amount of plays to the json file
@@ -196,6 +204,31 @@ public class Continue {
     }
 
     /**
+     * getRoundFromJson
+     *
+     * using the google Json reader, it will use the UserData.java
+     * class to cleanse the file "userdata.json" and output the proper data
+     *
+     * @return the round reached saved in the json file
+     */
+    public int getRoundFromJson() {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+            UserData userData;
+
+            try (FileReader reader = new FileReader(file)) {
+                userData = gson.fromJson(reader, UserData.class);
+            }
+
+            return userData.getGameState().getRound();
+        } catch (Exception e) {
+            Log.e("Continue", "Error reading internal JSON", e);
+            return 0;
+        }
+    }
+
+    /**
      * getCurrentScoreFromJson
      *
      * using the google Json reader, it will use the UserData.java
@@ -242,6 +275,56 @@ public class Continue {
         } catch (Exception e) {
             Log.e("Continue", "Error reading internal JSON", e);
             return new String[]{"", "", "", ""};
+        }
+    }
+
+    /**
+     * getRunHighScoreFromJson
+     *
+     * using the google Json reader, it will use the UserData.java
+     * class to cleanse the file "userdata.json" and output the proper data
+     *
+     * @return the run High Score from the json file
+     */
+    public int getRunHighScoreFromJson() {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+            UserData userData;
+
+            try (FileReader reader = new FileReader(file)) {
+                userData = gson.fromJson(reader, UserData.class);
+            }
+
+            return userData.getGameState().getRunHighScore();
+        } catch (Exception e) {
+            Log.e("Continue", "Error reading internal JSON", e);
+            return 0;
+        }
+    }
+
+    /**
+     * getAllTimeHighScoreFromJson
+     *
+     * using the google Json reader, it will use the UserData.java
+     * class to cleanse the file "userdata.json" and output the proper data
+     *
+     * @return the all time High Score from the json file
+     */
+    public int getAllTimeHighScoreFromJson() {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+            UserData userData;
+
+            try (FileReader reader = new FileReader(file)) {
+                userData = gson.fromJson(reader, UserData.class);
+            }
+
+            return userData.getGameState().getAllTimeHighScore();
+        } catch (Exception e) {
+            Log.e("Continue", "Error reading internal JSON", e);
+            return 0;
         }
     }
 
@@ -376,7 +459,7 @@ public class Continue {
     }
 
     /**
-     * setHighScore
+     * setRunHighScore
      *
      * sets the high score a user reached into the internal storage,
      * this is done by simply calling the function with one parameter
@@ -384,7 +467,7 @@ public class Continue {
      *
      * @param context
      */
-    public void setHighScore(Context context) {
+    public void setRunHighScore(Context context) {
         try {
             File file = new File(context.getFilesDir(), FILENAME);
             Gson gson = new Gson();
@@ -397,8 +480,46 @@ public class Continue {
 
             // Update the currentScore
             if (data != null && data.getGameState() != null) {
-                if (data.getGameState().getHighScore() < data.getGameState().getCurrentScore()){
-                    data.getGameState().setHighScore(data.getGameState().getCurrentScore());
+                if (data.getGameState().getRunHighScore() < data.getGameState().getCurrentScore()){
+                    data.getGameState().setRunHighScore(data.getGameState().getCurrentScore());
+                }
+
+                // Write it back
+                try (FileWriter writer = new FileWriter(file)) {
+                    gson.toJson(data, writer);
+                    Log.d("CONTINUE", "High score is: " + data.getGameState().getCurrentScore());
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("CONTINUE", "Failed to setHighScore", e);
+        }
+    }
+
+    /**
+     * setAllTimeHighScore
+     *
+     * sets the high score a user reached into the internal storage,
+     * this is done by simply calling the function with one parameter
+     * as the check will happen within the function
+     *
+     * @param context
+     */
+    public void setAllTimeHighScore(Context context) {
+        try {
+            File file = new File(context.getFilesDir(), FILENAME);
+            Gson gson = new Gson();
+
+            // Read the current allTimeHighScore
+            UserData data;
+            try (FileReader reader = new FileReader(file)) {
+                data = gson.fromJson(reader, UserData.class);
+            }
+
+            // Update the allTimeHighScore
+            if (data != null && data.getGameState() != null) {
+                if (data.getGameState().getAllTimeHighScore() < data.getGameState().getCurrentScore()){
+                    data.getGameState().setAllTimeHighScore(data.getGameState().getCurrentScore());
                 }
 
                 // Write it back
