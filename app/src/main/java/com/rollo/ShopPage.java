@@ -11,6 +11,14 @@ import android.app.Dialog;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This file is responsible for dealing with stuff regarding the Shop page and handeling what
+ * appears in terms of when you click the specific button like Vouchers, Paintings, Combos.
+ * It is also responsible for showing a popup when the player clicks each button and also regarding
+ * vouchers it allows for the user to click between upgrading rerolls or plays. In terms of stuff
+ * like combos and paintings they allow the user to select between a group of options where two
+ * options are randomly selected.
+ */
 public class ShopPage extends AppCompatActivity {
 
     private Continue continueReader;
@@ -66,7 +74,7 @@ public class ShopPage extends AppCompatActivity {
         if (clicked.getBackground().getConstantState() ==
                 getResources().getDrawable(R.drawable.selected_dash_line).getConstantState()) {
 
-            clicked.setBackgroundResource(R.drawable.dashed_line); // Or set to default background
+            clicked.setBackgroundResource(R.drawable.dashed_line);
             paintingsSelected--;
             if (firstSelectedPainting == clicked) {
                 firstSelectedPainting = null;
@@ -147,7 +155,7 @@ public class ShopPage extends AppCompatActivity {
 
         TextView voucherOption1 = voucherDialog.findViewById(R.id.ChoiceOne);
         TextView voucherOption2 = voucherDialog.findViewById(R.id.ChoiceTwo);
-        ImageView checkMark1 = voucherDialog.findViewById(R.id.checkMark1); // Add these ImageViews to your popup layout
+        ImageView checkMark1 = voucherDialog.findViewById(R.id.checkMark1);
         ImageView checkMark2 = voucherDialog.findViewById(R.id.checkMark2);
 
         voucherOption1.setText("+1▶️");
