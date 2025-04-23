@@ -1,3 +1,16 @@
+/**
+ * The Voucher class is a type of upgrade that increases the number of
+ * rolls and plays available to the user.
+ *
+ * functions:
+ * upgradePlays()
+ *      upgrades the number of plays available to the user
+ * upgradeRerolls()
+ *      upgrades the number of rerolls available to the user
+ *
+ * @author - Brett Siemens
+ */
+
 package com.rollo;
 
 import android.content.Context;
