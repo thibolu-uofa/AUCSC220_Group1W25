@@ -66,7 +66,9 @@ import android.app.Dialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameField extends AppCompatActivity {
     //External files to help run game
@@ -231,23 +233,19 @@ public class GameField extends AppCompatActivity {
      * @param myView
      */
     public void play(View myView) {
-        int sumOfSelected = 0;
-        for (int i = 0; i < selectedTextDie.length; i++) {
-            if (selectedTextDie[i]) {
-                sumOfSelected += sixValues[i];
-            }
-        }
         if (amountSelected >= 1 && amountSelected <= 5 && playsLeft > 0) {
             PaintingAndScoring scored = new PaintingAndScoring(hands);
             HandType hand = scored.scoring(updateDiceArray());
-            resetSelectedDice();
+
             result.setText("");
-            playScore = (hand.getPips() + sumOfSelected) * hand.getMult();
+            playScore = (hand.getPips() + summationOfPips()) * hand.getMult();
             roundScore += playScore;
             continueReader.setCurrentScore(this, roundScore);
             continueReader.setRunHighScore(this);
             continueReader.setAllTimeHighScore(this);
             scoreDisplay.setText(String.valueOf(roundScore));
+
+            resetSelectedDice();
 
             playsLeft--;
             continueReader.setPlays(this, playsLeft);
@@ -395,7 +393,7 @@ public class GameField extends AppCompatActivity {
 
         TextView clicked = (TextView) view;
         if (clicked == null) return;
-
+        int sum = 0;
         try {
             int whichDie = getDiceIndex(clicked);
 
@@ -411,6 +409,7 @@ public class GameField extends AppCompatActivity {
                         getResources().getIdentifier("selected_dice_" + sixValues[whichDie], "drawable", getPackageName()));
                 selectedTextDie[whichDie] = true;
                 amountSelected += 1;
+                sum = summationOfPips();
             }
         } catch (Exception e) {
             Log.d("Failure", "Failure in selecting dice");
@@ -418,19 +417,14 @@ public class GameField extends AppCompatActivity {
         }
 
         // Now that the selection state is updated, recalculate the sum
-        int sumOfSelected = 0;
-        for (int i = 0; i < selectedTextDie.length; i++) {
-            if (selectedTextDie[i]) {
-                sumOfSelected += sixValues[i];
-            }
-        }
+
 
         PaintingAndScoring paintingAndScoring = new PaintingAndScoring(hands);
 
         HandType hand = paintingAndScoring.determineHandType(updateDiceArray(),
                 paintingAndScoring.getScoring(updateDiceArray()));
         result.setText(hand.getName());
-        pipCount.setText(String.valueOf(hand.getPips() + sumOfSelected));
+        pipCount.setText(String.valueOf(hand.getPips() + sum));
         multCount.setText(String.valueOf(hand.getMult()));
 
         if (amountSelected == 0) {
