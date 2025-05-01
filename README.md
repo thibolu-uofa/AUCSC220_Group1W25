@@ -1,8 +1,8 @@
 # 🎲 ROLLO
 
-**A Strategic Dice-Based Arcade App Inspired by Balatro**
+**A Roguelike Dice App Inspired by Balatro and Yahtzee**
 
-Rollo is an **arcade dice app** that involves strategic Yahtzee combos with multipliers and boost-based mechanics. Players will build combos of dice and upgrades to create high-scoring **Yahtzee combos**. It's up to the player to manage their resources efficiently and adapt to the challenges brought up by each round.
+Rollo is an **rougelike dice game** that involves strategic Yahtzee combos with multipliers and boost-based mechanics. Players will build combos of dice and upgrades to create high-scoring **Yahtzee combos**. It's up to the player to manage their resources efficiently and adapt to the challenges brought up by each round.
 
 ---
 
@@ -68,7 +68,7 @@ Android (developed using **Android Studio** in **Java**)
 
 ## 🔗 Resources
 
-- [📄 Project Design PDF](./ROLLO_Project_Design.pdf)
+- [📄 Project Design PDF](https://docs.google.com/document/d/12YTK_bPxh1_YqiWXpeZM5oGBlTZ26208iVBxIh6etjk/edit?usp=sharing)
 
 ---
 
